@@ -5,8 +5,7 @@
 ** 
 */
 
-#ifndef MATRIX_HPP
-#define MATRIX_HPP
+#pragma once
 
 #include <cstddef>
 #include <exception>
@@ -24,19 +23,7 @@ public:
 
     std::array<T, cols>& operator[](const size_t i);
 
-    template <size_t other_cols>
-    Matrix<rows, other_cols, T> operator*(const Matrix<cols, other_cols, T>& other) const {
-        Matrix<rows, other_cols, T> result;
-        for (size_t i = 0; i < rows; ++i) {
-            for (size_t j = 0; j < other_cols; ++j) {
-                result[i][j] = 0;
-                for (size_t k = 0; k < cols; ++k) {
-                    result[i][j] += this-> _values[i][k] * other[k][j];
-                }
-            }
-        }
-        return result;
-    }
+    Matrix operator*(const Matrix &other) const;
 
 private:
     std::array<std::array<T, cols>, rows> _values;
@@ -51,6 +38,5 @@ class MatrixOperationException : public std::exception {
 
 using Matrix3x3 = Matrix<3, 3>;
 
-#endif // !MATRIX_HPP
 
 #include "Matrix.tpp"

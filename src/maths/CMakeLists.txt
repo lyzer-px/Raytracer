@@ -1,4 +1,4 @@
-add_library(maths STATIC Matrix.cpp)
+add_library(maths STATIC Matrix.cpp Vector.cpp)
 
 target_include_directories(maths PUBLIC include)
 
