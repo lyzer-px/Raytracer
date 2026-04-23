@@ -34,12 +34,12 @@ jobs:
           
           if [ -f Makefile ]; then
             echo "Detected Makefile"
-            make -j 2>&1 | tee build.log
+            make -j$(nproc) 2>&1 | tee build.log
           
           elif [ -f CMakeLists.txt ]; then
             echo "Detected CMake project"
             cmake -B build
-            cmake --build build 2>&1 | tee build.log
+            cmake --build build -j$(nproc) 2>&1 | tee build.log
           
           else
             echo "No supported build system found"
@@ -74,7 +74,7 @@ jobs:
           elif [ -f CMakeLists.txt ]; then
             echo "Detected CMake project"
             cmake -B build
-            cmake --build build 2>&1
+            cmake --build build -j$(nproc) 2>&1
           
           else
             echo "No supported build system found"
@@ -122,10 +122,10 @@ jobs:
 
           # Extract unique files involved in Banana errors
           files=$(awk '/\[Banana\]/ {f=$1; sub(":", "", f); print f}' check.log | sort -u)
-      
+          
           echo "Files with errors:"
           echo "$files"
-      
+          
           # Check if ONLY ./libs/myteams/libmyteams.so is present
           if [ "$files" = "./libs/myteams/libmyteams.so" ]; then
             echo "Only libmyteams.so has errors → ignoring"
@@ -219,7 +219,7 @@ jobs:
           if [ -f Makefile ]; then
             echo "Detected Makefile"
             make fclean
-            bear -- make all -j$(nproc)
+            bear -- make all -j
             clang-tidy `find . -type f \( -name "*.c" -o -name "*.cpp" \)` \
             -p . 2>&1 | tee analysis.log
 
