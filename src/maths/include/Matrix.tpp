@@ -5,8 +5,8 @@
 ** 
 */
 
-#ifndef MATRIX_HPP
-#define MATRIX_HPP
+#ifndef MATRIX_TPP
+#define MATRIX_TPP
 
 #include <array>
 #include <cstddef>
