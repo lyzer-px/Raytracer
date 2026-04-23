@@ -220,14 +220,14 @@ jobs:
             echo "Detected Makefile"
             make fclean
             bear -- make all -j
-            clang-tidy `find . -type f \( -name "*.c" -o -name "*.cpp" \)` \
+            python3 run-clang-tidy.py -j$(nproc) \
             -p . 2>&1 | tee analysis.log
 
           elif [ -f CMakeLists.txt ]; then
             echo "Detected CMake project"
             cmake -B build
             cmake --build build
-            clang-tidy `find src -type f \( -name "*.c" -o -name "*.cpp" \)` \
+            python3 run-clang-tidy.py -j$(nproc) \
             -p build 2>&1 | tee analysis.log
           fi
 
