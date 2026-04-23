@@ -54,6 +54,4 @@ private:
     std::array<std::array<T, cols>, rows> _values;
 };
 
-using Matrix3x3 = Matrix<3, 3>;
-
 #endif // !MATRIX
