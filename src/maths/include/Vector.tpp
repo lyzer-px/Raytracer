@@ -195,6 +195,8 @@ T Vector<N, T, PrecomputeNorm>::calculateAngle(const Vector<N> &other) const
         loadNorm();
     if (other.getNorm() == 0)
         otherNorm = other.computeNorm();
+    if (otherNorm == 0 || _norm == 0)
+        throw std::runtime_error("In angle calculation: null norm");
     return std::acos((this * other) / (_norm * otherNorm));
 }
 
