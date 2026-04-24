@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2026
 ** OOP
 ** File description:
-** 
+** vector class declaration
 */
 
 #pragma once
@@ -14,16 +14,18 @@
 template<std::size_t N, typename T = double, bool PrecomputeNorm = false>
 class Vector {
 public:
+    using iterator = typename std::array<T, N>::iterator;
+    using const_iterator = typename std::array<T, N>::const_iterator;
 
     Vector() = default;
     Vector(std::array<T, N> &values);
-    
+
     using UnitVector = Vector<N, T, PrecomputeNorm>;
     UnitVector normalize() const;
 
     T getNorm() const;
     T computeNorm() const;
-    void loadNorm() const;
+    void loadNorm();
 
     T calculateAngle(const Vector<N> &other) const;
 
@@ -40,16 +42,22 @@ public:
     Vector operator/(T scalar) const;
     Vector operator-() const;
 
-    bool operator==(const Vector other) const;
-    bool operator!=(const Vector other) const;
+    bool operator==(const Vector &other) const;
+    bool operator!=(const Vector &other) const;
 
     // norm comparaison
-    bool operator<(const Vector other) const;
-    bool operator<=(const Vector other) const;
-    bool operator>(const Vector other) const;
-    bool operator>=(const Vector other) const;
+    bool operator<(const Vector &other) const;
+    bool operator<=(const Vector &other) const;
+    bool operator>(const Vector &other) const;
+    bool operator>=(const Vector &other) const;
 
-    std::ostream &operator<<(std::ostream &o) const;
+    iterator begin() noexcept;
+    const_iterator begin() const noexcept;
+    const_iterator cbegin() const noexcept;
+
+    iterator end() noexcept;
+    const_iterator end() const noexcept;
+    const_iterator cend() const noexcept;
 
 private:
     std::array<T, N> _data;
@@ -68,5 +76,8 @@ Vector<3> cross(Vector<3> a, Vector<3> b);
 
 template<std::size_t N, typename T, bool PrecomputeNorm>
 Vector<N + 1, T, PrecomputeNorm> IncreaseDimension(const Vector<N, T, PrecomputeNorm> &a);
+
+template<std::size_t N, typename T, bool PrecomputeNorm>
+std::ostream &operator<<(std::ostream &o, const Vector<N, T, PrecomputeNorm> &vector);
 
 #include "Vector.tpp"
