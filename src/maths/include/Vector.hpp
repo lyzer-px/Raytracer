@@ -11,7 +11,7 @@
 #include <array>
 #include <iostream>
 
-template<std::size_t N, typename T = double, bool PrecalculateNorm = false>
+template<std::size_t N, typename T = double, bool PrecomputeNorm = false>
 class Vector {
 public:
     Vector() = default;
