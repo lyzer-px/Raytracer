@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2026
 ** OOP
 ** File description:
-** 
+** Vector class definition
 */
 
 #pragma once
