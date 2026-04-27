@@ -9,6 +9,7 @@
 
 #include <array>
 #include <cstddef>
+#include "Vector.hpp"
 
 template<std::size_t N, typename T = double>
 class Point {

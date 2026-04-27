@@ -6,6 +6,7 @@
 */
 
 #include "Point.hpp"
+#include "Vector.hpp"
 
 template<std::size_t N, typename T>
 Point<N, T>::Point(std::array<T, N> data) noexcept : _data(data) {}

@@ -5,6 +5,8 @@
 ** color struct definition
 */
 
+#include <algorithm>
+#include <cmath>
 #include "Color.hpp"
 
 Color::Color(float r, float g, float b) : r(r), g(g), b(b) {}
