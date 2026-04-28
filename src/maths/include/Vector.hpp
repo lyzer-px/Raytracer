@@ -14,8 +14,8 @@
 template <std::size_t N, typename T = double, bool PrecomputeNorm = false>
 class Vector {
 public:
-    using iterator       = typename std::array<T, N>::iterator;
-    using const_iterator = typename std::array<T, N>::const_iterator;
+    using Iterator      = std::array<T, N>::iterator;
+    using ConstIterator = std::array<T, N>::const_iterator;
 
     Vector();
 
@@ -45,6 +45,7 @@ public:
 
     // dot product
     T operator*(const Vector &other) const;
+
     [[nodiscard]] T dot(const Vector &other) const;
 
     Vector operator*(T scalar) const;
@@ -66,17 +67,17 @@ public:
 
     bool operator>=(const Vector &other) const;
 
-    iterator begin() noexcept;
+    Iterator begin() noexcept;
 
-    const_iterator begin() const noexcept;
+    ConstIterator begin() const noexcept;
 
-    const_iterator cbegin() const noexcept;
+    ConstIterator cbegin() const noexcept;
 
-    iterator end() noexcept;
+    Iterator end() noexcept;
 
-    const_iterator end() const noexcept;
+    ConstIterator end() const noexcept;
 
-    const_iterator cend() const noexcept;
+    ConstIterator cend() const noexcept;
 
 private:
     std::array<T, N> _data;
@@ -91,8 +92,9 @@ using Vector3f    = Vector<3, float>;
 using UnitVector2 = Vector<2>;
 using UnitVector3 = Vector<3>;
 
-template <typename T>
-Vector<3> cross(Vector<3> a, Vector<3> b);
+template <std::size_t N, typename T, bool PrecomputeNorm>
+Vector<N, T, PrecomputeNorm> cross(Vector<N, T, PrecomputeNorm> lhs,
+    Vector<N, T, PrecomputeNorm> rhs);
 
 template <std::size_t N, typename T, bool PrecomputeNorm>
 Vector<N + 1, T, PrecomputeNorm> IncreaseDimension(
