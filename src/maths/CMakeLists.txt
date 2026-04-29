@@ -1,4 +1,5 @@
-add_library(maths STATIC Matrix.cpp Vector.cpp Color.cpp Point.cpp)
+add_library(maths STATIC Matrix.cpp Vector.cpp Color.cpp Point.cpp
+        Ray.cpp)
 
 target_include_directories(maths PUBLIC include)
 
