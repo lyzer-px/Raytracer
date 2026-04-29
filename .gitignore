@@ -37,7 +37,7 @@
 *.out
 *.app
 raytracer
-myteams_cli
+unit_tests
 
 # debug information files
 *.dwo
