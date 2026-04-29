@@ -105,7 +105,7 @@ Vector<N, T> Point<N, T>::toVector() const
         *outIt = value;
         ++outIt;
     }
-    return Vector(array);
+    return Vector<N, T, false>(array);
 }
 
 template<>
@@ -127,14 +127,6 @@ const Point<3> Point<3>::translate(double translateX, double translateY)
 {
     return Transform::translationMatrix3D(translateX, translateY) * (*this);
 }
-
-template<>
-const Point<2> Point<2>::translate2D(double translateX, double translateY)
-{
-    return Transform::translationMatrix2D(translateX, translateY) * (*this);
-}
-
-
 
 template<>
 const Point<3> Point<3>::scale(double scaleX, double scaleY)

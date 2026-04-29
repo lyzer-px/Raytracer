@@ -9,7 +9,9 @@
 
 #include <array>
 #include <cstddef>
-#include "Vector.hpp"
+
+template<std::size_t N, typename T, bool PrecomputeNorm>
+class Vector;
 
 template<std::size_t N, typename T = double>
 class Point {
@@ -29,7 +31,7 @@ public:
     bool operator++();
     bool operator--();
 
-    Vector<N, T> toVector() const;
+    Vector<N, T, false> toVector() const;
 
     iterator begin() noexcept;
     const_iterator begin() const noexcept;
@@ -39,30 +41,20 @@ public:
     const_iterator end() const noexcept;
     const_iterator cend() const noexcept;
 
-    template<>
-    const Point<3> rotate(double angle);
-    template<>
-    const Point<2> rotate2D(double angle);
+    const Point rotate(double angle);
+    const Point rotate2D(double angle);
 
-    template<>
-    const Point<3> translate(double translateX, double translateY);
-    template<>
-    const Point<2> translate2D(double translateX, double translateY);
+    const Point translate(double translateX, double translateY);
+    const Point translate2D(double translateX, double translateY);
 
-    template<>
-    const Point<3> scale(double scaleX, double scaleY);
-    template<>
-    const Point<2> scale2D(double scaleX, double scaleY);
-    
-    template<>
-    const Point<3> shear(double shearX, double shearY);
-    template<>
-    const Point<2> shear2D(double shearX, double shearY);
+    const Point scale(double scaleX, double scaleY);
+    const Point scale2D(double scaleX, double scaleY);
 
-    template<>
-    const Point<3> reflect(bool reflectX, bool reflectY);
-    template<>
-    const Point<2> reflect2D(bool reflectX, bool reflectY);
+    const Point shear(double shearX, double shearY);
+    const Point shear2D(double shearX, double shearY);
+
+    const Point reflect(bool reflectX, bool reflectY);
+    const Point reflect2D(bool reflectX, bool reflectY);
 
 private:
     std::array<T, N> _data;

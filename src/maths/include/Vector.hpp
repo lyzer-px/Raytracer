@@ -18,7 +18,7 @@ public:
     using const_iterator = typename std::array<T, N>::const_iterator;
 
     Vector() = default;
-    Vector(std::array<T, N> &values);
+    Vector(const std::array<T, N> &values);
 
     using UnitVector = Vector<N, T, PrecomputeNorm>;
     UnitVector normalize() const;
@@ -92,7 +92,7 @@ Vector<3> cross(Vector<3> a, Vector<3> b);
 
 
 template<std::size_t N, typename T, bool PrecomputeNorm>
-Vector<N + 1, T, PrecomputeNorm> increaseDimension(const Vector<N, T, PrecomputeNorm> &a);
+Vector<N + 1, T, PrecomputeNorm> increaseDimension(const Vector<N, T, PrecomputeNorm> &other);
 
 template<std::size_t N, typename T, bool PrecomputeNorm>
 std::ostream &operator<<(std::ostream &o, const Vector<N, T, PrecomputeNorm> &vector);

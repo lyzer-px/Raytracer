@@ -17,7 +17,7 @@
 #include "Transform.hpp"
 
 template<std::size_t N, typename T, bool PrecomputeNorm>
-Vector<N, T, PrecomputeNorm>::Vector(std::array<T, N> &values) : _data(values)
+Vector<N, T, PrecomputeNorm>::Vector(const std::array<T, N> &values) : _data(values)
 {
     if (PrecomputeNorm)
         loadNorm();
@@ -159,7 +159,7 @@ bool Vector<N, T, PrecomputeNorm>::operator==(const Vector<N, T, PrecomputeNorm>
     std::size_t i = 0;
 
     for(; i != N; i++) {
-        if (other[i] != this[i])
+        if (other[i] != _data[i])
             break;
     }
     return i == N;
@@ -212,13 +212,13 @@ bool Vector<N, T, PrecomputeNorm>::operator>=(const Vector<N, T, PrecomputeNorm>
 }
 
 template<std::size_t N, typename T, bool PrecomputeNorm>
-Vector<N + 1, T, PrecomputeNorm> IncreaseDimension(const Vector<N, T, PrecomputeNorm> &other)
+Vector<N + 1, T, PrecomputeNorm> increaseDimension(const Vector<N, T, PrecomputeNorm> &other)
 {
     std::array<T, N + 1> array;
     for (size_t i = 0; i != N; i++) {
         array[i] = other[i];
     }
-    array[N + 1] = 0;
+    array[N] = 0;
     return Vector(array);
 }
 
@@ -227,7 +227,7 @@ T Vector<N, T, PrecomputeNorm>::calculateAngle(const Vector<N> &other) const
 {
     T otherNorm = 0;
 
-    if (PrecomputeNorm == false)
+    if (!PrecomputeNorm)
         loadNorm();
     if (other.getNorm() == 0)
         otherNorm = other.computeNorm();
@@ -264,12 +264,11 @@ const Vector<3> Vector<3>::rotate(double angle)
     return Transform::rotationMatrix3D(angle) * (*this);
 }
 
+template<>
 const Vector<2> Vector<2>::rotate2D(double angle)
 {
     return Transform::rotationMatrix2D(angle) * (*this);
 }
-
-
 
 template<>
 const Vector<3> Vector<3>::translate(double translateX, double translateY)
@@ -277,19 +276,13 @@ const Vector<3> Vector<3>::translate(double translateX, double translateY)
     return Transform::translationMatrix3D(translateX, translateY) * (*this);
 }
 
-const Vector<2> Vector<2>::translate2D(double translateX, double translateY)
-{
-    return Transform::translationMatrix2D(translateX, translateY) * (*this);
-}
-
-
-
 template<>
 const Vector<3> Vector<3>::scale(double scaleX, double scaleY)
 {
     return Transform::scalingMatrix3D(scaleX, scaleY) * (*this);
 }
 
+template<>
 const Vector<2> Vector<2>::scale2D(double scaleX, double scaleY)
 {
     return Transform::scalingMatrix2D(scaleX, scaleY) * (*this);
@@ -303,6 +296,7 @@ const Vector<3> Vector<3>::shear(double shearX, double shearY)
     return Transform::shearingMatrix3D(shearX, shearY) * (*this);
 }
 
+template<>
 const Vector<2> Vector<2>::shear2D(double shearX, double shearY)
 {
     return Transform::shearingMatrix2D(shearX, shearY) * (*this);

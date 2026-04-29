@@ -7,12 +7,19 @@
 
 #pragma once
 
-#include <cmath>
-#include <ctime>
 #include "Matrix.hpp"
-#include "Point.hpp"
-#include "Vector.hpp"
 
+template<std::size_t N, typename T, bool PrecomputeNorm>
+class Vector;
+
+template<std::size_t N, typename T>
+class Point;
+
+Vector<3, double, false> operator*(const Matrix3x3 &matrix, const Vector<3, double, false> &vector);
+Vector<2, double, false> operator*(const Matrix2x2 &matrix, const Vector<2, double, false> &vector);
+
+Point<3, double> operator*(const Matrix3x3 &matrix, const Point<3, double> &point);
+Point<2, double> operator*(const Matrix2x2 &matrix, const Point<2, double> &point);
 
 namespace Transform {
 
@@ -31,12 +38,5 @@ const Matrix2x2 &shearingMatrix2D(double shearX, double shearY) noexcept;
 
 const Matrix3x3 &reflectionMatrix3D(bool reflectX, bool reflectY) noexcept;
 const Matrix2x2 &reflectionMatrix2D(bool reflectX, bool reflectY) noexcept;
-
-Vector<3> operator*(const Matrix<3, 3> &matrix, Vector<3> &vector);
-Vector<2> operator*(const Matrix<2, 2> &matrix, Vector<2> &vector);
-
-Point<3> operator*(const Matrix3x3 &matrix, Point<3> &point);
-Point<2> operator*(const Matrix2x2 &matrix, Point<2> &point);
-
 
 }
