@@ -46,4 +46,3 @@ unit_tests
 # useless files and directory
 build/
 .idea/
-CMakeLists.txt
