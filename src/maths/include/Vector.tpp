@@ -288,8 +288,6 @@ const Vector<2> Vector<2>::scale2D(double scaleX, double scaleY)
     return Transform::scalingMatrix2D(scaleX, scaleY) * (*this);
 }
 
-
-
 template<>
 const Vector<3> Vector<3>::shear(double shearX, double shearY)
 {
