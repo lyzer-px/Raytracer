@@ -116,3 +116,14 @@ Point<N, T>::ConstIterator Point<N, T>::cend() const noexcept
 {
     return _data.cend();
 }
+
+template <std::size_t N, typename T, bool PrecomputeNorm>
+Vector<N, T, PrecomputeNorm> operator+(const Point<N, T> &lhs,
+    const Vector<N, T, PrecomputeNorm> &rhs)
+{
+    Vector<N, T> res;
+    for (std::size_t idx = 0; idx < N; ++idx)
+        res[idx] += lhs[idx] + rhs[idx];
+
+    return res;
+}

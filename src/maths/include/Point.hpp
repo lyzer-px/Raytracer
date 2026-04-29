@@ -51,7 +51,13 @@ private:
     std::array<T, N> _data;
 };
 
+template <std::size_t N, typename T, bool PrecomputeNorm>
+Vector<N, T, PrecomputeNorm> operator+(const Point<N, T> &lhs,
+    const Vector<N, T, PrecomputeNorm> &rhs);
+
 using Point2f = Point<2, float>;
 using Point3f = Point<3, float>;
+using Point2d = Point<2>;
+using Point3d = Point<3>;
 
 #include "Point.tpp"

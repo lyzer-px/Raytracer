@@ -89,6 +89,8 @@ using UnitVector = Vector<N, T, PrecomputeNorm>;
 
 using Vector2f    = Vector<2, float>;
 using Vector3f    = Vector<3, float>;
+using Vector2d    = Vector<2, double>;
+using Vector3d    = Vector<3, double>;
 using UnitVector2 = Vector<2>;
 using UnitVector3 = Vector<3>;
 
