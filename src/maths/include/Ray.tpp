@@ -7,20 +7,20 @@
 
 #include "Ray.hpp"
 
-Ray::Ray(const Point3f& origin, const UnitVector3& direction)
-    : _origin(origin), _direction(direction) {}
+Ray::Ray(const Point3d& origin, const Vector3d& direction)
+    : _origin(origin), _direction(direction.normalize()) {}
 
-Ray::const Point3f& Ray::getOrigin() const
+const Point3d &Ray::getOrigin() const
 {
     return _origin;
 }
 
-Ray::const UnitVector3& Ray::getDirection() const
+const UnitVector3& Ray::getDirection() const
 {
     return _direction;
 }
 
-Point3f Ray::at(double t) const
+Vector3d Ray::at(double t) const
 {
-    return _origin + (_direction * t);
+    return _origin.toVector() + _direction * t;
 }

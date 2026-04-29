@@ -1,6 +1,6 @@
 add_executable(raytracer core/main.cpp)
 
-target_link_libraries(raytracer PUBLIC warning_options)
+target_link_libraries(raytracer PUBLIC maths warning_options)
 
 add_subdirectory(maths)
 
