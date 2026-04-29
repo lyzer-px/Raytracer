@@ -7,6 +7,7 @@
 
 #include "Point.hpp"
 #include "Vector.hpp"
+#include "Transform.hpp"
 
 template<std::size_t N, typename T>
 Point<N, T>::Point(std::array<T, N> data) noexcept : _data(data) {}
@@ -106,3 +107,71 @@ Vector<N, T> Point<N, T>::toVector() const
     }
     return Vector(array);
 }
+
+template<>
+const Point<3> Point<3>::rotate(double angle)
+{
+    return Transform::rotationMatrix3D(angle) * (*this);
+}
+
+template<>
+const Point<2> Point<2>::rotate2D(double angle)
+{
+    return Transform::rotationMatrix2D(angle) * (*this);
+}
+
+
+
+template<>
+const Point<3> Point<3>::translate(double translateX, double translateY)
+{
+    return Transform::translationMatrix3D(translateX, translateY) * (*this);
+}
+
+template<>
+const Point<2> Point<2>::translate2D(double translateX, double translateY)
+{
+    return Transform::translationMatrix2D(translateX, translateY) * (*this);
+}
+
+
+
+template<>
+const Point<3> Point<3>::scale(double scaleX, double scaleY)
+{
+    return Transform::scalingMatrix3D(scaleX, scaleY) * (*this);
+}
+
+template<>
+const Point<2> Point<2>::scale2D(double scaleX, double scaleY)
+{
+    return Transform::scalingMatrix2D(scaleX, scaleY) * (*this);
+}
+
+
+
+template<>
+const Point<3> Point<3>::shear(double shearX, double shearY)
+{
+    return Transform::shearingMatrix3D(shearX, shearY) * (*this);
+}
+
+template<>
+const Point<2> Point<2>::shear2D(double shearX, double shearY)
+{
+    return Transform::shearingMatrix2D(shearX, shearY) * (*this);
+}
+
+
+template<>
+const Point<3> Point<3>::reflect(bool reflectX, bool reflectY)
+{
+    return Transform::reflectionMatrix3D(reflectX, reflectY) * (*this);
+}
+
+template<>
+const Point<2> Point<2>::reflect2D(bool reflectX, bool reflectY)
+{
+    return Transform::reflectionMatrix2D(reflectX, reflectY) * (*this);
+}
+

@@ -39,6 +39,31 @@ public:
     const_iterator end() const noexcept;
     const_iterator cend() const noexcept;
 
+    template<>
+    const Point<3> rotate(double angle);
+    template<>
+    const Point<2> rotate2D(double angle);
+
+    template<>
+    const Point<3> translate(double translateX, double translateY);
+    template<>
+    const Point<2> translate2D(double translateX, double translateY);
+
+    template<>
+    const Point<3> scale(double scaleX, double scaleY);
+    template<>
+    const Point<2> scale2D(double scaleX, double scaleY);
+    
+    template<>
+    const Point<3> shear(double shearX, double shearY);
+    template<>
+    const Point<2> shear2D(double shearX, double shearY);
+
+    template<>
+    const Point<3> reflect(bool reflectX, bool reflectY);
+    template<>
+    const Point<2> reflect2D(bool reflectX, bool reflectY);
+
 private:
     std::array<T, N> _data;
 };
