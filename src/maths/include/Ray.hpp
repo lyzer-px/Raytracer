@@ -8,20 +8,20 @@
 #pragma once
 
 #include "Point.hpp"
-#include "Vector.hpp"
 
 class Ray {
 public:
-Ray(const Point3f& origin, const UnitVector3& direction);
+    explicit Ray(const Point3d &origin, const Vector3d &direction);
 
-    const Point3f& getOrigin() const;
-    const UnitVector3& getDirection() const;
+    [[nodiscard]] const Point3d &getOrigin() const;
 
-    Point3f at(double t) const;
+    [[nodiscard]] const UnitVector3 &getDirection() const;
+
+    [[nodiscard]] Vector3d at(double t) const;
 
 private:
-    Point3f _origin;
-    UnitVector3 _direction; // must be normalized
+    Point3d _origin;
+    Vector3d _direction;
 };
 
 #include "Ray.tpp"

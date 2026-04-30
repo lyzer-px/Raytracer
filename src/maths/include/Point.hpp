@@ -9,58 +9,70 @@
 
 #include <array>
 #include <cstddef>
+#include "Vector.hpp"
 
-template<std::size_t N, typename T, bool PrecomputeNorm>
-class Vector;
-
-template<std::size_t N, typename T = double>
+template <std::size_t N, typename T = double>
 class Point {
 public:
-    using iterator = typename std::array<T, N>::iterator;
-    using const_iterator = typename std::array<T, N>::const_iterator;
+    using Iterator      = std::array<T, N>::iterator;
+    using ConstIterator = std::array<T, N>::const_iterator;
 
-    Point() = default;
+    Point();
+
     explicit Point(std::array<T, N> data) noexcept;
 
-    T& operator[](std::size_t i);
-    const T& operator[](std::size_t i) const;
+    T &operator[](std::size_t idx);
 
-    bool operator==(const Point& other) const;
-    bool operator!=(const Point& other) const;
+    const T &operator[](std::size_t idx) const;
+
+    bool operator==(const Point &other) const;
+
+    bool operator!=(const Point &other) const;
 
     bool operator++();
+
     bool operator--();
 
     Vector<N, T, false> toVector() const;
 
-    iterator begin() noexcept;
-    const_iterator begin() const noexcept;
-    const_iterator cbegin() const noexcept;
+    Iterator begin() noexcept;
 
-    iterator end() noexcept;
-    const_iterator end() const noexcept;
-    const_iterator cend() const noexcept;
+    ConstIterator begin() const noexcept;
 
-    const Point rotate(double angle);
-    const Point rotate2D(double angle);
+    ConstIterator cbegin() const noexcept;
 
-    const Point translate(double translateX, double translateY);
-    const Point translate2D(double translateX, double translateY);
+    Iterator end() noexcept;
 
-    const Point scale(double scaleX, double scaleY);
-    const Point scale2D(double scaleX, double scaleY);
+    ConstIterator end() const noexcept;
 
-    const Point shear(double shearX, double shearY);
-    const Point shear2D(double shearX, double shearY);
+    ConstIterator cend() const noexcept;
 
-    const Point reflect(bool reflectX, bool reflectY);
-    const Point reflect2D(bool reflectX, bool reflectY);
+    // const Point rotate(double angle);
+    // const Point rotate2D(double angle);
+    //
+    // const Point translate(double translateX, double translateY);
+    // const Point translate2D(double translateX, double translateY);
+    //
+    // const Point scale(double scaleX, double scaleY);
+    // const Point scale2D(double scaleX, double scaleY);
+    //
+    // const Point shear(double shearX, double shearY);
+    // const Point shear2D(double shearX, double shearY);
+    //
+    // const Point reflect(bool reflectX, bool reflectY);
+    // const Point reflect2D(bool reflectX, bool reflectY);
 
 private:
     std::array<T, N> _data;
 };
 
+template <std::size_t N, typename T, bool PrecomputeNorm>
+Vector<N, T, PrecomputeNorm> operator+(const Point<N, T> &lhs,
+    const Vector<N, T, PrecomputeNorm> &rhs);
+
 using Point2f = Point<2, float>;
 using Point3f = Point<3, float>;
+using Point2d = Point<2>;
+using Point3d = Point<3>;
 
 #include "Point.tpp"
