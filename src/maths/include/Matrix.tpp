@@ -10,13 +10,13 @@
 #include "Matrix.hpp"
 
 template <size_t rows, size_t cols, typename T>
-constexpr size_t Matrix<rows, cols, T>::getNbRows() const noexcept
+[[nodiscard]] constexpr size_t Matrix<rows, cols, T>::getNbRows() const noexcept
 {
     return rows;
 }
 
 template <size_t rows, size_t cols, typename T>
-constexpr size_t Matrix<rows, cols, T>::getNbCols() const noexcept
+[[nodiscard]] constexpr size_t Matrix<rows, cols, T>::getNbCols() const noexcept
 {
     return cols;
 }

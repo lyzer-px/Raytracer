@@ -7,8 +7,8 @@
 
 #pragma once
 
+#include <array>
 #include <cstddef>
-
 #include "Vector.hpp"
 
 template <std::size_t N, typename T = double>
@@ -33,7 +33,7 @@ public:
 
     bool operator--();
 
-    Vector<N, T> toVector() const;
+    Vector<N, T, false> toVector() const;
 
     Iterator begin() noexcept;
 
@@ -46,6 +46,21 @@ public:
     ConstIterator end() const noexcept;
 
     ConstIterator cend() const noexcept;
+
+    // const Point rotate(double angle);
+    // const Point rotate2D(double angle);
+    //
+    // const Point translate(double translateX, double translateY);
+    // const Point translate2D(double translateX, double translateY);
+    //
+    // const Point scale(double scaleX, double scaleY);
+    // const Point scale2D(double scaleX, double scaleY);
+    //
+    // const Point shear(double shearX, double shearY);
+    // const Point shear2D(double shearX, double shearY);
+    //
+    // const Point reflect(bool reflectX, bool reflectY);
+    // const Point reflect2D(bool reflectX, bool reflectY);
 
 private:
     std::array<T, N> _data;

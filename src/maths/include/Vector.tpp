@@ -13,6 +13,7 @@
 #include <stdexcept>
 
 #include "Vector.hpp"
+#include "Transform.hpp"
 
 template <std::size_t N, typename T, bool PrecomputeNorm> Vector<N, T,
     PrecomputeNorm>::Vector()
@@ -267,9 +268,8 @@ Vector<N, T, PrecomputeNorm>::ConstIterator Vector<N, T,
     return _data.cend();
 }
 
-template <std::size_t N, typename T, bool PrecomputeNorm>
-Vector<N + 1, T, PrecomputeNorm> IncreaseDimension(
-    const Vector<N, T, PrecomputeNorm> &other)
+template<std::size_t N, typename T, bool PrecomputeNorm>
+Vector<N + 1, T, PrecomputeNorm> increaseDimension(const Vector<N, T, PrecomputeNorm> &other)
 {
     std::array<T, N + 1> array;
     for (size_t i = 0; i != N; i++) {
@@ -301,3 +301,60 @@ Vector<N, T, PrecomputeNorm> cross(Vector<N, T, PrecomputeNorm> lhs,
     array[2] = lhs[0] * rhs[1] - lhs[1] * rhs[0];
     return Vector(array);
 }
+
+
+
+// template<>
+// const Vector<3> Vector<3>::rotate(double angle)
+// {
+//     return Transform::rotationMatrix3D(angle) * (*this);
+// }
+//
+// template<>
+// const Vector<2> Vector<2>::rotate2D(double angle)
+// {
+//     return Transform::rotationMatrix2D(angle) * (*this);
+// }
+//
+// template<>
+// const Vector<3> Vector<3>::translate(double translateX, double translateY)
+// {
+//     return Transform::translationMatrix3D(translateX, translateY) * (*this);
+// }
+//
+// template<>
+// const Vector<3> Vector<3>::scale(double scaleX, double scaleY)
+// {
+//     return Transform::scalingMatrix3D(scaleX, scaleY) * (*this);
+// }
+//
+// template<>
+// const Vector<2> Vector<2>::scale2D(double scaleX, double scaleY)
+// {
+//     return Transform::scalingMatrix2D(scaleX, scaleY) * (*this);
+// }
+//
+// template<>
+// const Vector<3> Vector<3>::shear(double shearX, double shearY)
+// {
+//     return Transform::shearingMatrix3D(shearX, shearY) * (*this);
+// }
+//
+// template<>
+// const Vector<2> Vector<2>::shear2D(double shearX, double shearY)
+// {
+//     return Transform::shearingMatrix2D(shearX, shearY) * (*this);
+// }
+//
+//
+// template<>
+// const Vector<3> Vector<3>::reflect(bool reflectX, bool reflectY)
+// {
+//     return Transform::reflectionMatrix3D(reflectX, reflectY) * (*this);
+// }
+//
+// template<>
+// const Vector<2> Vector<2>::reflect2D(bool reflectX, bool reflectY)
+// {
+//     return Transform::reflectionMatrix2D(reflectX, reflectY) * (*this);
+// }
