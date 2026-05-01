@@ -21,8 +21,8 @@ public:
     Point3d operator()(double time) const;  // P(t) = o + t*d -- replaces at(t)
     bool    hasNaN() const;
 
-    Point3d       o;      // origin
-    Vector3d      d;      // direction (caller responsible for normalization)
+    Point3d       origin;
+    Vector3d      direction;  // direction (caller responsible for normalization)
     mutable double tMax;   // reduced by each intersection hit -- enables BVH early exit
 };
 

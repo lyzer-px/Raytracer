@@ -14,21 +14,41 @@
 #include "Vector.hpp"
 
 template <template<typename> class Derived, std::size_t N, typename T>
-T Vector<Derived, N, T>::x() const
+const T &Vector<Derived, N, T>::x() const
 {
-    return _data[0];
+    return _data.at(0);
 }
 
 template <template<typename> class Derived, std::size_t N, typename T>
-T& Vector<Derived, N, T>::y()
+T &Vector<Derived, N, T>::x()
 {
-    return _data[1];
+    return _data.at(0);
 }
 
 template <template<typename> class Derived, std::size_t N, typename T>
-T Vector<Derived, N, T>::z() const requires (N >= 3)
+const T &Vector<Derived, N, T>::y() const
 {
-    return _data[2];
+    return _data.at(1);
+}
+
+template <template<typename> class Derived, std::size_t N, typename T>
+T &Vector<Derived, N, T>::y()
+{
+    return _data.at(1);
+}
+
+template <template<typename> class Derived, std::size_t N, typename T>
+const T &Vector<Derived, N, T>::z() const requires (N >= 3)
+
+{
+    return _data.at(2);
+}
+
+template <template<typename> class Derived, std::size_t N, typename T>
+T &Vector<Derived, N, T>::z() requires (N >= 3)
+
+{
+    return _data.at(2);
 }
 
 template <template<typename> class Derived, std::size_t N, typename T>
@@ -113,7 +133,7 @@ T Vector<Derived, N, T>::dot(const Derived<T> &other) const
 template <template<typename> class Derived, std::size_t N, typename T>
 Derived<T> Vector<Derived, N, T>::operator*(T scalar) const
 {
-    Derived out;
+    Derived<T> out;
 
     for (std::size_t i = 0; i < N; ++i) {
         out._data[i] = this->_data[i] * scalar;

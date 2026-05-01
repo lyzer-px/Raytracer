@@ -9,7 +9,15 @@
 
 #include <array>
 #include <cstddef>
-#include "Vector.hpp"
+
+template <template<typename>class Derived, std::size_t N, typename T>
+class Vector;
+
+template<typename T>
+class Vector3;
+
+template<typename T>
+class Vector2;
 
 template <typename T = double>
 class Point2 : public Vector<Point2, 2, T> {
@@ -28,8 +36,6 @@ public:
     // Point - Point = Vector  (displacement between two positions)
     Vector2<T> operator-(const Point2<T>& other) const;
 
-    T x = 0.0;
-    T y = 0.0;
 
     Point2 operator+(const Point2 &other) const = delete;
     Point2 operator*(T scalar) const = delete;
@@ -58,10 +64,6 @@ public:
 
     Vector3<T> operator-(const Point3<T>& other) const;
 
-    T x = 0.0;
-    T y = 0.0;
-    T z = 0.0;
-
     Point3 operator+(const Point3 & other) const = delete;
     Point3 operator*(T scalar) const = delete;
     Point3 operator/(T scalar) const = delete;
@@ -81,14 +83,14 @@ using Point2d = Point2<double>;
 using Point3d = Point3<double>;
 
 
-template <typename T> float     Distance(const Point3<T>& a, const Point3<T>& b);        // Length(b - a)
-template <typename T> T         DistanceSquared(const Point3<T>& a, const Point3<T>& b); // LengthSquared(b - a)
-template <typename T> Point3<T> Lerp(float t, const Point3<T>& a, const Point3<T>& b);
-template <typename T> Point3<T> Min(const Point3<T>& a, const Point3<T>& b);             // component-wise, used for AABB
-template <typename T> Point3<T> Max(const Point3<T>& a, const Point3<T>& b);
-template <typename T> Point3<T> Abs(const Point3<T>& p);
-template <typename T> Point3<T> Floor(const Point3<T>& p);
-template <typename T> Point3<T> Ceil(const Point3<T>& p);
-template <typename T> Point3<T> Permute(const Point3<T>& p, int x, int y, int z);
+template <typename T> float     distance(const Point3<T>& a, const Point3<T>& b);        // Length(b - a)
+template <typename T> T         distanceSquared(const Point3<T>& a, const Point3<T>& b); // LengthSquared(b - a)
+template <typename T> Point3<T> lerp(float t, const Point3<T>& a, const Point3<T>& b);
+template <typename T> Point3<T> min(const Point3<T>& a, const Point3<T>& b);             // component-wise, used for AABB
+template <typename T> Point3<T> max(const Point3<T>& a, const Point3<T>& b);
+template <typename T> Point3<T> abs(const Point3<T>& p);
+template <typename T> Point3<T> floor(const Point3<T>& p);
+template <typename T> Point3<T> ceil(const Point3<T>& p);
+template <typename T> Point3<T> permute(const Point3<T>& p, int x, int y, int z);
 
 #include "Point.tpp"

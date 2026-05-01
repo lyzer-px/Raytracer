@@ -18,17 +18,17 @@
 
 // Build an orthonormal basis (v2, v3) from a single unit vector v1.
 // Used by PerspectiveCamera to derive right and up vectors from the forward direction.
-void CoordinateSystem(const Vector3d& v1, Vector3d &v2, Vector3d &v3);
+void coordinateSystem(const Vector3d& v1, Vector3d &v2, Vector3d &v3);
 
 // Spherical direction from polar angles theta and phi, in world space.
-Vector3d SphericalDirection(double sinTheta, double cosTheta, double phi);
+Vector3d sphericalDirection(double sinTheta, double cosTheta, double phi);
 
 // Spherical direction in a given local basis (x, y, z).
-Vector3d SphericalDirection(double sinTheta, double cosTheta, double phi,
+Vector3d sphericalDirection(double sinTheta, double cosTheta, double phi,
                              const Vector3d& x, const Vector3d& y, const Vector3d& z);
 
 // Polar angle theta of a direction vector (angle from the z-axis).
-double SphericalTheta(const Vector3d& v);
+double sphericalTheta(const Vector3d& v);
 
 // Azimuthal angle phi of a direction vector (angle in the xy-plane).
-double SphericalPhi(const Vector3d& v);
+double sphericalPhi(const Vector3d& v);

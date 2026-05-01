@@ -10,26 +10,22 @@
 #include <cmath>
 #include <limits>
 #include "Ray.hpp"
+#include "Point.hpp"
 
 Ray::Ray() : tMax(std::numeric_limits<double>::infinity()) {}
 
 Ray::Ray(const Point3d &origin, const Vector3d &direction, double tMax)
-    : o(origin), d(direction), tMax(tMax) {}
+    : origin(origin), direction(direction), tMax(tMax) {}
 
 Point3d Ray::operator()(double time) const
 {
-    Point3d result;
-
-    result.x = o.x() + (d.x() * time);
-    result.y = o.y() + (d.y() * time);
-    result.z = o.z() + (d.z() * time);
-    return result;
+    return origin + (direction * time);
 }
 
 bool Ray::hasNaN() const
 {
     return
-    std::isnan(o.x()) || std::isnan(o.y()) || std::isnan(o.z()) ||
-    std::isnan(d.x()) || std::isnan(d.y()) || std::isnan(d.z()) ||
+    std::isnan(origin.x()) || std::isnan(origin.y()) || std::isnan(origin.z()) ||
+    std::isnan(direction.x()) || std::isnan(direction.y()) || std::isnan(direction.z()) ||
     std::isnan(tMax);
 }

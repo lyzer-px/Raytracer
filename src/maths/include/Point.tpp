@@ -7,50 +7,47 @@
 
 #pragma once
 
+#include <cmath>
+#include <stdexcept>
 #include "Point.hpp"
 #include "Vector.hpp"
-#include <cmath>
 
 // Point2 Implementation
 template <typename T>
-Point2<T>::Point2() : x(static_cast<T>(0)), y(static_cast<T>(0)) {}
+Point2<T>::Point2() : Vector2<T>() {}
 
 template <typename T>
-Point2<T>::Point2(T x, T y) : x(x), y(y)
-{
-}
+Point2<T>::Point2(T x, T y) : Vector<Point2, 2, T>({x, y}) {}
 
 template <typename T>
 template <typename U>
-Point2<T>::Point2(const Vector2<U>& v) : x(static_cast<T>(v.x)), y(static_cast<T>(v.y))
-{
-}
+Point2<T>::Point2(const Vector2<U>& v) : Vector<Point2, 2, T>({static_cast<T>(v.x()), static_cast<T>(v.y())}) {}
 
 template <typename T>
 Point2<T> Point2<T>::operator+(const Vector2<T>& v) const
 {
-    return Point2<T>(x + v.x, y + v.y);
+    return Point2<T>(this->x() + v.x(), this->y() + v.y());
 }
 
 template <typename T>
 Point2<T> Point2<T>::operator-(const Vector2<T>& v) const
 {
-    return Point2<T>(x - v.x, y - v.y);
+    return Point2<T>(this->x() - v.x(), this->y() - v.y());
 }
 
 template <typename T>
 Point2<T>& Point2<T>::operator+=(const Vector2<T>& v)
 {
-    x += v.x;
-    y += v.y;
+    this->x() += v.x();
+    this->y() += v.y();
     return *this;
 }
 
 template <typename T>
 Point2<T>& Point2<T>::operator-=(const Vector2<T>& v)
 {
-    x -= v.x;
-    y -= v.y;
+    this->x() -= v.x();
+    this->y() -= v.y();
     return *this;
 }
 
@@ -58,43 +55,42 @@ template <typename T>
 Vector2<T> Point2<T>::operator-(const Point2<T>& other) const
 {
     Vector2<T> result;
-    result.x = x - other.x;
-    result.y = y - other.y;
+    result.x() = this->x() - other.x();
+    result.y() = this->y() - other.y();
     return result;
 }
 
 // Point3 Implementation
 template <typename T>
-Point3<T>::Point3() : x(static_cast<T>(0)), y(static_cast<T>(0)), z(static_cast<T>(0))
-{
-}
+Point3<T>::Point3() : Vector<Point3, 3, T>() {}
 
 template <typename T>
-Point3<T>::Point3(T x, T y, T z) : x(x), y(y), z(z) {}
+Point3<T>::Point3(T x, T y, T z) : Vector<Point3, 3, T>({x, y, z}) {}
 
 template <typename T>
 template <typename U>
-Point3<T>::Point3(const Vector3<U>& v) : x(static_cast<T>(v.x)), y(static_cast<T>(v.y)), z(static_cast<T>(v.z)) {}
+Point3<T>::Point3(const Vector3<U>& v) :
+Vector<Point3, 3, T>({static_cast<T>(v.x()), static_cast<T>(v.y()), static_cast<T>(v.z())}) {}
 
 template <typename T>
 Point3<T> Point3<T>::operator+(const Vector3<T>& v) const
 {
-    return Point3<T>(x + v.x, y + v.y, z + v.z);
+    return Point3<T>(this->x() + v.x(), this->y() + v.y(), this->z() + v.z());
 }
 
 template <typename T>
 Point3<T>& Point3<T>::operator+=(const Vector3<T>& v)
 {
-    x += v.x;
-    y += v.y;
-    z += v.z;
+    this->x() += v.x();
+    this->y() += v.y();
+    this->z() += v.z();
     return *this;
 }
 
 template <typename T>
 Point3<T> Point3<T>::operator-(const Vector3<T>& v) const
 {
-    return Point3<T>(x - v.x, y - v.y, z - v.z);
+    return Point3<T>(this->x() - v.x(), this->y() - v.y(), this->z() - v.z());
 }
 
 template <typename T>
@@ -102,91 +98,92 @@ Vector3<T> Point3<T>::operator-(const Point3<T>& other) const
 {
     Vector3<T> result;
 
-    result.x = x - other.x;
-    result.y = y - other.y;
-    result.z = z - other.z;
+    result.x() = this->x() - other.x();
+    result.y() = this->y() - other.y();
+    result.z() = this->z() - other.z();
     return result;
 }
 
 // Utility functions
 template <typename T>
-float Distance(const Point3<T>& a, const Point3<T>& b)
+float distance(const Point3<T>& a, const Point3<T>& b)
 {
     return (b - a).length();
 }
 
 template <typename T>
-T DistanceSquared(const Point3<T>& a, const Point3<T>& b)
+T distanceSquared(const Point3<T>& a, const Point3<T>& b)
 {
     Vector3<T> diff = b - a;
-    return diff.dot(diff);
+    T length = diff.length();
+    return length * length;
 }
 
 template <typename T>
-Point3<T> Lerp(float t, const Point3<T>& a, const Point3<T>& b)
+Point3<T> lerp(float t, const Point3<T>& a, const Point3<T>& b)
 {
-    Vector3<T> diff = b - a;
+    Vector3<T> diff = (b - a);
     return a + (diff * static_cast<T>(t));
 }
 
 template <typename T>
-Point3<T> Min(const Point3<T>& a, const Point3<T>& b)
+Point3<T> min(const Point3<T>& a, const Point3<T>& b)
 {
     return Point3<T>(
-        a.x < b.x ? a.x : b.x,
-        a.y < b.y ? a.y : b.y,
-        a.z < b.z ? a.z : b.z
+        a.x() < b.x() ? a.x() : b.x(),
+        a.y() < b.y() ? a.y() : b.y(),
+        a.z() < b.z() ? a.z() : b.z()
     );
 }
 
 template <typename T>
-Point3<T> Max(const Point3<T>& a, const Point3<T>& b)
+Point3<T> max(const Point3<T>& a, const Point3<T>& b)
 {
     return Point3<T>(
-        a.x > b.x ? a.x : b.x,
-        a.y > b.y ? a.y : b.y,
-        a.z > b.z ? a.z : b.z
+        a.x() > b.x() ? a.x() : b.x(),
+        a.y() > b.y() ? a.y() : b.y(),
+        a.z() > b.z() ? a.z() : b.z()
     );
 }
 
 template <typename T>
-Point3<T> Abs(const Point3<T>& p)
+Point3<T> abs(const Point3<T>& p)
 {
     return Point3<T>(
-        std::abs(p.x),
-        std::abs(p.y),
-        std::abs(p.z)
+        std::abs(p.x()),
+        std::abs(p.y()),
+        std::abs(p.z())
     );
 }
 
 template <typename T>
-Point3<T> Floor(const Point3<T>& p)
+Point3<T> floor(const Point3<T>& p)
 {
     return Point3<T>(
-        std::floor(static_cast<double>(p.x)),
-        std::floor(static_cast<double>(p.y)),
-        std::floor(static_cast<double>(p.z))
+        std::floor(static_cast<double>(p.x())),
+        std::floor(static_cast<double>(p.y())),
+        std::floor(static_cast<double>(p.z()))
     );
 }
 
 template <typename T>
-Point3<T> Ceil(const Point3<T>& p)
+Point3<T> ceil(const Point3<T>& p)
 {
     return Point3<T>(
-        std::ceil(static_cast<double>(p.x)),
-        std::ceil(static_cast<double>(p.y)),
-        std::ceil(static_cast<double>(p.z))
+        std::ceil(static_cast<double>(p.x())),
+        std::ceil(static_cast<double>(p.y())),
+        std::ceil(static_cast<double>(p.z()))
     );
 }
 
 template <typename T>
-Point3<T> Permute(const Point3<T>& p, int x, int y, int z)
+Point3<T> permute(const Point3<T>& p, int x, int y, int z)
 {
     auto getComponent = [](const Point3<T>& point, int index) -> T {
         switch (index) {
-            case 0: return point.x;
-            case 1: return point.y;
-            case 2: return point.z;
+            case 0: return point.x();
+            case 1: return point.y();
+            case 2: return point.z();
             default: throw std::out_of_range("Invalid permutation index");
         }
     };

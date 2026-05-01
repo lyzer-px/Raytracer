@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include "Point.hpp"
 #include <cstddef>
+#include "Point.hpp"
 
 template <template<typename>class Derived, std::size_t N, typename T = double>
 class Vector {
@@ -16,14 +16,18 @@ public:
     Vector() = default;
     Vector(std::initializer_list<T> values);
 
-    [[nodiscard]] bool HasNaN() const;
+    [[nodiscard]] bool hasNaN() const;
 
-    T  x() const;  T& x();
-    T  y() const;  T& y();
-    T  z() const requires (N >= 3);
-    T& z()       requires (N >= 3);
+    const T &x() const;
+    T &x();
+    const T &y() const;
+    T &y();
+    const T &z() const requires (N >= 3);
+    T &z()       requires (N >= 3);
 
     [[nodiscard]] Derived<T> normalize() const;
+    Derived<T> cross(const Derived<T> &other) const;
+
     [[nodiscard]] T length() const;
     [[nodiscard]] T calculateAngle(const Derived<T> &other) const;
 
@@ -53,8 +57,6 @@ public:
     bool operator>(const Derived<T> &other) const;
     bool operator>=(const Derived<T> &other) const;
 
-    Derived<T> cross(const Derived<T> &other) const;
-
     const std::array<T, N>& data() const;
 
 protected:
@@ -81,8 +83,6 @@ public:
     explicit Vector2(const Point2<U>& v); // conversion constructor
 };
 
-using UnitVector2 = Vector2<double>;
-using UnitVector3 = Vector3<double>;
 using Vector2d = Vector2<double>;
 using Vector3d = Vector3<double>;
 

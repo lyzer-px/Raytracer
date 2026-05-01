@@ -18,5 +18,3 @@ public:
     // The caller must consciously decide to treat a direction as a surface normal.
     template <typename U> explicit Normal3(const Vector3<U>& v);
 };
-
-using Normal3f = Normal3<float>;
