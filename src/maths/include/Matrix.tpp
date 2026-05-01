@@ -10,6 +10,20 @@
 #include "Matrix.hpp"
 
 template <size_t rows, size_t cols, typename T>
+Matrix<rows, cols, T>::Matrix(std::array<std::array<T, cols>, rows> values)
+: _values(values) {}
+
+template <size_t rows, size_t cols, typename T>
+Matrix<rows, cols, T>::Matrix(std::initializer_list<std::array<T, cols>> values)
+{
+    size_t rowIndex = 0;
+    for (const auto &row : values) {
+        if (rowIndex >= rows) break;
+        _values[rowIndex++] = row;
+    }
+}
+
+template <size_t rows, size_t cols, typename T>
 [[nodiscard]] constexpr size_t Matrix<rows, cols, T>::getNbRows() const noexcept
 {
     return rows;
