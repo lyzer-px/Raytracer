@@ -144,9 +144,8 @@ Derived<T> Vector<Derived, N, T>::operator*(T scalar) const
 {
     Derived<T> out;
 
-    for (std::size_t i = 0; i < N; ++i) {
+    for (std::size_t i = 0; i < N; ++i)
         out._data[i] = this->_data[i] * scalar;
-    }
     return out;
 }
 
