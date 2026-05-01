@@ -11,7 +11,7 @@ template <typename T>
 Normal3<T>::Normal3() : Vector<Normal3<T>, T>() {}
 
 template <typename T>
-Normal3<T>::Normal3(T x, T y, T z) : Vector<Normal3<T>, T>(x, y, z) {}9
+Normal3<T>::Normal3(T x, T y, T z) : Vector<Normal3<T>, T>(x, y, z) {}
 
 template <typename T>
 template <typename U>
