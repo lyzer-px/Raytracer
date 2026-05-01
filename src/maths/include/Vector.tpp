@@ -220,3 +220,25 @@ Vector2<T>::Vector2(T x, T y) noexcept : Vector<Vector2, 2, T>() {
     this->_data[0] = x;
     this->_data[1] = y;
 }
+
+template <template<typename> class Derived, std::size_t N, typename T>
+Derived<T> Vector<Derived, N, T>::cross(const Derived<T> &other) const
+    requires (N == 3)
+{
+    Derived<T> result;
+    result.x() = (this->y() * other.z()) - (this->z() * other.y());
+    result.y() = (this->z() * other.x()) - (this->x() * other.z());
+    result.z() = (this->x() * other.y()) - (this->y() * other.x());
+    return result;
+}
+
+template <template<typename> class Derived, std::size_t N, typename T>
+Derived<T> Vector<Derived, N, T>::cross(Derived<T> &other) const
+    requires (N == 3)
+{
+    Derived<T> result;
+    result.x() = (this->y() * other.z()) - (this->z() * other.y());
+    result.y() = (this->z() * other.x()) - (this->x() * other.z());
+    result.z() = (this->x() * other.y()) - (this->y() * other.x());
+    return result;
+}

@@ -26,7 +26,13 @@ public:
     T &z()       requires (N >= 3);
 
     [[nodiscard]] Derived<T> normalize() const;
-    Derived<T> cross(const Derived<T> &other) const;
+    Derived<T> cross(const Derived<T> &other) const
+    requires (N == 3); // cross product only defined for 3D vectors
+    Derived<T> cross(Derived<T> &other) const
+    requires (N == 3);
+
+    [[nodiscard]] T length() const;
+    [[nodiscard]] T calculateAngle(const Derived<T> &other) const;
 
     [[nodiscard]] T length() const;
     [[nodiscard]] T calculateAngle(const Derived<T> &other) const;
