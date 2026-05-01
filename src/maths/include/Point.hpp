@@ -54,25 +54,26 @@ public:
     Point3();
     Point3(T x, T y, T z);
 
-    template<typename U>
-    explicit Point3(const Vector3<U>& v);
+    template <typename U>
+    explicit Point3(const Vector3<U>& v);  // explicit: Vector -> Point
 
     Point3<T>  operator+(const Vector3<T>& v) const;
-    Point3<T>& operator+=(const Vector3<T>& v);
-
     Point3<T>  operator-(const Vector3<T>& v) const;
+    Point3<T>& operator+=(const Vector3<T>& v);
+    Point3<T>& operator-=(const Vector3<T>& v);
 
+    // Point - Point = Vector  (displacement between two positions)
     Vector3<T> operator-(const Point3<T>& other) const;
 
-    Point3 operator+(const Point3 & other) const = delete;
+
+    Point3 operator+(const Point3 &other) const = delete;
     Point3 operator*(T scalar) const = delete;
     Point3 operator/(T scalar) const = delete;
-    T operator*(const Point3 & other) const = delete;
-    T dot(const Point3 & other) const = delete;
+    T operator*(const Point3 &other) const = delete;
+    T dot(const Point3 &other) const = delete;
     Point3 normalize() const = delete;
     T length() const = delete;
-    T calculateAngle(const Point3 & other) const = delete;
-
+    T calculateAngle(const Point3 &other) const = delete;
 };
 
 using Point2f = Point2<float>;

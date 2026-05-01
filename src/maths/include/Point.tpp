@@ -88,6 +88,15 @@ Point3<T>& Point3<T>::operator+=(const Vector3<T>& v)
 }
 
 template <typename T>
+Point3<T>& Point3<T>::operator-=(const Vector3<T>& v)
+{
+    this->x() -= v.x();
+    this->y() -= v.y();
+    this->z() -= v.z();
+    return *this;
+}
+
+template <typename T>
 Point3<T> Point3<T>::operator-(const Vector3<T>& v) const
 {
     return Point3<T>(this->x() - v.x(), this->y() - v.y(), this->z() - v.z());
