@@ -37,10 +37,11 @@ Vector3d sphericalDirection(double sinTheta, double cosTheta, double phi,
 
 double sphericalTheta(const Vector3d &v)
 {
-    return std::acos(v.z());
+    return std::acos(std::ranges::clamp(v.z(), -1.0, 1.0));
 }
 
 double sphericalPhi(const Vector3d &v)
 {
-    return std::atan2(v.y(), v.x());
+    const double phi = std::atan2(v.y(), v.x());
+    return (phi < 0) ? (phi + 2.0 * M_PI) : phi;
 }
