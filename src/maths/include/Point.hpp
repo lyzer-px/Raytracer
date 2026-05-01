@@ -11,68 +11,91 @@
 #include <cstddef>
 #include "Vector.hpp"
 
-template <std::size_t N, typename T = double>
-class Point {
+template <typename T = double>
+class Point2 : public Vector<Point2<T>, T> {
 public:
-    using Iterator      = std::array<T, N>::iterator;
-    using ConstIterator = std::array<T, N>::const_iterator;
+    Point2();
+    Point2(T x, T y);
 
-    Point();
+    template <typename U>
+    explicit Point2(const Vector2<U>& v);  // explicit: Vector -> Point
 
-    explicit Point(std::array<T, N> data) noexcept;
+    Point2<T>  operator+(const Vector2<T>& v) const;
+    Point2<T>  operator-(const Vector2<T>& v) const;
+    Point2<T>& operator+=(const Vector2<T>& v);
+    Point2<T>& operator-=(const Vector2<T>& v);
 
-    T &operator[](std::size_t idx);
+    // Point - Vector = Point
+    Point2<T>  operator-(const Vector2<T>& v) const;
 
-    const T &operator[](std::size_t idx) const;
+    // Point - Point = Vector  (displacement between two positions)
+    Vector2<T> operator-(const Point2<T>& other) const;
 
-    bool operator==(const Point &other) const;
-
-    bool operator!=(const Point &other) const;
-
-    bool operator++();
-
-    bool operator--();
-
-    Vector<N, T, false> toVector() const;
-
-    Iterator begin() noexcept;
-
-    ConstIterator begin() const noexcept;
-
-    ConstIterator cbegin() const noexcept;
-
-    Iterator end() noexcept;
-
-    ConstIterator end() const noexcept;
-
-    ConstIterator cend() const noexcept;
-
-    // const Point rotate(double angle);
-    // const Point rotate2D(double angle);
-    //
-    // const Point translate(double translateX, double translateY);
-    // const Point translate2D(double translateX, double translateY);
-    //
-    // const Point scale(double scaleX, double scaleY);
-    // const Point scale2D(double scaleX, double scaleY);
-    //
-    // const Point shear(double shearX, double shearY);
-    // const Point shear2D(double shearX, double shearY);
-    //
-    // const Point reflect(bool reflectX, bool reflectY);
-    // const Point reflect2D(bool reflectX, bool reflectY);
+    T x = 0.0;
+    T y = 0.0;
 
 private:
-    std::array<T, N> _data;
+    Point2 operator+(const Vector<Point2<T>, T>& other) const = delete;
+    Point2 operator*(T scalar) const = delete;
+    Point2 operator/(T scalar) const = delete;
+    T operator*(const Vector<Point2<T>, T>& other) const = delete;
+    T dot(const Vector<Point2<T>, T>& other) const = delete;
+    typename Vector<Point2<T>, T>::UnitVector normalize() const = delete;
+    T length() const = delete;
+    T calculateAngle(const Vector<Point2<T>, T>& other) const = delete;
+
 };
 
-template <std::size_t N, typename T, bool PrecomputeNorm>
-Vector<N, T, PrecomputeNorm> operator+(const Point<N, T> &lhs,
-    const Vector<N, T, PrecomputeNorm> &rhs);
+template <typename T = double>
+class Point3 : public Vector<Point3<T>, T> {
+public:
+    Point3();
+    Point3(T x, T y, T z);
 
-using Point2f = Point<2, float>;
-using Point3f = Point<3, float>;
-using Point2d = Point<2>;
-using Point3d = Point<3>;
+    template<typename U>
+    explicit Point3(const Vector3<U>& v);
+
+    Point3<T>  operator+(const Vector3<T>& v) const;
+    Point3<T>& operator+=(const Vector3<T>& v);
+
+    Point3<T>  operator-(const Vector3<T>& v) const;
+
+    Vector3<T> operator-(const Point3<T>& other) const;
+
+    T x = 0.0;
+    T y = 0.0;
+    T z = 0.0;
+
+private:
+    Point3 operator+(const Vector<Point3<T>, T>& other) const = delete;
+    Point3 operator*(T scalar) const = delete;
+    Point3 operator/(T scalar) const = delete;
+    T operator*(const Vector<Point3<T>, T>& other) const = delete;
+    T dot(const Vector<Point3<T>, T>& other) const = delete;
+    typename Vector<Point3<T>, T>::UnitVector normalize() const = delete;
+    T length() const = delete;
+    T calculateAngle(const Vector<Point3<T>, T>& other) const = delete;
+
+};
+
+using Point2f = Point2<float>;
+using Point2i = Point2<int>;
+
+using Point2f = Point2<float>;
+using Point3f = Point3<float>;
+
+using Point2d = Point2<double>;
+using Point3d = Point3<double>;
+
+
+template <typename T> float     Distance(const Point3<T>& a, const Point3<T>& b);        // Length(b - a)
+template <typename T> T         DistanceSquared(const Point3<T>& a, const Point3<T>& b); // LengthSquared(b - a)
+template <typename T> Point3<T> Lerp(float t, const Point3<T>& a, const Point3<T>& b);
+template <typename T> Point3<T> Min(const Point3<T>& a, const Point3<T>& b);             // component-wise, used for AABB
+template <typename T> Point3<T> Max(const Point3<T>& a, const Point3<T>& b);
+template <typename T> Point3<T> Abs(const Point3<T>& p);
+template <typename T> Point3<T> Floor(const Point3<T>& p);
+template <typename T> Point3<T> Ceil(const Point3<T>& p);
+template <typename T> Point3<T> Permute(const Point3<T>& p, int x, int y, int z);
 
 #include "Point.tpp"
