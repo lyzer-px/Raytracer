@@ -2,359 +2,251 @@
 ** EPITECH PROJECT, 2026
 ** OOP
 ** File description:
-** Vector class definition
+** Vector class implementation
 */
 
 #pragma once
 
-#include <array>
+#include <algorithm>
 #include <cmath>
 #include <cstddef>
 #include <stdexcept>
 
 #include "Vector.hpp"
-#include "Transform.hpp"
 
-template <std::size_t N, typename T, bool PrecomputeNorm> Vector<N, T,
-    PrecomputeNorm>::Vector()
-{
-    for (std::size_t itt = 0; itt < N; ++itt)
-        _data[itt] = static_cast<T>(0);
+namespace properties {
+
+template <typename Derived>
+struct VectorTraits;
+
+template <typename T>
+struct VectorTraits<Vector2<T>> {
+    static constexpr std::size_t size = 2;
+
+    static T get(const Vector2<T> &vector, std::size_t idx)
+    {
+        if (idx == 0)
+            return vector.x;
+        if (idx == 1)
+            return vector.y;
+        throw std::out_of_range("Vector2D index out of range");
+    }
+
+    static void set(Vector2<T> &vector, std::size_t idx, T value)
+    {
+        switch (idx) {
+            case 0:
+                vector.x = value;
+                return;
+            case 1:
+                vector.y = value;
+                return;
+            default:
+                throw std::out_of_range("Vector2D index out of range");
+        }
+    }
+};
+
+template <typename T>
+struct VectorTraits<Vector3<T>> {
+    static constexpr std::size_t size = 3;
+
+    static T get(const Vector3<T> &vector, std::size_t idx)
+    {
+        switch (idx) {
+            case 0:
+                return vector.x;
+            case 1:
+                return vector.y;
+            case 2:
+                return vector.z;
+            default:
+                throw std::out_of_range("Vector3D index out of range");
+        }
+    }
+
+    static void set(Vector3<T> &vector, std::size_t idx, T value)
+    {
+        switch (idx) {
+            case 0:
+                vector.x = value;
+                return;
+            case 1:
+                vector.y = value;
+                return;
+            case 2:
+                vector.z = value;
+                return;
+            default:
+                throw std::out_of_range("Vector3D index out of range");
+        }
+    }
+};
 }
 
-template <std::size_t N, typename T, bool PrecomputeNorm>
-Vector<N, T, PrecomputeNorm>::Vector(std::array<T, N> &values): _data(values)
-{
-    if (PrecomputeNorm)
-        loadLength();
-}
-
-template <std::size_t N, typename T, bool PrecomputeNorm>
-Vector<N, T, PrecomputeNorm>::Vector(std::array<T, N> &&values): _data(values)
-{
-    if (PrecomputeNorm)
-        loadLength();
-}
-
-template <std::size_t N, typename T, bool PrecomputeNorm>
-UnitVector<N, T, PrecomputeNorm> Vector<N, T, PrecomputeNorm>::normalize() const
+template <class Derived, typename T>
+typename Vector<Derived, T>::UnitVector Vector<Derived, T>::normalize() const
 {
     T norm = length();
+
     if (norm == static_cast<T>(0))
         throw std::runtime_error("Division by 0");
-    return *this / norm;
+    return (*this) / norm;
 }
 
-template <std::size_t N, typename T, bool PrecomputeNorm>
-T Vector<N, T, PrecomputeNorm>::getLength() const
+template <class Derived, typename T>
+T Vector<Derived, T>::length() const
 {
-    return _norm;
-}
+    const auto &self = static_cast<const Derived &>(*this);
+    T norm = static_cast<T>(0);
 
-template <std::size_t N, typename T, bool PrecomputeNorm>
-T Vector<N, T, PrecomputeNorm>::length() const
-{
-    T norm = 0;
-
-    for (size_t i = 0; i != N; i++) {
-        T value = _data[i];
-        norm    += value * value;
+    for (std::size_t i = 0; i < properties::VectorTraits<Derived>::size; ++i) {
+        T value = static_cast<T>(properties::VectorTraits<Derived>::get(self, i));
+        norm += value * value;
     }
-    return std::sqrt(norm);
+    return static_cast<T>(std::sqrt(norm));
 }
 
-template <std::size_t N, typename T, bool PrecomputeNorm>
-void Vector<N, T, PrecomputeNorm>::loadLength()
+template <class Derived, typename T>
+T Vector<Derived, T>::calculateAngle(const Vector<Derived, T> &other) const
 {
-    _norm = length();
-}
+    T lhsNorm = length();
+    T rhsNorm = other.length();
 
-template <std::size_t N, typename T, bool PrecomputeNorm>
-T Vector<N, T, PrecomputeNorm>::calculateAngle(const Vector<N> &other) const
-{
-    T otherNorm = 0;
-
-    if (!PrecomputeNorm)
-        loadLength();
-    if (other.getLength() == 0)
-        otherNorm = other.length();
-    if (otherNorm == 0 || _norm == 0)
+    if (lhsNorm == static_cast<T>(0) || rhsNorm == static_cast<T>(0))
         throw std::runtime_error("In angle calculation: null norm");
-    return std::acos((this * other) / (_norm * otherNorm));
+
+    T cosine = ((*this) * other) / (lhsNorm * rhsNorm);
+    cosine = std::clamp(cosine, static_cast<T>(-1), static_cast<T>(1));
+    return static_cast<T>(std::acos(cosine));
 }
 
-template <std::size_t N, typename T, bool PrecomputeNorm>
-T &Vector<N, T, PrecomputeNorm>::operator[](std::size_t idx)
+template <class Derived, typename T>
+Derived Vector<Derived, T>::operator+(const Vector<Derived, T> &other) const
 {
-    return _data[idx];
-}
+    const auto &lhs = static_cast<const Derived &>(*this);
+    const auto &rhs = static_cast<const Derived &>(other);
+    Derived out;
 
-template <std::size_t N, typename T, bool PrecomputeNorm>
-const T &Vector<N, T, PrecomputeNorm>::operator[](std::size_t idx) const
-{
-    return _data[idx];
-}
-
-template <std::size_t N, typename T, bool PrecomputeNorm>
-Vector<N, T, PrecomputeNorm> Vector<N, T, PrecomputeNorm>::operator+(
-    const Vector<N, T, PrecomputeNorm> &other) const
-{
-    std::array<T, N> array;
-
-    for (std::size_t i = 0; i != N; i++) {
-        array[i] = (*this)[i] + other[i];
+    for (std::size_t i = 0; i < properties::VectorTraits<Derived>::size; ++i) {
+        properties::VectorTraits<Derived>::set(out, i,
+            properties::VectorTraits<Derived>::get(lhs, i) +
+            properties::VectorTraits<Derived>::get(rhs, i));
     }
-    return Vector(array);
+    return out;
 }
 
-template <std::size_t N, typename T, bool PrecomputeNorm>
-Vector<N, T, PrecomputeNorm> Vector<N, T, PrecomputeNorm>::operator-(
-    const Vector &other) const
+template <class Derived, typename T>
+Derived Vector<Derived, T>::operator-(const Vector<Derived, T> &other) const
 {
-    std::array<T, N> array;
-    for (std::size_t i = 0; i != N; i++) {
-        array[i] = (*this)[i] - other[i];
+    const auto &lhs = static_cast<const Derived &>(*this);
+    const auto &rhs = static_cast<const Derived &>(other);
+    Derived out;
+
+    for (std::size_t i = 0; i < properties::VectorTraits<Derived>::size; ++i) {
+        properties::VectorTraits<Derived>::set(out, i,
+            properties::VectorTraits<Derived>::get(lhs, i) -
+            properties::VectorTraits<Derived>::get(rhs, i));
     }
-    return Vector(array);
-
+    return out;
 }
 
-template <std::size_t N, typename T, bool PrecomputeNorm>
-T Vector<N, T, PrecomputeNorm>::operator*(
-    const Vector &other) const
+template <class Derived, typename T>
+T Vector<Derived, T>::operator*(const Vector<Derived, T> &other) const
 {
-    T sum = 0;
+    const auto &lhs = static_cast<const Derived &>(*this);
+    const auto &rhs = static_cast<const Derived &>(other);
+    T sum = static_cast<T>(0);
 
-    for (size_t i = 0; i != N; i++) {
-        sum += other[i] * _data[i];
-    }
-
-    return sum;
-}
-
-template <std::size_t N, typename T, bool PrecomputeNorm>
-T Vector<N, T, PrecomputeNorm>::dot(const Vector &other) const
-{
-    T sum = 0;
-
-    for (size_t i = 0; i != N; i++) {
-        sum += other[i] * _data[i];
+    for (std::size_t i = 0; i < properties::VectorTraits<Derived>::size; ++i) {
+        sum += static_cast<T>(
+            properties::VectorTraits<Derived>::get(lhs, i) *
+            properties::VectorTraits<Derived>::get(rhs, i));
     }
 
     return sum;
 }
 
-template <std::size_t N, typename T, bool PrecomputeNorm>
-Vector<N, T, PrecomputeNorm> Vector<N, T, PrecomputeNorm>::operator*(
-    T scalar) const
+template <class Derived, typename T>
+T Vector<Derived, T>::dot(const Vector<Derived, T> &other) const
 {
-    std::array<T, N> array;
-
-    for (std::size_t i = 0; i != N; i++) {
-        array[i] = _data[i] * scalar;
-    }
-    return Vector(array);
-
+    return (*this) * other;
 }
 
-template <std::size_t N, typename T, bool PrecomputeNorm>
-Vector<N, T, PrecomputeNorm> Vector<N, T, PrecomputeNorm>::operator/(
-    T scalar) const
+template <class Derived, typename T>
+Derived Vector<Derived, T>::operator*(T scalar) const
+{
+    const auto &self = static_cast<const Derived &>(*this);
+    Derived out;
+
+    for (std::size_t i = 0; i < properties::VectorTraits<Derived>::size; ++i) {
+        properties::VectorTraits<Derived>::set(out, i,
+            properties::VectorTraits<Derived>::get(self, i) * scalar);
+    }
+    return out;
+}
+
+template <class Derived, typename T>
+Derived Vector<Derived, T>::operator/(T scalar) const
 {
     if (scalar == static_cast<T>(0))
         throw std::runtime_error("Division by 0");
-    return *this * (static_cast<T>(1) / scalar);
+    return (*this) * (static_cast<T>(1) / scalar);
 }
 
-template <std::size_t N, typename T, bool PrecomputeNorm>
-Vector<N, T, PrecomputeNorm> Vector<N, T, PrecomputeNorm>::operator-() const
+template <class Derived, typename T>
+Derived Vector<Derived, T>::operator-() const
 {
-    return *this * static_cast<T>(-1);
+    return (*this) * static_cast<T>(-1);
 }
 
-template <std::size_t N, typename T, bool PrecomputeNorm>
-bool Vector<N, T, PrecomputeNorm>::operator==(
-    const Vector<N, T, PrecomputeNorm> &other) const
+template <class Derived, typename T = double>
+bool Vector<Derived, T>::operator==(const Vector<Derived, T> &other) const
 {
-    std::size_t idx = 0;
+    const auto &lhs = static_cast<const Derived &>(*this);
+    const auto &rhs = static_cast<const Derived &>(other);
 
-    for (; idx != N; idx++) {
-        if (other[idx] != _data[idx])
-            break;
+    for (std::size_t i = 0; i < properties::VectorTraits<Derived>::size; ++i) {
+        if (properties::VectorTraits<Derived>::get(lhs, i) !=
+            properties::VectorTraits<Derived>::get(rhs, i)) {
+            return false;
+        }
     }
-    return idx == N;
+    return true;
 }
 
-template <std::size_t N, typename T, bool PrecomputeNorm>
-bool Vector<N, T, PrecomputeNorm>::operator!=(
-    const Vector<N, T, PrecomputeNorm> &other) const
+template <class Derived, typename T = double>
+bool Vector<Derived, T>::operator!=(const Vector<Derived, T> &other) const
 {
     return !(*this == other);
 }
 
-template <std::size_t N, typename T, bool PrecomputeNorm>
-bool Vector<N, T, PrecomputeNorm>::operator<(
-    const Vector<N, T, PrecomputeNorm> &other) const
+template <class Derived, typename T = double>
+bool Vector<Derived, T>::operator<(const Vector<Derived, T> &other) const
 {
-    return getLength() < other.getLength();
+    return length() < other.length();
 }
 
-template <std::size_t N, typename T, bool PrecomputeNorm>
-bool Vector<N, T, PrecomputeNorm>::operator<=(
-    const Vector<N, T, PrecomputeNorm> &other) const
+template <class Derived, typename T = double>
+bool Vector<Derived, T>::operator<=(const Vector<Derived, T> &other) const
 {
-    T normA = getLength();
-    T normB = other.getLength();
+    T normA = length();
+    T normB = other.length();
 
     return normA < normB || normA == normB;
 }
 
-template <std::size_t N, typename T, bool PrecomputeNorm>
-bool Vector<N, T, PrecomputeNorm>::operator>(
-    const Vector<N, T, PrecomputeNorm> &other) const
+template <class Derived, typename T = double>
+bool Vector<Derived, T>::operator>(const Vector<Derived, T> &other) const
 {
-    return getLength() > other.getLength();
+    return length() > other.length();
 }
 
-template <std::size_t N, typename T, bool PrecomputeNorm>
-bool Vector<N, T, PrecomputeNorm>::operator>=(
-    const Vector<N, T, PrecomputeNorm> &other) const
+template <class Derived, typename T = double>
+bool Vector<Derived, T>::operator>=(const Vector<Derived, T> &other) const
 {
-    T normA = getLength();
-    T normB = other.getLength();
+    T normA = length();
+    T normB = other.length();
 
     return normA > normB || normA == normB;
 }
-
-template <std::size_t N, typename T, bool PrecomputeNorm>
-Vector<N, T, PrecomputeNorm>::Iterator Vector<N, T,
-    PrecomputeNorm>::begin() noexcept
-{
-    return _data.begin();
-}
-
-template <std::size_t N, typename T, bool PrecomputeNorm>
-Vector<N, T, PrecomputeNorm>::ConstIterator Vector<N, T,
-    PrecomputeNorm>::begin() const noexcept
-{
-    return _data.begin();
-}
-
-template <std::size_t N, typename T, bool PrecomputeNorm>
-Vector<N, T, PrecomputeNorm>::ConstIterator Vector<N, T,
-    PrecomputeNorm>::cbegin() const noexcept
-{
-    return _data.cbegin();
-}
-
-template <std::size_t N, typename T, bool PrecomputeNorm>
-Vector<N, T, PrecomputeNorm>::Iterator Vector<N, T,
-    PrecomputeNorm>::end() noexcept
-{
-    return _data.end();
-}
-
-template <std::size_t N, typename T, bool PrecomputeNorm>
-Vector<N, T, PrecomputeNorm>::ConstIterator Vector<N, T,
-    PrecomputeNorm>::end() const noexcept
-{
-    return _data.end();
-}
-
-template <std::size_t N, typename T, bool PrecomputeNorm>
-Vector<N, T, PrecomputeNorm>::ConstIterator Vector<N, T,
-    PrecomputeNorm>::cend() const noexcept
-{
-    return _data.cend();
-}
-
-template<std::size_t N, typename T, bool PrecomputeNorm>
-Vector<N + 1, T, PrecomputeNorm> increaseDimension(const Vector<N, T, PrecomputeNorm> &other)
-{
-    std::array<T, N + 1> array;
-    for (size_t i = 0; i != N; i++) {
-        array[i] = other[i];
-    }
-    array[N + 1] = 0;
-    return Vector(array);
-}
-
-template <std::size_t N, typename T, bool PrecomputeNorm>
-std::ostream &operator<<(std::ostream &o,
-    const Vector<N, T, PrecomputeNorm> &vector)
-{
-    o << "Vector<" << N << "> {";
-    for (const auto &value: vector)
-        o << value << value == vector.cend() - 1 ? "" : "; ";
-    o << "}";
-    return o;
-}
-
-template <std::size_t N, typename T, bool PrecomputeNorm>
-Vector<N, T, PrecomputeNorm> cross(Vector<N, T, PrecomputeNorm> lhs,
-    Vector<N, T, PrecomputeNorm> rhs)
-{
-    std::array<double, 3> array;
-
-    array[0] = lhs[1] * rhs[2] - lhs[2] * rhs[1];
-    array[1] = lhs[2] * rhs[0] - lhs[0] * rhs[2];
-    array[2] = lhs[0] * rhs[1] - lhs[1] * rhs[0];
-    return Vector(array);
-}
-
-
-
-// template<>
-// const Vector<3> Vector<3>::rotate(double angle)
-// {
-//     return Transform::rotationMatrix3D(angle) * (*this);
-// }
-//
-// template<>
-// const Vector<2> Vector<2>::rotate2D(double angle)
-// {
-//     return Transform::rotationMatrix2D(angle) * (*this);
-// }
-//
-// template<>
-// const Vector<3> Vector<3>::translate(double translateX, double translateY)
-// {
-//     return Transform::translationMatrix3D(translateX, translateY) * (*this);
-// }
-//
-// template<>
-// const Vector<3> Vector<3>::scale(double scaleX, double scaleY)
-// {
-//     return Transform::scalingMatrix3D(scaleX, scaleY) * (*this);
-// }
-//
-// template<>
-// const Vector<2> Vector<2>::scale2D(double scaleX, double scaleY)
-// {
-//     return Transform::scalingMatrix2D(scaleX, scaleY) * (*this);
-// }
-//
-// template<>
-// const Vector<3> Vector<3>::shear(double shearX, double shearY)
-// {
-//     return Transform::shearingMatrix3D(shearX, shearY) * (*this);
-// }
-//
-// template<>
-// const Vector<2> Vector<2>::shear2D(double shearX, double shearY)
-// {
-//     return Transform::shearingMatrix2D(shearX, shearY) * (*this);
-// }
-//
-//
-// template<>
-// const Vector<3> Vector<3>::reflect(bool reflectX, bool reflectY)
-// {
-//     return Transform::reflectionMatrix3D(reflectX, reflectY) * (*this);
-// }
-//
-// template<>
-// const Vector<2> Vector<2>::reflect2D(bool reflectX, bool reflectY)
-// {
-//     return Transform::reflectionMatrix2D(reflectX, reflectY) * (*this);
-// }
