@@ -17,12 +17,12 @@
 namespace {
     Point3d makeOrigin(double x, double y, double z)
     {
-        return Point3d(std::array{x, y, z});
+        return Point3d(x, y, z);
     }
 
     Vector3d makeDirection(double x, double y, double z)
     {
-        return Vector3d(std::array{x, y, z});
+        return Vector3d(x, y, z);
     }
 }
 
@@ -37,12 +37,12 @@ TEST(RayTest, ConstructorBasic)
 
     const Ray ray(origin, direction);
 
-    EXPECT_DOUBLE_EQ(ray.getOrigin()[0], 0.0);
-    EXPECT_DOUBLE_EQ(ray.getOrigin()[1], 0.0);
-    EXPECT_DOUBLE_EQ(ray.getOrigin()[2], 0.0);
-    EXPECT_DOUBLE_EQ(ray.getDirection()[0], 1.0);
-    EXPECT_DOUBLE_EQ(ray.getDirection()[1], 0.0);
-    EXPECT_DOUBLE_EQ(ray.getDirection()[2], 0.0);
+    EXPECT_DOUBLE_EQ(ray.origin.x(), 0.0);
+    EXPECT_DOUBLE_EQ(ray.origin.y(), 0.0);
+    EXPECT_DOUBLE_EQ(ray.origin.z(), 0.0);
+    EXPECT_DOUBLE_EQ(ray.direction.x(), 1.0);
+    EXPECT_DOUBLE_EQ(ray.direction.y(), 0.0);
+    EXPECT_DOUBLE_EQ(ray.direction.z(), 0.0);
 }
 
 TEST(RayTest, ConstructorWithNonZeroOrigin)
@@ -52,9 +52,9 @@ TEST(RayTest, ConstructorWithNonZeroOrigin)
 
     const Ray ray(origin, direction);
 
-    EXPECT_DOUBLE_EQ(ray.getOrigin()[0], 1.0);
-    EXPECT_DOUBLE_EQ(ray.getOrigin()[1], 2.0);
-    EXPECT_DOUBLE_EQ(ray.getOrigin()[2], 3.0);
+    EXPECT_DOUBLE_EQ(ray.origin.x(), 1.0);
+    EXPECT_DOUBLE_EQ(ray.origin.y(), 2.0);
+    EXPECT_DOUBLE_EQ(ray.origin.z(), 3.0);
 }
 
 TEST(RayTest, ConstructorNormalizesDirection)
@@ -65,9 +65,9 @@ TEST(RayTest, ConstructorNormalizesDirection)
     const Ray ray(origin, direction);
 
     const double invSqrt3 = 1.0 / std::sqrt(3.0);
-    EXPECT_DOUBLE_EQ(ray.getDirection()[0], invSqrt3);
-    EXPECT_DOUBLE_EQ(ray.getDirection()[1], invSqrt3);
-    EXPECT_DOUBLE_EQ(ray.getDirection()[2], invSqrt3);
+    EXPECT_DOUBLE_EQ(ray.direction.x(), invSqrt3);
+    EXPECT_DOUBLE_EQ(ray.direction.y(), invSqrt3);
+    EXPECT_DOUBLE_EQ(ray.direction.z(), invSqrt3);
 }
 
 TEST(RayTest, ConstructorNormalizesNonUnitDirection)
@@ -78,81 +78,81 @@ TEST(RayTest, ConstructorNormalizesNonUnitDirection)
     const Ray ray(origin, direction);
 
     // (3, 4, 0) normalized = (0.6, 0.8, 0)
-    EXPECT_DOUBLE_EQ(ray.getDirection()[0], 0.6);
-    EXPECT_DOUBLE_EQ(ray.getDirection()[1], 0.8);
-    EXPECT_DOUBLE_EQ(ray.getDirection()[2], 0.0);
+    EXPECT_DOUBLE_EQ(ray.direction.x(), 0.6);
+    EXPECT_DOUBLE_EQ(ray.direction.y(), 0.8);
+    EXPECT_DOUBLE_EQ(ray.direction.z(), 0.0);
 }
 
 // ============================================================================
-// GetOrigin Tests
+// Origin and Direction Access Tests
 // ============================================================================
 
-TEST(RayTest, GetOriginReturnsCorrectValue)
+TEST(RayTest, OriginAccess)
 {
     const Point3d origin = makeOrigin(5.0, -3.0, 7.0);
     const Vector3d direction = makeDirection(1.0, 0.0, 0.0);
 
     const Ray ray(origin, direction);
-    const Point3d& retrievedOrigin = ray.getOrigin();
+    const Point3d& retrievedOrigin = ray.origin;
 
-    EXPECT_DOUBLE_EQ(retrievedOrigin[0], 5.0);
-    EXPECT_DOUBLE_EQ(retrievedOrigin[1], -3.0);
-    EXPECT_DOUBLE_EQ(retrievedOrigin[2], 7.0);
+    EXPECT_DOUBLE_EQ(retrievedOrigin.x(), 5.0);
+    EXPECT_DOUBLE_EQ(retrievedOrigin.y(), -3.0);
+    EXPECT_DOUBLE_EQ(retrievedOrigin.z(), 7.0);
 }
 
-TEST(RayTest, GetOriginReturnsReference)
+TEST(RayTest, OriginIsReference)
 {
     const Point3d origin = makeOrigin(1.0, 2.0, 3.0);
     const Vector3d direction = makeDirection(1.0, 0.0, 0.0);
 
     const Ray ray(origin, direction);
-    const Point3d& ref1 = ray.getOrigin();
-    const Point3d& ref2 = ray.getOrigin();
+    const Point3d& ref1 = ray.origin;
+    const Point3d& ref2 = ray.origin;
 
     // Both references should point to the same object
     EXPECT_EQ(&ref1, &ref2);
 }
 
 // ============================================================================
-// GetDirection Tests
+// Direction Access Tests
 // ============================================================================
 
-TEST(RayTest, GetDirectionReturnsCorrectValue)
+TEST(RayTest, DirectionAccess)
 {
     const Point3d origin = makeOrigin(0.0, 0.0, 0.0);
     const Vector3d direction = makeDirection(0.0, 0.0, 1.0);
 
     const Ray ray(origin, direction);
-    const UnitVector3& retrievedDirection = ray.getDirection();
+    const Vector3d& retrievedDirection = ray.direction;
 
-    EXPECT_DOUBLE_EQ(retrievedDirection[0], 0.0);
-    EXPECT_DOUBLE_EQ(retrievedDirection[1], 0.0);
-    EXPECT_DOUBLE_EQ(retrievedDirection[2], 1.0);
+    EXPECT_DOUBLE_EQ(retrievedDirection.x(), 0.0);
+    EXPECT_DOUBLE_EQ(retrievedDirection.y(), 0.0);
+    EXPECT_DOUBLE_EQ(retrievedDirection.z(), 1.0);
 }
 
-TEST(RayTest, GetDirectionReturnsReference)
+TEST(RayTest, DirectionIsReference)
 {
     const Point3d origin = makeOrigin(0.0, 0.0, 0.0);
     const Vector3d direction = makeDirection(1.0, 0.0, 0.0);
 
     const Ray ray(origin, direction);
-    const UnitVector3& ref1 = ray.getDirection();
-    const UnitVector3& ref2 = ray.getDirection();
+    const Vector3d& ref1 = ray.direction;
+    const Vector3d& ref2 = ray.direction;
 
     // Both references should point to the same object
     EXPECT_EQ(&ref1, &ref2);
 }
 
-TEST(RayTest, GetDirectionIsNormalized)
+TEST(RayTest, DirectionIsNormalized)
 {
     const Point3d origin = makeOrigin(0.0, 0.0, 0.0);
     const Vector3d direction = makeDirection(5.0, 0.0, 0.0);
 
     const Ray ray(origin, direction);
-    const UnitVector3& dir = ray.getDirection();
+    const Vector3d& dir = ray.direction;
 
     // Direction should be normalized to unit length
-    double length = std::sqrt(dir[0] * dir[0] + dir[1] * dir[1] + dir[2] * dir[2]);
+    double length = std::sqrt(dir.x() * dir.x() + dir.y() * dir.y() + dir.z() * dir.z());
     EXPECT_NEAR(length, 1.0, 1e-10);
 }
 
@@ -160,120 +160,120 @@ TEST(RayTest, GetDirectionIsNormalized)
 // At (Parametric Point on Ray) Tests
 // ============================================================================
 
-TEST(RayTest, AtZeroReturnsOrigin)
+TEST(RayTest, ParametricZeroReturnsOrigin)
 {
     const Point3d origin = makeOrigin(1.0, 2.0, 3.0);
     const Vector3d direction = makeDirection(1.0, 0.0, 0.0);
 
     const Ray ray(origin, direction);
-    Vector3d point = ray.at(0.0);
+    Point3d point = ray(0.0);
 
-    EXPECT_DOUBLE_EQ(point[0], 1.0);
-    EXPECT_DOUBLE_EQ(point[1], 2.0);
-    EXPECT_DOUBLE_EQ(point[2], 3.0);
+    EXPECT_DOUBLE_EQ(point.x(), 1.0);
+    EXPECT_DOUBLE_EQ(point.y(), 2.0);
+    EXPECT_DOUBLE_EQ(point.z(), 3.0);
 }
 
-TEST(RayTest, AtPositiveT)
+TEST(RayTest, ParametricPositiveT)
 {
     const Point3d origin = makeOrigin(0.0, 0.0, 0.0);
     const Vector3d direction = makeDirection(1.0, 0.0, 0.0);
 
     const Ray ray(origin, direction);
-    Vector3d point = ray.at(5.0);
+    Point3d point = ray(5.0);
 
-    EXPECT_DOUBLE_EQ(point[0], 5.0);
-    EXPECT_DOUBLE_EQ(point[1], 0.0);
-    EXPECT_DOUBLE_EQ(point[2], 0.0);
+    EXPECT_DOUBLE_EQ(point.x(), 5.0);
+    EXPECT_DOUBLE_EQ(point.y(), 0.0);
+    EXPECT_DOUBLE_EQ(point.z(), 0.0);
 }
 
-TEST(RayTest, AtNegativeT)
+TEST(RayTest, ParametricNegativeT)
 {
     const Point3d origin = makeOrigin(0.0, 0.0, 0.0);
     const Vector3d direction = makeDirection(1.0, 0.0, 0.0);
 
     const Ray ray(origin, direction);
-    Vector3d point = ray.at(-3.0);
+    Point3d point = ray(-3.0);
 
     // Negative t goes in opposite direction
-    EXPECT_DOUBLE_EQ(point[0], -3.0);
-    EXPECT_DOUBLE_EQ(point[1], 0.0);
-    EXPECT_DOUBLE_EQ(point[2], 0.0);
+    EXPECT_DOUBLE_EQ(point.x(), -3.0);
+    EXPECT_DOUBLE_EQ(point.y(), 0.0);
+    EXPECT_DOUBLE_EQ(point.z(), 0.0);
 }
 
-TEST(RayTest, AtWithNonZeroOrigin)
+TEST(RayTest, ParametricWithNonZeroOrigin)
 {
     const Point3d origin = makeOrigin(1.0, 2.0, 3.0);
     const Vector3d direction = makeDirection(1.0, 0.0, 0.0);
 
     const Ray ray(origin, direction);
-    Vector3d point = ray.at(2.0);
+    Point3d point = ray(2.0);
 
     // origin + 2 * direction = (1, 2, 3) + 2 * (1, 0, 0) = (3, 2, 3)
-    EXPECT_DOUBLE_EQ(point[0], 3.0);
-    EXPECT_DOUBLE_EQ(point[1], 2.0);
-    EXPECT_DOUBLE_EQ(point[2], 3.0);
+    EXPECT_DOUBLE_EQ(point.x(), 3.0);
+    EXPECT_DOUBLE_EQ(point.y(), 2.0);
+    EXPECT_DOUBLE_EQ(point.z(), 3.0);
 }
 
-TEST(RayTest, AtWithDiagonalDirection)
+TEST(RayTest, ParametricWithDiagonalDirection)
 {
     const Point3d origin = makeOrigin(0.0, 0.0, 0.0);
     const Vector3d direction = makeDirection(1.0, 1.0, 1.0);
 
     const Ray ray(origin, direction);
-    Vector3d point = ray.at(2.0);
+    Point3d point = ray(2.0);
 
     // Direction is normalized: (1/sqrt(3), 1/sqrt(3), 1/sqrt(3))
     // origin + 2 * normalized_direction
     const double invSqrt3 = 1.0 / std::sqrt(3.0);
-    EXPECT_DOUBLE_EQ(point[0], 2.0 * invSqrt3);
-    EXPECT_DOUBLE_EQ(point[1], 2.0 * invSqrt3);
-    EXPECT_DOUBLE_EQ(point[2], 2.0 * invSqrt3);
+    EXPECT_DOUBLE_EQ(point.x(), 2.0 * invSqrt3);
+    EXPECT_DOUBLE_EQ(point.y(), 2.0 * invSqrt3);
+    EXPECT_DOUBLE_EQ(point.z(), 2.0 * invSqrt3);
 }
 
-TEST(RayTest, AtWithFractionalT)
+TEST(RayTest, ParametricWithFractionalT)
 {
     const Point3d origin = makeOrigin(0.0, 0.0, 0.0);
     const Vector3d direction = makeDirection(2.0, 4.0, 6.0);
 
     const Ray ray(origin, direction);
-    Vector3d point = ray.at(0.5);
+    Point3d point = ray(0.5);
 
     // Direction is normalized: (2, 4, 6) / sqrt(4+16+36) = (2, 4, 6) / sqrt(56)
     const double norm = std::sqrt(56.0);
-    EXPECT_DOUBLE_EQ(point[0], 0.5 * (2.0 / norm));
-    EXPECT_DOUBLE_EQ(point[1], 0.5 * (4.0 / norm));
-    EXPECT_DOUBLE_EQ(point[2], 0.5 * (6.0 / norm));
+    EXPECT_DOUBLE_EQ(point.x(), 0.5 * (2.0 / norm));
+    EXPECT_DOUBLE_EQ(point.y(), 0.5 * (4.0 / norm));
+    EXPECT_DOUBLE_EQ(point.z(), 0.5 * (6.0 / norm));
 }
 
-TEST(RayTest, AtWithNegativeDirection)
+TEST(RayTest, ParametricWithNegativeDirection)
 {
     const Point3d origin = makeOrigin(5.0, 5.0, 5.0);
     const Vector3d direction = makeDirection(-1.0, -1.0, -1.0);
 
     const Ray ray(origin, direction);
-    Vector3d point = ray.at(3.0);
+    Point3d point = ray(3.0);
 
     // Direction normalized: (-1/sqrt(3), -1/sqrt(3), -1/sqrt(3))
     // origin + 3 * normalized_direction
     const double invSqrt3 = 1.0 / std::sqrt(3.0);
-    EXPECT_DOUBLE_EQ(point[0], 5.0 - 3.0 * invSqrt3);
-    EXPECT_DOUBLE_EQ(point[1], 5.0 - 3.0 * invSqrt3);
-    EXPECT_DOUBLE_EQ(point[2], 5.0 - 3.0 * invSqrt3);
+    EXPECT_DOUBLE_EQ(point.x(), 5.0 - 3.0 * invSqrt3);
+    EXPECT_DOUBLE_EQ(point.y(), 5.0 - 3.0 * invSqrt3);
+    EXPECT_DOUBLE_EQ(point.z(), 5.0 - 3.0 * invSqrt3);
 }
 
-TEST(RayTest, AtWithNonZeroOriginAndDiagonalDirection)
+TEST(RayTest, ParametricWithNonZeroOriginAndDiagonalDirection)
 {
     const Point3d origin = makeOrigin(1.0, 2.0, 3.0);
     const Vector3d direction = makeDirection(1.0, 1.0, 1.0);
 
     const Ray ray(origin, direction);
-    Vector3d point = ray.at(std::sqrt(3.0));
+    Point3d point = ray(std::sqrt(3.0));
 
     // t = sqrt(3) means we move 1 unit along each axis (since direction is normalized)
     // origin + sqrt(3) * (1/sqrt(3), 1/sqrt(3), 1/sqrt(3)) = (1, 2, 3) + (1, 1, 1) = (2, 3, 4)
-    EXPECT_NEAR(point[0], 2.0, 1e-10);
-    EXPECT_NEAR(point[1], 3.0, 1e-10);
-    EXPECT_NEAR(point[2], 4.0, 1e-10);
+    EXPECT_NEAR(point.x(), 2.0, 1e-10);
+    EXPECT_NEAR(point.y(), 3.0, 1e-10);
+    EXPECT_NEAR(point.z(), 4.0, 1e-10);
 }
 
 // ============================================================================
@@ -289,10 +289,10 @@ TEST(RayTest, RayAlongXAxis)
 
     // Check multiple points along the ray
     for (auto t = 0.0; t <= 10.0; t += 1.0) {
-        Vector3d point = ray.at(t);
-        EXPECT_DOUBLE_EQ(point[0], t);
-        EXPECT_DOUBLE_EQ(point[1], 0.0);
-        EXPECT_DOUBLE_EQ(point[2], 0.0);
+        Point3d point = ray(t);
+        EXPECT_DOUBLE_EQ(point.x(), t);
+        EXPECT_DOUBLE_EQ(point.y(), 0.0);
+        EXPECT_DOUBLE_EQ(point.z(), 0.0);
     }
 }
 
@@ -303,10 +303,10 @@ TEST(RayTest, RayAlongYAxis)
 
     const Ray ray(origin, direction);
 
-    Vector3d point = ray.at(7.5);
-    EXPECT_DOUBLE_EQ(point[0], 0.0);
-    EXPECT_DOUBLE_EQ(point[1], 7.5);
-    EXPECT_DOUBLE_EQ(point[2], 0.0);
+    Point3d point = ray(7.5);
+    EXPECT_DOUBLE_EQ(point.x(), 0.0);
+    EXPECT_DOUBLE_EQ(point.y(), 7.5);
+    EXPECT_DOUBLE_EQ(point.z(), 0.0);
 }
 
 TEST(RayTest, RayAlongZAxis)
@@ -316,10 +316,10 @@ TEST(RayTest, RayAlongZAxis)
 
     const Ray ray(origin, direction);
 
-    Vector3d point = ray.at(4.2);
-    EXPECT_DOUBLE_EQ(point[0], 0.0);
-    EXPECT_DOUBLE_EQ(point[1], 0.0);
-    EXPECT_DOUBLE_EQ(point[2], 4.2);
+    Point3d point = ray(4.2);
+    EXPECT_DOUBLE_EQ(point.x(), 0.0);
+    EXPECT_DOUBLE_EQ(point.y(), 0.0);
+    EXPECT_DOUBLE_EQ(point.z(), 4.2);
 }
 
 TEST(RayTest, RayFromCameraScenario)
@@ -336,45 +336,45 @@ TEST(RayTest, RayFromCameraScenario)
     const double dirY = 0.5 / norm;
     const double dirZ = -1.0 / norm;
 
-    Vector3d nearPoint = ray.at(1.0);
-    EXPECT_DOUBLE_EQ(nearPoint[0], dirX);
-    EXPECT_DOUBLE_EQ(nearPoint[1], dirY);
-    EXPECT_DOUBLE_EQ(nearPoint[2], dirZ);
+    Point3d nearPoint = ray(1.0);
+    EXPECT_DOUBLE_EQ(nearPoint.x(), dirX);
+    EXPECT_DOUBLE_EQ(nearPoint.y(), dirY);
+    EXPECT_DOUBLE_EQ(nearPoint.z(), dirZ);
 
-    Vector3d farPoint = ray.at(100.0);
-    EXPECT_DOUBLE_EQ(farPoint[0], 100.0 * dirX);
-    EXPECT_DOUBLE_EQ(farPoint[1], 100.0 * dirY);
-    EXPECT_DOUBLE_EQ(farPoint[2], 100.0 * dirZ);
+    Point3d farPoint = ray(100.0);
+    EXPECT_DOUBLE_EQ(farPoint.x(), 100.0 * dirX);
+    EXPECT_DOUBLE_EQ(farPoint.y(), 100.0 * dirY);
+    EXPECT_DOUBLE_EQ(farPoint.z(), 100.0 * dirZ);
 }
 
 // ============================================================================
 // Edge Cases
 // ============================================================================
 
-TEST(RayTest, AtWithVeryLargeT)
+TEST(RayTest, ParametricWithVeryLargeT)
 {
     const Point3d origin = makeOrigin(0.0, 0.0, 0.0);
     const Vector3d direction = makeDirection(1.0, 0.0, 0.0);
 
     const Ray ray(origin, direction);
-    Vector3d point = ray.at(1e10);
+    Point3d point = ray(1e10);
 
-    EXPECT_DOUBLE_EQ(point[0], 1e10);
-    EXPECT_DOUBLE_EQ(point[1], 0.0);
-    EXPECT_DOUBLE_EQ(point[2], 0.0);
+    EXPECT_DOUBLE_EQ(point.x(), 1e10);
+    EXPECT_DOUBLE_EQ(point.y(), 0.0);
+    EXPECT_DOUBLE_EQ(point.z(), 0.0);
 }
 
-TEST(RayTest, AtWithVerySmallT)
+TEST(RayTest, ParametricWithVerySmallT)
 {
     const Point3d origin = makeOrigin(0.0, 0.0, 0.0);
     const Vector3d direction = makeDirection(1.0, 0.0, 0.0);
 
     const Ray ray(origin, direction);
-    Vector3d point = ray.at(1e-10);
+    Point3d point = ray(1e-10);
 
-    EXPECT_NEAR(point[0], 1e-10, 1e-20);
-    EXPECT_DOUBLE_EQ(point[1], 0.0);
-    EXPECT_DOUBLE_EQ(point[2], 0.0);
+    EXPECT_NEAR(point.x(), 1e-10, 1e-20);
+    EXPECT_DOUBLE_EQ(point.y(), 0.0);
+    EXPECT_DOUBLE_EQ(point.z(), 0.0);
 }
 
 TEST(RayTest, RayWithLargeOriginCoordinates)
@@ -383,11 +383,11 @@ TEST(RayTest, RayWithLargeOriginCoordinates)
     const Vector3d direction = makeDirection(1.0, 0.0, 0.0);
 
     const Ray ray(origin, direction);
-    Vector3d point = ray.at(100.0);
+    Point3d point = ray(100.0);
 
-    EXPECT_DOUBLE_EQ(point[0], 1e6 + 100.0);
-    EXPECT_DOUBLE_EQ(point[1], 1e6);
-    EXPECT_DOUBLE_EQ(point[2], 1e6);
+    EXPECT_DOUBLE_EQ(point.x(), 1e6 + 100.0);
+    EXPECT_DOUBLE_EQ(point.y(), 1e6);
+    EXPECT_DOUBLE_EQ(point.z(), 1e6);
 }
 
 TEST(RayTest, DirectionRemainsNormalizedAfterConstruction)
@@ -398,7 +398,7 @@ TEST(RayTest, DirectionRemainsNormalizedAfterConstruction)
     const Ray ray(origin, direction);
 
     // Even with a large input vector, direction should be normalized
-    EXPECT_DOUBLE_EQ(ray.getDirection()[0], 1.0);
-    EXPECT_DOUBLE_EQ(ray.getDirection()[1], 0.0);
-    EXPECT_DOUBLE_EQ(ray.getDirection()[2], 0.0);
+    EXPECT_DOUBLE_EQ(ray.direction.x(), 1.0);
+    EXPECT_DOUBLE_EQ(ray.direction.y(), 0.0);
+    EXPECT_DOUBLE_EQ(ray.direction.z(), 0.0);
 }
