@@ -11,81 +11,16 @@
 #include <cmath>
 #include <cstddef>
 #include <stdexcept>
-
 #include "Vector.hpp"
 
-namespace properties {
-
-template <typename Derived>
-struct VectorTraits;
-
-template <typename T>
-struct VectorTraits<Vector2<T>> {
-    static constexpr std::size_t size = 2;
-
-    static T get(const Vector2<T> &vector, std::size_t idx)
-    {
-        if (idx == 0)
-            return vector.x;
-        if (idx == 1)
-            return vector.y;
-        throw std::out_of_range("Vector2D index out of range");
-    }
-
-    static void set(Vector2<T> &vector, std::size_t idx, T value)
-    {
-        switch (idx) {
-            case 0:
-                vector.x = value;
-                return;
-            case 1:
-                vector.y = value;
-                return;
-            default:
-                throw std::out_of_range("Vector2D index out of range");
-        }
-    }
-};
-
-template <typename T>
-struct VectorTraits<Vector3<T>> {
-    static constexpr std::size_t size = 3;
-
-    static T get(const Vector3<T> &vector, std::size_t idx)
-    {
-        switch (idx) {
-            case 0:
-                return vector.x;
-            case 1:
-                return vector.y;
-            case 2:
-                return vector.z;
-            default:
-                throw std::out_of_range("Vector3D index out of range");
-        }
-    }
-
-    static void set(Vector3<T> &vector, std::size_t idx, T value)
-    {
-        switch (idx) {
-            case 0:
-                vector.x = value;
-                return;
-            case 1:
-                vector.y = value;
-                return;
-            case 2:
-                vector.z = value;
-                return;
-            default:
-                throw std::out_of_range("Vector3D index out of range");
-        }
-    }
-};
+template <template<typename> class Derived, std::size_t N, typename T>
+Vector<Derived, N, T>::Vector(std::initializer_list<T> values)
+{
+    std::copy_n(values.begin(), std::min(values.size(), N), _data.begin());
 }
 
-template <class Derived, typename T>
-typename Vector<Derived, T>::UnitVector Vector<Derived, T>::normalize() const
+template <template<typename> class Derived, std::size_t N, typename T>
+Derived<T> Vector<Derived, N, T>::normalize() const
 {
     T norm = length();
 
@@ -94,21 +29,20 @@ typename Vector<Derived, T>::UnitVector Vector<Derived, T>::normalize() const
     return (*this) / norm;
 }
 
-template <class Derived, typename T>
-T Vector<Derived, T>::length() const
+template <template<typename> class Derived, std::size_t N, typename T>
+T Vector<Derived, N, T>::length() const
 {
-    const auto &self = static_cast<const Derived &>(*this);
     T norm = static_cast<T>(0);
 
-    for (std::size_t i = 0; i < properties::VectorTraits<Derived>::size; ++i) {
-        T value = static_cast<T>(properties::VectorTraits<Derived>::get(self, i));
+    for (std::size_t i = 0; i < N; ++i) {
+        T value = _data[i];
         norm += value * value;
     }
     return static_cast<T>(std::sqrt(norm));
 }
 
-template <class Derived, typename T>
-T Vector<Derived, T>::calculateAngle(const Vector<Derived, T> &other) const
+template <template<typename> class Derived, std::size_t N, typename T>
+T Vector<Derived, N, T>::calculateAngle(const Derived<T> &other) const
 {
     T lhsNorm = length();
     T rhsNorm = other.length();
@@ -121,114 +55,92 @@ T Vector<Derived, T>::calculateAngle(const Vector<Derived, T> &other) const
     return static_cast<T>(std::acos(cosine));
 }
 
-template <class Derived, typename T>
-Derived Vector<Derived, T>::operator+(const Vector<Derived, T> &other) const
+template <template<typename> class Derived, std::size_t N, typename T>
+Derived<T> Vector<Derived, N, T>::operator+(const Derived<T> &other) const
 {
-    const auto &lhs = static_cast<const Derived &>(*this);
-    const auto &rhs = static_cast<const Derived &>(other);
-    Derived out;
+    Derived<T> out;
 
-    for (std::size_t i = 0; i < properties::VectorTraits<Derived>::size; ++i) {
-        properties::VectorTraits<Derived>::set(out, i,
-            properties::VectorTraits<Derived>::get(lhs, i) +
-            properties::VectorTraits<Derived>::get(rhs, i));
+    for (std::size_t i = 0; i < N; ++i) {
+        out._data[i] = _data[i] + other._data[i];
     }
     return out;
 }
 
-template <class Derived, typename T>
-Derived Vector<Derived, T>::operator-(const Vector<Derived, T> &other) const
+template <template<typename> class Derived, std::size_t N, typename T>
+Derived<T> Vector<Derived, N, T>::operator-(const Derived<T> &other) const
 {
-    const auto &lhs = static_cast<const Derived &>(*this);
-    const auto &rhs = static_cast<const Derived &>(other);
-    Derived out;
-
-    for (std::size_t i = 0; i < properties::VectorTraits<Derived>::size; ++i) {
-        properties::VectorTraits<Derived>::set(out, i,
-            properties::VectorTraits<Derived>::get(lhs, i) -
-            properties::VectorTraits<Derived>::get(rhs, i));
+    Derived<T> out;
+    for (std::size_t i = 0; i < N; ++i) {
+        out._data[i] = _data[i] - other._data[i];
     }
     return out;
 }
 
-template <class Derived, typename T>
-T Vector<Derived, T>::operator*(const Vector<Derived, T> &other) const
+template <template<typename> class Derived, std::size_t N, typename T>
+T Vector<Derived, N, T>::operator*(const Derived<T> &other) const
 {
-    const auto &lhs = static_cast<const Derived &>(*this);
-    const auto &rhs = static_cast<const Derived &>(other);
-    T sum = static_cast<T>(0);
+    T pdct = static_cast<T>(0);
 
-    for (std::size_t i = 0; i < properties::VectorTraits<Derived>::size; ++i) {
-        sum += static_cast<T>(
-            properties::VectorTraits<Derived>::get(lhs, i) *
-            properties::VectorTraits<Derived>::get(rhs, i));
-    }
-
-    return sum;
+    for (std::size_t i = 0; i < N; ++i)
+        pdct += _data[i] * other._data[i];
+    return pdct;
 }
 
-template <class Derived, typename T>
-T Vector<Derived, T>::dot(const Vector<Derived, T> &other) const
+template <template<typename> class Derived, std::size_t N, typename T>
+T Vector<Derived, N, T>::dot(const Derived<T> &other) const
 {
     return (*this) * other;
 }
 
-template <class Derived, typename T>
-Derived Vector<Derived, T>::operator*(T scalar) const
+template <template<typename> class Derived, std::size_t N, typename T>
+Derived<T> Vector<Derived, N, T>::operator*(T scalar) const
 {
-    const auto &self = static_cast<const Derived &>(*this);
     Derived out;
 
-    for (std::size_t i = 0; i < properties::VectorTraits<Derived>::size; ++i) {
-        properties::VectorTraits<Derived>::set(out, i,
-            properties::VectorTraits<Derived>::get(self, i) * scalar);
+    for (std::size_t i = 0; i < N; ++i) {
+        out._data[i] = this->_data[i] * scalar;
     }
     return out;
 }
 
-template <class Derived, typename T>
-Derived Vector<Derived, T>::operator/(T scalar) const
+template <template<typename> class Derived, std::size_t N, typename T>
+Derived<T> Vector<Derived, N, T>::operator/(T scalar) const
 {
     if (scalar == static_cast<T>(0))
         throw std::runtime_error("Division by 0");
     return (*this) * (static_cast<T>(1) / scalar);
 }
 
-template <class Derived, typename T>
-Derived Vector<Derived, T>::operator-() const
+template <template<typename> class Derived, std::size_t N, typename T>
+Derived<T> Vector<Derived, N, T>::operator-() const
 {
     return (*this) * static_cast<T>(-1);
 }
 
-template <class Derived, typename T>
-bool Vector<Derived, T>::operator==(const Vector<Derived, T> &other) const
+template <template<typename> class Derived, std::size_t N, typename T>
+bool Vector<Derived, N, T>::operator==(const Derived<T> &other) const
 {
-    const auto &lhs = static_cast<const Derived &>(*this);
-    const auto &rhs = static_cast<const Derived &>(other);
-
-    for (std::size_t i = 0; i < properties::VectorTraits<Derived>::size; ++i) {
-        if (properties::VectorTraits<Derived>::get(lhs, i) !=
-            properties::VectorTraits<Derived>::get(rhs, i)) {
+    for (std::size_t i = 0; i < N; ++i) {
+        if (_data[i] != other._data[i])
             return false;
-        }
     }
     return true;
 }
 
-template <class Derived, typename T>
-bool Vector<Derived, T>::operator!=(const Vector<Derived, T> &other) const
+template <template<typename> class Derived, std::size_t N, typename T>
+bool Vector<Derived, N, T>::operator!=(const Derived<T> &other) const
 {
     return !(*this == other);
 }
 
-template <class Derived, typename T>
-bool Vector<Derived, T>::operator<(const Vector<Derived, T> &other) const
+template <template<typename> class Derived, std::size_t N, typename T>
+bool Vector<Derived, N, T>::operator<(const Derived<T> &other) const
 {
     return length() < other.length();
 }
 
-template <class Derived, typename T>
-bool Vector<Derived, T>::operator<=(const Vector<Derived, T> &other) const
+template <template<typename> class Derived, std::size_t N, typename T>
+bool Vector<Derived, N, T>::operator<=(const Derived<T> &other) const
 {
     T normA = length();
     T normB = other.length();
@@ -236,17 +148,18 @@ bool Vector<Derived, T>::operator<=(const Vector<Derived, T> &other) const
     return normA < normB || normA == normB;
 }
 
-template <class Derived, typename T>
-bool Vector<Derived, T>::operator>(const Vector<Derived, T> &other) const
+template <template<typename> class Derived, std::size_t N, typename T>
+bool Vector<Derived, N, T>::operator>(const Derived<T> &other) const
 {
     return length() > other.length();
 }
 
-template <class Derived, typename T>
-bool Vector<Derived, T>::operator>=(const Vector<Derived, T> &other) const
+template <template<typename> class Derived, std::size_t N, typename T>
+bool Vector<Derived, N, T>::operator>=(const Derived<T> &other) const
 {
     T normA = length();
     T normB = other.length();
 
     return normA > normB || normA == normB;
 }
+
