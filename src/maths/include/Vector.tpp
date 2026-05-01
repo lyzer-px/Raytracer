@@ -200,7 +200,7 @@ Derived Vector<Derived, T>::operator-() const
     return (*this) * static_cast<T>(-1);
 }
 
-template <class Derived, typename T = double>
+template <class Derived, typename T>
 bool Vector<Derived, T>::operator==(const Vector<Derived, T> &other) const
 {
     const auto &lhs = static_cast<const Derived &>(*this);
@@ -215,19 +215,19 @@ bool Vector<Derived, T>::operator==(const Vector<Derived, T> &other) const
     return true;
 }
 
-template <class Derived, typename T = double>
+template <class Derived, typename T>
 bool Vector<Derived, T>::operator!=(const Vector<Derived, T> &other) const
 {
     return !(*this == other);
 }
 
-template <class Derived, typename T = double>
+template <class Derived, typename T>
 bool Vector<Derived, T>::operator<(const Vector<Derived, T> &other) const
 {
     return length() < other.length();
 }
 
-template <class Derived, typename T = double>
+template <class Derived, typename T>
 bool Vector<Derived, T>::operator<=(const Vector<Derived, T> &other) const
 {
     T normA = length();
@@ -236,13 +236,13 @@ bool Vector<Derived, T>::operator<=(const Vector<Derived, T> &other) const
     return normA < normB || normA == normB;
 }
 
-template <class Derived, typename T = double>
+template <class Derived, typename T>
 bool Vector<Derived, T>::operator>(const Vector<Derived, T> &other) const
 {
     return length() > other.length();
 }
 
-template <class Derived, typename T = double>
+template <class Derived, typename T>
 bool Vector<Derived, T>::operator>=(const Vector<Derived, T> &other) const
 {
     T normA = length();

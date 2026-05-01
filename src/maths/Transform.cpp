@@ -10,38 +10,40 @@
 #include "Vector.hpp"
 #include "Point.hpp"
 
-Vector<2, double, false> operator*(const Matrix2x2 &matrix, const Vector<2, double, false> &vector)
+Vector2d operator*(const Matrix2x2 &matrix, const Vector2d &vector)
 {
-    std::array<double, 2> out{0.0, 0.0};
-    for (size_t i = 0; i < 2; i++)
-        for (size_t j = 0; j < 2; j++)
-            out[i] += matrix[i][j] * vector[j];
-    return Vector<2, double, false>(out);
+    Vector2d out;
+
+    out.x = (matrix[0][0] * vector.x) + (matrix[0][1] * vector.y);
+    out.y = (matrix[1][0] * vector.x) + (matrix[1][1] * vector.y);
+    return out;
 }
 
-Vector<3, double, false> operator*(const Matrix3x3 &matrix, const Vector<3, double, false> &vector)
+Vector3d operator*(const Matrix3x3 &matrix, const Vector3d &vector)
 {
-    std::array<double, 3> out{0.0, 0.0, 0.0};
-    for (size_t i = 0; i < 3; i++)
-        for (size_t j = 0; j < 3; j++)
-            out[i] += matrix[i][j] * vector[j];
-    return Vector<3, double, false>(out);
+    Vector3d out;
+
+    out.x = (matrix[0][0] * vector.x) + (matrix[0][1] * vector.y) + (matrix[0][2] * vector.z);
+    out.y = (matrix[1][0] * vector.x) + (matrix[1][1] * vector.y) + (matrix[1][2] * vector.z);
+    out.z = (matrix[2][0] * vector.x) + (matrix[2][1] * vector.y) + (matrix[2][2] * vector.z);
+    return out;
 }
 
-Point<2, double> operator*(const Matrix2x2 &matrix, const Point<2, double> &point)
+Point2d operator*(const Matrix2x2 &matrix, const Point2d &point)
 {
-    std::array<double, 2> out{0.0, 0.0};
-    for (size_t i = 0; i < 2; i++)
-        for (size_t j = 0; j < 2; j++)
-            out[i] += matrix[i][j] * point[j];
-    return Point<2, double>(out);
+    Point2d out;
+
+    out.x = (matrix[0][0] * point.x) + (matrix[0][1] * point.y);
+    out.y = (matrix[1][0] * point.x) + (matrix[1][1] * point.y);
+    return out;
 }
 
-Point<3, double> operator*(const Matrix3x3 &matrix, const Point<3, double> &point)
+Point3d operator*(const Matrix3x3 &matrix, const Point3d &point)
 {
-    std::array<double, 3> out{0.0, 0.0, 0.0};
-    for (size_t i = 0; i < 3; i++)
-        for (size_t j = 0; j < 3; j++)
-            out[i] += matrix[i][j] * point[j];
-    return Point<3, double>(out);
+    Point3d out;
+
+    out.x = (matrix[0][0] * point.x) + (matrix[0][1] * point.y) + (matrix[0][2] * point.z);
+    out.y = (matrix[1][0] * point.x) + (matrix[1][1] * point.y) + (matrix[1][2] * point.z);
+    out.z = (matrix[2][0] * point.x) + (matrix[2][1] * point.y) + (matrix[2][2] * point.z);
+    return out;
 }

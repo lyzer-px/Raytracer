@@ -56,7 +56,7 @@ public:
 };
 
 template<typename T>
-class Vector3 : public Vector<Vector3<T>> {
+class Vector3 : public Vector<Vector3<T>, T> {
 public:
     Vector3() = default;
     T x = 0.0;
@@ -65,7 +65,7 @@ public:
 };
 
 template<typename T>
-class Vector2: public Vector<Vector2<T>> {
+class Vector2: public Vector<Vector2<T>, T> {
 public:
     Vector2() = default;
     T x = 0.0;

@@ -55,12 +55,6 @@ Point2<T>& Point2<T>::operator-=(const Vector2<T>& v)
 }
 
 template <typename T>
-Point2<T> Point2<T>::operator-(const Vector2<T>& v) const
-{
-    return Point2<T>(x - v.x, y - v.y);
-}
-
-template <typename T>
 Vector2<T> Point2<T>::operator-(const Point2<T>& other) const
 {
     Vector2<T> result;
@@ -98,15 +92,14 @@ Point3<T>& Point3<T>::operator+=(const Vector3<T>& v)
 }
 
 template <typename T>
-Point3<T> Point3<T>::operator-(const Vector3<T>& v) const
-{
-    return Point3<T>(x - v.x, y - v.y, z - v.z);
-}
-
-template <typename T>
 Vector3<T> Point3<T>::operator-(const Point3<T>& other) const
 {
-    return Vector3<T>(x - other.x, y - other.y, z - other.z);
+    Vector3<T> result;
+
+    result.x = x - other.x;
+    result.y = y - other.y;
+    result.z = z - other.z;
+    return result;
 }
 
 // Utility functions

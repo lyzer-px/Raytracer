@@ -25,9 +25,6 @@ public:
     Point2<T>& operator+=(const Vector2<T>& v);
     Point2<T>& operator-=(const Vector2<T>& v);
 
-    // Point - Vector = Point
-    Point2<T>  operator-(const Vector2<T>& v) const;
-
     // Point - Point = Vector  (displacement between two positions)
     Vector2<T> operator-(const Point2<T>& other) const;
 
@@ -80,8 +77,6 @@ private:
 
 using Point2f = Point2<float>;
 using Point2i = Point2<int>;
-
-using Point2f = Point2<float>;
 using Point3f = Point3<float>;
 
 using Point2d = Point2<double>;
