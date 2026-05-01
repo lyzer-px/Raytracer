@@ -5,7 +5,7 @@
 ** Sphere
 */
 
-#include "Sphere.hpp"
+#include "include/Sphere.hpp"
 
 namespace raytracer {
 namespace shape {
