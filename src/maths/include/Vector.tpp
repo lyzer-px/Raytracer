@@ -14,6 +14,16 @@
 #include "Vector.hpp"
 
 template <template<typename> class Derived, std::size_t N, typename T>
+bool Vector<Derived, N, T>::hasNaN() const
+{
+    for (std::size_t i = 0; i < N; ++i) {
+        if (std::isnan(_data[i]))
+            return true;
+    }
+    return false;
+}
+
+template <template<typename> class Derived, std::size_t N, typename T>
 const T &Vector<Derived, N, T>::x() const
 {
     return _data.at(0);
