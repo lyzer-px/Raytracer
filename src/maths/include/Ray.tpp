@@ -11,15 +11,10 @@
 #include <limits>
 #include "Ray.hpp"
 
-Ray::Ray()
-    : tMax(std::numeric_limits<double>::infinity())
-{
-}
+Ray::Ray() : tMax(std::numeric_limits<double>::infinity()) {}
 
 Ray::Ray(const Point3d &origin, const Vector3d &direction, double tMax)
-    : o(origin), d(direction), tMax(tMax)
-{
-}
+    : o(origin), d(direction), tMax(tMax) {}
 
 Point3d Ray::operator()(double time) const
 {
@@ -33,26 +28,21 @@ Point3d Ray::operator()(double time) const
 
 bool Ray::hasNaN() const
 {
-    return std::isnan(o.x) || std::isnan(o.y) || std::isnan(o.z) ||
-        std::isnan(d.x) || std::isnan(d.y) || std::isnan(d.z) ||
-        std::isnan(tMax);
+    return
+    std::isnan(o.x) || std::isnan(o.y) || std::isnan(o.z) ||
+    std::isnan(d.x) || std::isnan(d.y) || std::isnan(d.z) ||
+    std::isnan(tMax);
 }
 
 RayDifferential::RayDifferential()
-        : hasDifferentials(false)
-{
-}
+        : hasDifferentials(false) {}
 
-RayDifferential::RayDifferential(const Point3d &origin,
-    const Vector3d &direction, double tMax)
-        : Ray(origin, direction, tMax), hasDifferentials(false)
-{
-}
+RayDifferential::RayDifferential
+(const Point3d &origin,const Vector3d &direction, double tMax) :
+Ray(origin, direction, tMax), hasDifferentials(false) {}
 
 RayDifferential::RayDifferential(const Ray &ray)
-        : Ray(ray), hasDifferentials(false)
-{
-}
+        : Ray(ray), hasDifferentials(false) {}
 
 void RayDifferential::scaleDifferentials(double scale)
 {
@@ -85,10 +75,11 @@ void RayDifferential::scaleDifferentials(double scale)
 
 inline bool RayDifferential::hasNaN() const
 {
-    return Ray::hasNaN() || std::isnan(rxOrigin.x) || std::isnan(rxOrigin.y) ||
-        std::isnan(rxOrigin.z) || std::isnan(ryOrigin.x) ||
-        std::isnan(ryOrigin.y) || std::isnan(ryOrigin.z) ||
-        std::isnan(rxDirection.x) || std::isnan(rxDirection.y) ||
-        std::isnan(rxDirection.z) || std::isnan(ryDirection.x) ||
-        std::isnan(ryDirection.y) || std::isnan(ryDirection.z);
+    return
+    Ray::hasNaN() || std::isnan(rxOrigin.x) || std::isnan(rxOrigin.y) ||
+    std::isnan(rxOrigin.z) || std::isnan(ryOrigin.x) ||
+    std::isnan(ryOrigin.y) || std::isnan(ryOrigin.z) ||
+    std::isnan(rxDirection.x) || std::isnan(rxDirection.y) ||
+    std::isnan(rxDirection.z) || std::isnan(ryDirection.x) ||
+    std::isnan(ryDirection.y) || std::isnan(ryDirection.z);
 }
