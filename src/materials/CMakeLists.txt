@@ -1,4 +1,6 @@
-add_library(materials STATIC IMaterial.cpp)
+add_library(materials STATIC IMaterial.cpp
+        FlatColor.cpp
+        include/FlatColor.hpp)
 
 target_include_directories(materials PUBLIC include)
 
