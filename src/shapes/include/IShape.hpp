@@ -10,6 +10,7 @@
 
 #include <optional>
 
+#include "Normal.hpp"
 #include "Point.hpp"
 #include "Ray.hpp"
 
@@ -20,10 +21,10 @@ namespace shape {
 class IShape;
 
 struct SurfaceInteraction {
-    Point3f p;
-    // Normal3f n;
-    Vector3f wo;
-    Point2f uv;
+    Point3d p;
+    Normal3d n;
+    Vector3d wo;
+    Point2d uv;
     const IShape *shape = nullptr;
     // const IPrimitive *primitive;
 };
