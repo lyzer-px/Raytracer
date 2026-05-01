@@ -7,21 +7,23 @@
 
 #pragma once
 
+#include <limits>
+
+#include "Vector.hpp"
 #include "Point.hpp"
 
 class Ray {
 public:
-    explicit Ray(const Point3d &origin, const Vector3d &direction);
+    Ray();
+    Ray(const Point3d& origin, const Vector3d& direction,
+        double tMax = std::numeric_limits<double>::infinity());
 
-    [[nodiscard]] const Point3d &getOrigin() const;
+    Point3d operator()(double time) const;  // P(t) = o + t*d -- replaces at(t)
+    bool    hasNaN() const;
 
-    [[nodiscard]] const UnitVector3 &getDirection() const;
-
-    [[nodiscard]] Vector3d at(double t) const;
-
-private:
-    Point3d _origin;
-    Vector3d _direction;
+    Point3d       origin;
+    Vector3d      direction;  // direction (caller responsible for normalization)
+    mutable double tMax;   // reduced by each intersection hit -- enables BVH early exit
 };
 
 #include "Ray.tpp"

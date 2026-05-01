@@ -8,163 +8,83 @@
 #pragma once
 
 #include <cstddef>
-#include <array>
-#include <iostream>
+#include "Point.hpp"
 
-template <std::size_t N, typename T = double, bool PrecomputeNorm = false>
+template <template<typename>class Derived, std::size_t N, typename T = double>
 class Vector {
 public:
-    using Iterator      = std::array<T, N>::iterator;
-    using ConstIterator = std::array<T, N>::const_iterator;
+    Vector() = default;
+    Vector(std::initializer_list<T> values);
 
-    Vector();
+    [[nodiscard]] bool hasNaN() const;
 
-    explicit Vector(std::array<T, N> &values);
+    const T &x() const;
+    T &x();
+    const T &y() const;
+    T &y();
+    const T &z() const requires (N >= 3);
+    T &z()       requires (N >= 3);
 
-    explicit Vector(std::array<T, N> &&values);
+    [[nodiscard]] Derived<T> normalize() const;
+    Derived<T> cross(const Derived<T> &other) const requires (N == 3); // cross product only defined for 3D vectors
+    Derived<T> cross(Derived<T> &other) const requires (N == 3);
 
-    using UnitVector = Vector;
+    [[nodiscard]] T length() const;
+    [[nodiscard]] T calculateAngle(const Derived<T> &other) const;
 
-    [[nodiscard]] UnitVector normalize() const;
-
-    [[nodiscard]] T getLength() const;
-
-    T length() const;
-
-    void loadLength();
-
-    [[nodiscard]] T calculateAngle(const Vector<N> &other) const;
-
-    T &operator[](std::size_t idx);
-
-    const T &operator[](std::size_t idx) const;
-
-    Vector operator+(const Vector &other) const;
-
-    Vector operator-(const Vector &other) const;
+    Derived<T> operator+(const Derived<T> &other) const;
+    Derived<T> operator-(const Derived<T> &other) const;
 
     // dot product
-    T operator*(const Vector &other) const;
+    T operator*(const Derived<T> &other) const;
+    T dot(const Derived<T> &other) const;
 
-    [[nodiscard]] T dot(const Vector &other) const;
+    // scalar multiplication
+    Derived<T> operator*(T scalar) const;
 
-    Vector operator*(T scalar) const;
+    Derived<T> operator/(T scalar) const;
 
-    Vector operator/(T scalar) const;
+    // multiply by -1
+    Derived<T> operator-() const;
 
-    Vector operator-() const;
+    // comparison by values
+    bool operator==(const Derived<T> &other) const;
 
-    bool operator==(const Vector &other) const;
-
-    bool operator!=(const Vector &other) const;
+    bool operator!=(const Derived<T> &other) const;
 
     // norm comparaison
-    bool operator<(const Vector &other) const;
+    bool operator<(const Derived<T> &other) const;
+    bool operator<=(const Derived<T> &other) const;
+    bool operator>(const Derived<T> &other) const;
+    bool operator>=(const Derived<T> &other) const;
 
-    bool operator<=(const Vector &other) const;
+    const std::array<T, N>& data() const;
 
-    bool operator>(const Vector &other) const;
-
-    bool operator>=(const Vector &other) const;
-
-    Iterator begin() noexcept;
-
-    ConstIterator begin() const noexcept;
-
-    ConstIterator cbegin() const noexcept;
-
-    Iterator end() noexcept;
-
-    ConstIterator end() const noexcept;
-
-    ConstIterator cend() const noexcept;
-
-    // const Vector<3> rotate(double angle);
-    // const Vector<2> rotate2D(double angle);
-    //
-    // const Vector<3> translate(double translateX, double translateY);
-    // const Vector<2> translate2D(double translateX, double translateY);
-    //
-    // const Vector<3> scale(double scaleX, double scaleY);
-    // const Vector<2> scale2D(double scaleX, double scaleY);
-    //
-    // const Vector<3> shear(double shearX, double shearY);
-    // const Vector<2> shear2D(double shearX, double shearY);
-    //
-    // const Vector<3> reflect(bool reflectX, bool reflectY);
-    // const Vector<2> reflect2D(bool reflectX, bool reflectY);
-
-private:
+protected:
     std::array<T, N> _data;
-    T _norm;
 };
 
-template <std::size_t N, typename T, bool PrecomputeNorm>
-using UnitVector = Vector<N, T, PrecomputeNorm>;
+template<typename T>
+class Vector3 : public Vector<Vector3, 3, T> {
+public:
+    Vector3();
+    Vector3(T x, T y, T z) noexcept;
 
-using Vector2f    = Vector<2, float>;
-using Vector3f    = Vector<3, float>;
-using Vector2d    = Vector<2, double>;
-using Vector3d    = Vector<3, double>;
-using UnitVector2 = Vector<2>;
-using UnitVector3 = Vector<3>;
+    template<typename U>
+    explicit Vector3(const Point3<U>& v); // conversion constructor
+};
 
-template <std::size_t N, typename T, bool PrecomputeNorm>
-Vector<N, T, PrecomputeNorm> cross(Vector<N, T, PrecomputeNorm> lhs,
-    Vector<N, T, PrecomputeNorm> rhs);
+template<typename T>
+class Vector2: public Vector<Vector2, 2, T> {
+public:
+    Vector2();
+    Vector2(T x, T y) noexcept;
 
-template <std::size_t N, typename T, bool PrecomputeNorm>
-Vector<N + 1, T, PrecomputeNorm> IncreaseDimension(
-    const Vector<N, T, PrecomputeNorm> &a);
+    template<typename U>
+    explicit Vector2(const Point2<U>& v); // conversion constructor
+};
 
-template <std::size_t N, typename T, bool PrecomputeNorm>
-std::ostream &operator<<(std::ostream &o,
-    const Vector<N, T, PrecomputeNorm> &vector);
-
-template <std::size_t N, typename T, bool PrecomputeNorm>
-bool operator==(const Vector<N, T, PrecomputeNorm> &lhs,
-    const Vector<N, T, PrecomputeNorm> &rhs)
-{
-    return lhs.operator==(rhs);
-}
-
-template <std::size_t N, typename T, bool PrecomputeNorm>
-bool operator!=(const Vector<N, T, PrecomputeNorm> &lhs,
-    const Vector<N, T, PrecomputeNorm> &rhs)
-{
-    return lhs.operator!=(rhs);
-}
-
-template <std::size_t N, typename T, bool PrecomputeNorm>
-bool operator<(const Vector<N, T, PrecomputeNorm> &lhs,
-    const Vector<N, T, PrecomputeNorm> &rhs)
-{
-    return lhs.operator<(rhs);
-}
-
-template <std::size_t N, typename T, bool PrecomputeNorm>
-bool operator>(const Vector<N, T, PrecomputeNorm> &lhs,
-    const Vector<N, T, PrecomputeNorm> &rhs)
-{
-    return lhs.operator>(rhs);
-}
-
-template <std::size_t N, typename T, bool PrecomputeNorm>
-bool operator<=(const Vector<N, T, PrecomputeNorm> &lhs,
-    const Vector<N, T, PrecomputeNorm> &rhs)
-{
-    return lhs.operator<=(rhs);
-}
-
-template <std::size_t N, typename T, bool PrecomputeNorm>
-bool operator>=(const Vector<N, T, PrecomputeNorm> &lhs,
-    const Vector<N, T, PrecomputeNorm> &rhs)
-{
-    return lhs.operator>=(rhs);
-}
-
-
-template<std::size_t N, typename T, bool PrecomputeNorm>
-Vector<N + 1, T, PrecomputeNorm> increaseDimension(const Vector<N, T, PrecomputeNorm> &other);
+using Vector2d = Vector2<double>;
+using Vector3d = Vector3<double>;
 
 #include "Vector.tpp"

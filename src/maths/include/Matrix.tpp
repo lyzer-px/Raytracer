@@ -10,6 +10,20 @@
 #include "Matrix.hpp"
 
 template <size_t rows, size_t cols, typename T>
+Matrix<rows, cols, T>::Matrix(std::array<std::array<T, cols>, rows> values)
+: _values(values) {}
+
+template <size_t rows, size_t cols, typename T>
+Matrix<rows, cols, T>::Matrix(std::initializer_list<std::array<T, cols>> values)
+{
+    size_t rowIndex = 0;
+    for (const auto &row : values) {
+        if (rowIndex >= rows) break;
+        _values[rowIndex++] = row;
+    }
+}
+
+template <size_t rows, size_t cols, typename T>
 [[nodiscard]] constexpr size_t Matrix<rows, cols, T>::getNbRows() const noexcept
 {
     return rows;
@@ -22,15 +36,15 @@ template <size_t rows, size_t cols, typename T>
 }
 
 template <size_t rows, size_t cols, typename T>
-std::array<T, cols>& Matrix<rows, cols, T>::operator[](const size_t &i)
+std::array<T, cols>& Matrix<rows, cols, T>::operator[](const size_t &index)
 {
-    return _values[i];
+    return _values[index];
 }
 
 template <size_t rows, size_t cols, typename T>
-const std::array<T, cols>& Matrix<rows, cols, T>::operator[](const size_t &i) const
+const std::array<T, cols>& Matrix<rows, cols, T>::operator[](const size_t &index) const
 {
-    return _values[i];
+    return _values[index];
 }
 
 
@@ -54,5 +68,5 @@ Matrix<rows, cols, T> Matrix<rows, cols, T>::operator*(const Matrix &other) cons
 template <size_t rows, size_t cols, typename T>
 Matrix<rows, cols, T> Matrix<rows, cols, T>::operator/(const Matrix &other) const
 {
-    return this * (static_cast<T>(1) / other);
+    return (*this) * (static_cast<T>(1) / other);
 }

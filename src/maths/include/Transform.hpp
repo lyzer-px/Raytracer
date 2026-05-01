@@ -9,17 +9,23 @@
 
 #include "Matrix.hpp"
 
-template<std::size_t N, typename T, bool PrecomputeNorm>
-class Vector;
+template <typename T>
+class Vector2;
 
-template<std::size_t N, typename T>
-class Point;
+template <typename T>
+class Vector3;
 
-Vector<3, double, false> operator*(const Matrix3x3 &matrix, const Vector<3, double, false> &vector);
-Vector<2, double, false> operator*(const Matrix2x2 &matrix, const Vector<2, double, false> &vector);
+template <typename T>
+class Point2;
 
-Point<3, double> operator*(const Matrix3x3 &matrix, const Point<3, double> &point);
-Point<2, double> operator*(const Matrix2x2 &matrix, const Point<2, double> &point);
+template <typename T>
+class Point3;
+
+Vector2<double> operator*(const Matrix2x2 &matrix, const Vector2<double> &vector);
+Vector3<double> operator*(const Matrix3x3 &matrix, const Vector3<double> &vector);
+
+Point2<double> operator*(const Matrix2x2 &matrix, const Point2<double> &point);
+Point3<double> operator*(const Matrix3x3 &matrix, const Point3<double> &point);
 
 namespace Transform {
 
