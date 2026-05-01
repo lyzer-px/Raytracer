@@ -12,7 +12,7 @@
 #include "Vector.hpp"
 
 template <typename T = double>
-class Point2 : public Vector<Point2<T>, T> {
+class Point2 : public Vector<Point2, 2, T> {
 public:
     Point2();
     Point2(T x, T y);
@@ -31,20 +31,19 @@ public:
     T x = 0.0;
     T y = 0.0;
 
-private:
-    Point2 operator+(const Vector<Point2<T>, T>& other) const = delete;
+    Point2 operator+(const Point2 &other) const = delete;
     Point2 operator*(T scalar) const = delete;
     Point2 operator/(T scalar) const = delete;
-    T operator*(const Vector<Point2<T>, T>& other) const = delete;
-    T dot(const Vector<Point2<T>, T>& other) const = delete;
-    typename Vector<Point2<T>, T>::UnitVector normalize() const = delete;
+    T operator*(const Point2 &other) const = delete;
+    T dot(const Point2 &other) const = delete;
+    Point2 normalize() const = delete;
     T length() const = delete;
-    T calculateAngle(const Vector<Point2<T>, T>& other) const = delete;
+    T calculateAngle(const Point2 &other) const = delete;
 
 };
 
 template <typename T = double>
-class Point3 : public Vector<Point3<T>, T> {
+class Point3 : public Vector<Point3, 3, T> {
 public:
     Point3();
     Point3(T x, T y, T z);
@@ -63,15 +62,14 @@ public:
     T y = 0.0;
     T z = 0.0;
 
-private:
-    Point3 operator+(const Vector<Point3<T>, T>& other) const = delete;
+    Point3 operator+(const Point3 & other) const = delete;
     Point3 operator*(T scalar) const = delete;
     Point3 operator/(T scalar) const = delete;
-    T operator*(const Vector<Point3<T>, T>& other) const = delete;
-    T dot(const Vector<Point3<T>, T>& other) const = delete;
-    typename Vector<Point3<T>, T>::UnitVector normalize() const = delete;
+    T operator*(const Point3 & other) const = delete;
+    T dot(const Point3 & other) const = delete;
+    Point3 normalize() const = delete;
     T length() const = delete;
-    T calculateAngle(const Vector<Point3<T>, T>& other) const = delete;
+    T calculateAngle(const Point3 & other) const = delete;
 
 };
 

@@ -9,7 +9,7 @@
 #include "Vector.hpp"
 
 template <typename T = double>
-class Normal3 : public Vector<Normal3<T>> {
+class Normal3 : public Vector<Normal3, 3, T > {
 public:
     Normal3();
     Normal3(T x, T y, T z);
