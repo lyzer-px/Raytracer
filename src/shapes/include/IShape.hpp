@@ -7,13 +7,15 @@
 
 #ifndef RAYTRACER_ISHAPE_HPP
 #define RAYTRACER_ISHAPE_HPP
+
 #include <optional>
 
 #include "Point.hpp"
 #include "Ray.hpp"
 
-namespace raytracer {
+class Ray;
 
+namespace raytracer {
 namespace shape {
 class IShape;
 
@@ -31,7 +33,9 @@ public:
     virtual ~IShape() = default;
 
     [[nodiscard]] virtual std::optional<SurfaceInteraction> intersect(
-        const Ray &ray, float tMin, float tMax) const = 0;
+        const Ray &ray) const = 0;
+
+    [[nodiscard]] virtual bool intersectP(const Ray &ray) const = 0;
 };
 
 } // shape
