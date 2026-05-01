@@ -9,19 +9,23 @@
 #define RAYTRACER_SPHERE_HPP
 #include "IShape.hpp"
 
-namespace raytracer {
+namespace raytracer { // NOLINT
 namespace shape {
 
 class Sphere: public IShape {
 public:
-    explicit Sphere(const Point3d &origin, const double &radius);
+    Sphere(const Point3d &center, const float &radius);
 
-    [[nodiscard]] std::optional<SurfaceInteraction> intersect(const Ray &ray,
-        float tMin, float tMax) const override;
+    [[nodiscard]] std::optional<SurfaceInteraction> intersect(
+        const Ray &ray) const override;
+
+    [[nodiscard]] bool intersectP(const Ray &ray) const override;
 
 private:
-    Point3d _origin;
-    double _radius;
+    [[nodiscard]] std::optional<double> solveQuadratic(const Ray &ray) const;
+
+    Point3d _center;
+    float _radius;
 };
 
 } // shape
