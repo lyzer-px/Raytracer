@@ -14,7 +14,7 @@
 
 // Point2 Implementation
 template <typename T>
-Point2<T>::Point2() : Vector2<T>() {}
+Point2<T>::Point2() : Vector<Point2, 2, T>{} {}
 
 template <typename T>
 Point2<T>::Point2(T x, T y) : Vector<Point2, 2, T>({x, y}) {}
@@ -70,12 +70,18 @@ Point3<T>::Point3(T x, T y, T z) : Vector<Point3, 3, T>({x, y, z}) {}
 template <typename T>
 template <typename U>
 Point3<T>::Point3(const Vector3<U>& v) :
-Vector<Point3, 3, T>({static_cast<T>(v.x()), static_cast<T>(v.y()), static_cast<T>(v.z())}) {}
+    Vector<Point3, 3, T>({static_cast<T>(v.x()), static_cast<T>(v.y()), static_cast<T>(v.z())}) {}
 
 template <typename T>
 Point3<T> Point3<T>::operator+(const Vector3<T>& v) const
 {
     return Point3<T>(this->x() + v.x(), this->y() + v.y(), this->z() + v.z());
+}
+
+template <typename T>
+Point3<T> Point3<T>::operator-(const Vector3<T>& v) const
+{
+    return Point3<T>(this->x() - v.x(), this->y() - v.y(), this->z() - v.z());
 }
 
 template <typename T>
@@ -94,12 +100,6 @@ Point3<T>& Point3<T>::operator-=(const Vector3<T>& v)
     this->y() -= v.y();
     this->z() -= v.z();
     return *this;
-}
-
-template <typename T>
-Point3<T> Point3<T>::operator-(const Vector3<T>& v) const
-{
-    return Point3<T>(this->x() - v.x(), this->y() - v.y(), this->z() - v.z());
 }
 
 template <typename T>
@@ -124,7 +124,7 @@ template <typename T>
 T distanceSquared(const Point3<T>& a, const Point3<T>& b)
 {
     Vector3<T> diff = b - a;
-    T length = diff.length();
+    T length        = diff.length();
     return length * length;
 }
 
@@ -142,7 +142,7 @@ Point3<T> min(const Point3<T>& a, const Point3<T>& b)
         a.x() < b.x() ? a.x() : b.x(),
         a.y() < b.y() ? a.y() : b.y(),
         a.z() < b.z() ? a.z() : b.z()
-    );
+        );
 }
 
 template <typename T>
@@ -152,7 +152,7 @@ Point3<T> max(const Point3<T>& a, const Point3<T>& b)
         a.x() > b.x() ? a.x() : b.x(),
         a.y() > b.y() ? a.y() : b.y(),
         a.z() > b.z() ? a.z() : b.z()
-    );
+        );
 }
 
 template <typename T>
@@ -162,7 +162,7 @@ Point3<T> abs(const Point3<T>& p)
         std::abs(p.x()),
         std::abs(p.y()),
         std::abs(p.z())
-    );
+        );
 }
 
 template <typename T>
@@ -172,7 +172,7 @@ Point3<T> floor(const Point3<T>& p)
         std::floor(static_cast<double>(p.x())),
         std::floor(static_cast<double>(p.y())),
         std::floor(static_cast<double>(p.z()))
-    );
+        );
 }
 
 template <typename T>
@@ -182,7 +182,7 @@ Point3<T> ceil(const Point3<T>& p)
         std::ceil(static_cast<double>(p.x())),
         std::ceil(static_cast<double>(p.y())),
         std::ceil(static_cast<double>(p.z()))
-    );
+        );
 }
 
 template <typename T>
@@ -190,10 +190,10 @@ Point3<T> permute(const Point3<T>& p, int x, int y, int z)
 {
     auto getComponent = [](const Point3<T>& point, int index) -> T {
         switch (index) {
-            case 0: return point.x();
-            case 1: return point.y();
-            case 2: return point.z();
-            default: throw std::out_of_range("Invalid permutation index");
+        case 0: return point.x();
+        case 1: return point.y();
+        case 2: return point.z();
+        default: throw std::out_of_range("Invalid permutation index");
         }
     };
 
@@ -201,5 +201,5 @@ Point3<T> permute(const Point3<T>& p, int x, int y, int z)
         getComponent(p, x),
         getComponent(p, y),
         getComponent(p, z)
-    );
+        );
 }
