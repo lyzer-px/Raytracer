@@ -14,6 +14,24 @@
 #include "Vector.hpp"
 
 template <template<typename> class Derived, std::size_t N, typename T>
+T Vector<Derived, N, T>::x() const
+{
+    return _data[0];
+}
+
+template <template<typename> class Derived, std::size_t N, typename T>
+T& Vector<Derived, N, T>::y()
+{
+    return _data[1];
+}
+
+template <template<typename> class Derived, std::size_t N, typename T>
+T Vector<Derived, N, T>::z() const requires (N >= 3)
+{
+    return _data[2];
+}
+
+template <template<typename> class Derived, std::size_t N, typename T>
 Vector<Derived, N, T>::Vector(std::initializer_list<T> values)
 {
     std::copy_n(values.begin(), std::min(values.size(), N), _data.begin());
