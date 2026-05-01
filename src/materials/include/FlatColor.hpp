@@ -7,6 +7,7 @@
 
 #ifndef RAYTRACER_FLATCOLOR_HPP
 #define RAYTRACER_FLATCOLOR_HPP
+
 #include "Color.hpp"
 #include "IMaterial.hpp"
 #include "IShape.hpp"
