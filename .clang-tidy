@@ -91,6 +91,16 @@ WarningsAsErrors: >
   modernize-use-equals-default,
 
 CheckOptions:
+  # Identifier length options - set minimum to 1 for all symbols
+  - key: readability-identifier-length.MinimumVariableNameLength
+    value: '1'
+  - key: readability-identifier-length.MinimumParameterNameLength
+    value: '1'
+  - key: readability-identifier-length.MinimumLoopCounterNameLength
+    value: '1'
+  - key: readability-identifier-length.MinimumExceptionNameLength
+    value: '1'
+
   # N3 - Functions (and methods)
   - key: readability-identifier-naming.FunctionCase
     value: camelBack
