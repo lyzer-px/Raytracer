@@ -7,182 +7,199 @@
 
 #pragma once
 
+#include <cmath>
+#include <stdexcept>
 #include "Point.hpp"
 #include "Vector.hpp"
 
-template <std::size_t N, typename T>
-Point<N, T>::Point()
+// Point2 Implementation
+template <typename T>
+Point2<T>::Point2() : Vector2<T>() {}
+
+template <typename T>
+Point2<T>::Point2(T x, T y) : Vector<Point2, 2, T>({x, y}) {}
+
+template <typename T>
+template <typename U>
+Point2<T>::Point2(const Vector2<U>& v) : Vector<Point2, 2, T>({static_cast<T>(v.x()), static_cast<T>(v.y())}) {}
+
+template <typename T>
+Point2<T> Point2<T>::operator+(const Vector2<T>& v) const
 {
-    for (std::size_t i = 0; i < N; ++i)
-        _data[i] = static_cast<T>(0);
+    return Point2<T>(this->x() + v.x(), this->y() + v.y());
 }
 
-template <std::size_t N, typename T>
-Point<N, T>::Point(std::array<T, N> data) noexcept: _data(data)
-{}
-
-template <std::size_t N, typename T>
-T &Point<N, T>::operator[](std::size_t idx)
+template <typename T>
+Point2<T> Point2<T>::operator-(const Vector2<T>& v) const
 {
-    return _data[idx];
+    return Point2<T>(this->x() - v.x(), this->y() - v.y());
 }
 
-template <std::size_t N, typename T>
-const T &Point<N, T>::operator[](std::size_t idx) const
+template <typename T>
+Point2<T>& Point2<T>::operator+=(const Vector2<T>& v)
 {
-    return _data[idx];
+    this->x() += v.x();
+    this->y() += v.y();
+    return *this;
 }
 
-template <std::size_t N, typename T>
-bool Point<N, T>::operator==(const Point &other) const
+template <typename T>
+Point2<T>& Point2<T>::operator-=(const Vector2<T>& v)
 {
-    auto otherIt = other.begin();
-
-    for (const auto &value: _data) {
-        if (value != *otherIt)
-            return false;
-        ++otherIt;
-    }
-    return true;
+    this->x() -= v.x();
+    this->y() -= v.y();
+    return *this;
 }
 
-template <std::size_t N, typename T>
-bool Point<N, T>::operator!=(const Point &other) const
+template <typename T>
+Vector2<T> Point2<T>::operator-(const Point2<T>& other) const
 {
-    return !(*this == other);
+    Vector2<T> result;
+    result.x() = this->x() - other.x();
+    result.y() = this->y() - other.y();
+    return result;
 }
 
-template <std::size_t N, typename T>
-bool Point<N, T>::operator++()
+// Point3 Implementation
+template <typename T>
+Point3<T>::Point3() : Vector<Point3, 3, T>() {}
+
+template <typename T>
+Point3<T>::Point3(T x, T y, T z) : Vector<Point3, 3, T>({x, y, z}) {}
+
+template <typename T>
+template <typename U>
+Point3<T>::Point3(const Vector3<U>& v) :
+Vector<Point3, 3, T>({static_cast<T>(v.x()), static_cast<T>(v.y()), static_cast<T>(v.z())}) {}
+
+template <typename T>
+Point3<T> Point3<T>::operator+(const Vector3<T>& v) const
 {
-    for (auto &value: _data)
-        ++value;
-    return true;
+    return Point3<T>(this->x() + v.x(), this->y() + v.y(), this->z() + v.z());
 }
 
-template <std::size_t N, typename T>
-bool Point<N, T>::operator--()
+template <typename T>
+Point3<T>& Point3<T>::operator+=(const Vector3<T>& v)
 {
-    for (auto &value: _data)
-        --value;
-    return true;
+    this->x() += v.x();
+    this->y() += v.y();
+    this->z() += v.z();
+    return *this;
 }
 
-template <std::size_t N, typename T>
-Vector<N, T> Point<N, T>::toVector() const
+template <typename T>
+Point3<T>& Point3<T>::operator-=(const Vector3<T>& v)
 {
-    std::array<T, N> array;
-    auto outIt = array.begin();
-
-    for (const auto &value: _data) {
-        *outIt = value;
-        ++outIt;
-    }
-    return Vector(array);
+    this->x() -= v.x();
+    this->y() -= v.y();
+    this->z() -= v.z();
+    return *this;
 }
 
-template <std::size_t N, typename T>
-Point<N, T>::Iterator Point<N, T>::begin() noexcept
+template <typename T>
+Point3<T> Point3<T>::operator-(const Vector3<T>& v) const
 {
-    return _data.begin();
+    return Point3<T>(this->x() - v.x(), this->y() - v.y(), this->z() - v.z());
 }
 
-template <std::size_t N, typename T>
-Point<N, T>::ConstIterator Point<N, T>::begin() const noexcept
+template <typename T>
+Vector3<T> Point3<T>::operator-(const Point3<T>& other) const
 {
-    return _data.begin();
+    Vector3<T> result;
+
+    result.x() = this->x() - other.x();
+    result.y() = this->y() - other.y();
+    result.z() = this->z() - other.z();
+    return result;
 }
 
-template <std::size_t N, typename T>
-Point<N, T>::ConstIterator Point<N, T>::cbegin() const noexcept
+// Utility functions
+template <typename T>
+float distance(const Point3<T>& a, const Point3<T>& b)
 {
-    return _data.cbegin();
+    return (b - a).length();
 }
 
-template <std::size_t N, typename T>
-Point<N, T>::Iterator Point<N, T>::end() noexcept
+template <typename T>
+T distanceSquared(const Point3<T>& a, const Point3<T>& b)
 {
-    return _data.end();
+    Vector3<T> diff = b - a;
+    T length = diff.length();
+    return length * length;
 }
 
-template <std::size_t N, typename T>
-Point<N, T>::ConstIterator Point<N, T>::end() const noexcept
+template <typename T>
+Point3<T> lerp(float t, const Point3<T>& a, const Point3<T>& b)
 {
-    return _data.end();
+    Vector3<T> diff = (b - a);
+    return a + (diff * static_cast<T>(t));
 }
 
-template <std::size_t N, typename T>
-Point<N, T>::ConstIterator Point<N, T>::cend() const noexcept
+template <typename T>
+Point3<T> min(const Point3<T>& a, const Point3<T>& b)
 {
-    return _data.cend();
+    return Point3<T>(
+        a.x() < b.x() ? a.x() : b.x(),
+        a.y() < b.y() ? a.y() : b.y(),
+        a.z() < b.z() ? a.z() : b.z()
+    );
 }
 
-template <std::size_t N, typename T, bool PrecomputeNorm>
-Vector<N, T, PrecomputeNorm> operator+(const Point<N, T> &lhs,
-    const Vector<N, T, PrecomputeNorm> &rhs)
+template <typename T>
+Point3<T> max(const Point3<T>& a, const Point3<T>& b)
 {
-    Vector<N, T> res;
-    for (std::size_t idx = 0; idx < N; ++idx)
-        res[idx] += lhs[idx] + rhs[idx];
-
-    return res;
+    return Point3<T>(
+        a.x() > b.x() ? a.x() : b.x(),
+        a.y() > b.y() ? a.y() : b.y(),
+        a.z() > b.z() ? a.z() : b.z()
+    );
 }
 
-// template<>
-// const Point<3> Point<3>::rotate(double angle)
-// {
-//     return Transform::rotationMatrix3D(angle) * (*this);
-// }
-//
-// template<>
-// const Point<2> Point<2>::rotate2D(double angle)
-// {
-//     return Transform::rotationMatrix2D(angle) * (*this);
-// }
-//
-//
-//
-// template<>
-// const Point<3> Point<3>::translate(double translateX, double translateY)
-// {
-//     return Transform::translationMatrix3D(translateX, translateY) * (*this);
-// }
-//
-// template<>
-// const Point<3> Point<3>::scale(double scaleX, double scaleY)
-// {
-//     return Transform::scalingMatrix3D(scaleX, scaleY) * (*this);
-// }
-//
-// template<>
-// const Point<2> Point<2>::scale2D(double scaleX, double scaleY)
-// {
-//     return Transform::scalingMatrix2D(scaleX, scaleY) * (*this);
-// }
-//
-//
-//
-// template<>
-// const Point<3> Point<3>::shear(double shearX, double shearY)
-// {
-//     return Transform::shearingMatrix3D(shearX, shearY) * (*this);
-// }
-//
-// template<>
-// const Point<2> Point<2>::shear2D(double shearX, double shearY)
-// {
-//     return Transform::shearingMatrix2D(shearX, shearY) * (*this);
-// }
-//
-//
-// template<>
-// const Point<3> Point<3>::reflect(bool reflectX, bool reflectY)
-// {
-//     return Transform::reflectionMatrix3D(reflectX, reflectY) * (*this);
-// }
-//
-// template<>
-// const Point<2> Point<2>::reflect2D(bool reflectX, bool reflectY)
-// {
-//     return Transform::reflectionMatrix2D(reflectX, reflectY) * (*this);
-// }
+template <typename T>
+Point3<T> abs(const Point3<T>& p)
+{
+    return Point3<T>(
+        std::abs(p.x()),
+        std::abs(p.y()),
+        std::abs(p.z())
+    );
+}
+
+template <typename T>
+Point3<T> floor(const Point3<T>& p)
+{
+    return Point3<T>(
+        std::floor(static_cast<double>(p.x())),
+        std::floor(static_cast<double>(p.y())),
+        std::floor(static_cast<double>(p.z()))
+    );
+}
+
+template <typename T>
+Point3<T> ceil(const Point3<T>& p)
+{
+    return Point3<T>(
+        std::ceil(static_cast<double>(p.x())),
+        std::ceil(static_cast<double>(p.y())),
+        std::ceil(static_cast<double>(p.z()))
+    );
+}
+
+template <typename T>
+Point3<T> permute(const Point3<T>& p, int x, int y, int z)
+{
+    auto getComponent = [](const Point3<T>& point, int index) -> T {
+        switch (index) {
+            case 0: return point.x();
+            case 1: return point.y();
+            case 2: return point.z();
+            default: throw std::out_of_range("Invalid permutation index");
+        }
+    };
+
+    return Point3<T>(
+        getComponent(p, x),
+        getComponent(p, y),
+        getComponent(p, z)
+    );
+}

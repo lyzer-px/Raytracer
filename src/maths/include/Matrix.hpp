@@ -16,21 +16,14 @@ template <size_t rows, size_t cols, typename T = double>
 class Matrix {
 public:
     Matrix() = default;
-    Matrix(std::array<std::array<T, cols>, rows> values) : _values(values) {}
-    Matrix(std::initializer_list<std::array<T, cols>> values)
-    {
-        size_t i = 0;
-        for (const auto &row : values) {
-            if (i >= rows) break;
-            _values[i++] = row;
-        }
-    }
+    Matrix(std::array<std::array<T, cols>, rows> values);
+    Matrix(std::initializer_list<std::array<T, cols>> values);
 
     [[nodiscard]] constexpr size_t getNbRows() const noexcept;
     [[nodiscard]] constexpr size_t getNbCols() const noexcept;
 
-    std::array<T, cols>& operator[](const size_t &i);
-    const std::array<T, cols>& operator[](const size_t &i) const;
+    std::array<T, cols>& operator[](const size_t &index);
+    const std::array<T, cols>& operator[](const size_t &index) const;
 
     Matrix operator*(const Matrix &other) const;
     Matrix operator/(const Matrix &other) const;

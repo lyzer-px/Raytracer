@@ -11,7 +11,7 @@ else()
    message(STATUS "clang++ not found, using default CXX compiler")
 endif()
 
-find_program(C_COMPILER NAMES epiclang REQUIRED FALSE)
+find_program(C_COMPILER NAMES clang REQUIRED FALSE)
 if(C_COMPILER)
    set(CMAKE_C_COMPILER ${C_COMPILER} CACHE FILEPATH "Epitech C compiler" FORCE)
    message(STATUS "Using Epitech C compiler: ${C_COMPILER}")
