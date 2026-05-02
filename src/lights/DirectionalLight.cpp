@@ -13,7 +13,7 @@ DirectionalLight::DirectionalLight(const Vector3d &direction,
     const Color &radiance): _direction{direction}, _radiance{radiance}
 {}
 
-LightSample DirectionalLight::sample(const Point3f &p) const
+LightSample DirectionalLight::sample(const Point3d &p) const
 {
     return LightSample{
         .wi = -_direction,
