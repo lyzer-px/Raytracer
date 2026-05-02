@@ -7,20 +7,20 @@
 
 #pragma once
 
-constexpr float MAX_RGB_VALUE = 255.0f;
+constexpr auto MAX_RGB_VALUE = 255.0;
 
 
 struct Color {
-    float r, g, b;
+    double r, g, b;
 
     Color();
 
-    explicit Color(float r = 0, float g = 0, float b = 0);
+    explicit Color(double r = 0, double g = 0, double b = 0);
 
     Color operator+(const Color& other) const;
     Color operator*(const Color& other) const;
-    Color operator*(float scalar) const;
-    Color operator/(float scalar) const;
+    Color operator*(double scalar) const;
+    Color operator/(double scalar) const;
 
     // Clamps the color components to the range [0, 1]
     Color clamp() const;

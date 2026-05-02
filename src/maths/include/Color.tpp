@@ -12,7 +12,7 @@
 Color::Color(): r{0}, g{0}, b{0}
 {}
 
-Color::Color(float r, float g, float b) : r(r), g(g), b(b) {}
+Color::Color(double r, double g, double b) : r(r), g(g), b(b) {}
 
 Color Color::operator+(const Color& other) const
 {
@@ -28,14 +28,14 @@ Color Color::operator*(const Color& other) const
     return c;
 }
 
-Color Color::operator*(float scalar) const
+Color Color::operator*(double scalar) const
 {
     Color c = Color(r * scalar, g * scalar, b * scalar);
     c.clamp();
     return c;
 }
 
-Color Color::operator/(float scalar) const
+Color Color::operator/(double scalar) const
 {
     Color c = Color(r / scalar, g / scalar, b / scalar);
     c.clamp();
@@ -45,9 +45,9 @@ Color Color::operator/(float scalar) const
 Color Color::clamp() const
 {
     return Color(
-        std::max(0.0f, std::min(1.0f, r)),
-        std::max(0.0f, std::min(1.0f, g)),
-        std::max(0.0f, std::min(1.0f, b))
+        std::max(0.0, std::min(1.0, r)),
+        std::max(0.0, std::min(1.0, g)),
+        std::max(0.0, std::min(1.0, b))
     );
 }
 
