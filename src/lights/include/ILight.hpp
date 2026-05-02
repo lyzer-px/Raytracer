@@ -18,7 +18,14 @@ struct LightSample {
     double distance = 0.0;
 };
 
-class ILight {};
+class ILight {
+public:
+    virtual ~ILight() = default;
+
+    [[nodiscard]] virtual LightSample sample(const Point3f &p) const = 0;
+
+    [[nodiscard]] virtual bool isDelta() const = 0;
+};
 
 } // light
 } // raytracer
