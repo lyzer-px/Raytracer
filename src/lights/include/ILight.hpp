@@ -13,7 +13,7 @@
 namespace raytracer {
 namespace light {
 struct LightSample {
-    Vector3f wi;
+    Vector3d wi;
     Color radiance;
     double distance = 0.0;
 };
