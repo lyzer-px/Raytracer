@@ -113,6 +113,16 @@ Vector3<T> Point3<T>::operator-(const Point3<T>& other) const
     return result;
 }
 
+template <typename T>
+Point3<T> Point3<T>::operator+(const Point3 &other) const
+{
+    return Point3{
+        this->x() + other.x(),
+        this->y() + other.y(),
+        this->z() + other.z()
+    };
+}
+
 // Utility functions
 template <typename T>
 float distance(const Point3<T>& a, const Point3<T>& b)
