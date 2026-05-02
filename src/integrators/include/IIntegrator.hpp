@@ -9,6 +9,7 @@
 #define RAYTRACER_IINTEGRATOR_HPP
 
 #include "Color.hpp"
+#include "Film.hpp"
 #include "ICamera.hpp"
 #include "Ray.hpp"
 #include "Scene.hpp"
@@ -23,7 +24,7 @@ public:
         int depth) const = 0;
 
     virtual void render(const scene::Scene &scene,
-        const camera::ICamera &camera/*, Film &film*/) const = 0;
+        const camera::ICamera &camera, camera::Film &film) const = 0;
 };
 } // integrator
 } // raytracer
