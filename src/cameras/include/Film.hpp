@@ -7,6 +7,7 @@
 
 #ifndef RAYTRACER_FILM_HPP
 #define RAYTRACER_FILM_HPP
+#include <string>
 #include <vector>
 
 #include "Color.hpp"
@@ -24,6 +25,8 @@ public:
     int width() const;
 
     int height() const;
+
+    static void write(const Film& film, const std::string& path);
 
 private:
     int _width;
