@@ -13,7 +13,9 @@ constexpr float MAX_RGB_VALUE = 255.0f;
 struct Color {
     float r, g, b;
 
-    Color(float r = 0, float g = 0, float b = 0);
+    Color();
+
+    explicit Color(float r = 0, float g = 0, float b = 0);
 
     Color operator+(const Color& other) const;
     Color operator*(const Color& other) const;

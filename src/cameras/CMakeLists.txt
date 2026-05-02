@@ -1,6 +1,8 @@
 add_library(camera STATIC ICamera.cpp
         PerspectiveCamera.cpp
-        include/PerspectiveCamera.hpp)
+        include/PerspectiveCamera.hpp
+        include/Film.cpp
+        include/Film.hpp)
 
 target_include_directories(camera PUBLIC include)
 
