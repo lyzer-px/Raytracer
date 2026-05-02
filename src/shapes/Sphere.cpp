@@ -30,7 +30,7 @@ std::optional<SurfaceInteraction> Sphere::intersect(const Ray &ray) const
     ray.tMax = *t;
 
     return SurfaceInteraction{
-        .p  = hitPoint,
+        .hitPoint  = hitPoint,
         .n  = outwardNormal,
         .wo = wo,
         .uv = Point2d{
