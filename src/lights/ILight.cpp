@@ -5,8 +5,4 @@
 ** ILight
 */
 
-#include "include/ILight.hpp"
-
-namespace raytracer {
-namespace light {} // light
-} // raytracer
+#include "ILight.hpp"

@@ -15,7 +15,7 @@ public:
     Normal3();
     Normal3(T x, T y, T z);
 
-    template <typename U> explicit Normal3(const Vector3<U> &v)
+    template <typename U> explicit Normal3(const Vector3<U> &)
     {}
 };
 

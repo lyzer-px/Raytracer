@@ -12,7 +12,7 @@ namespace material {
 FlatColor::FlatColor(const Color &color): _color{color}
 {}
 
-Color FlatColor::getColor(const shape::SurfaceInteraction &si) const // NOLINT
+Color FlatColor::getColor(const shape::SurfaceInteraction &) const // NOLINT
 {
     return _color;
 }

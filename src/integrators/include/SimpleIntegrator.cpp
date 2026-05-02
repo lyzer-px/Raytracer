@@ -13,7 +13,7 @@ SimpleIntegrator::SimpleIntegrator(int maxDepth): _maxDepth{maxDepth}
 {}
 
 Color SimpleIntegrator::Li(const Ray &ray, const scene::Scene &scene,
-    int depth) const
+    int) const
 {
     const auto si = scene.intersect(ray);
 
@@ -53,8 +53,8 @@ Color SimpleIntegrator::Li(const Ray &ray, const scene::Scene &scene,
 void SimpleIntegrator::render(const scene::Scene &scene,
     const camera::ICamera &camera, camera::Film &film) const
 {
-    for (std::size_t y = 0; y < film.height(); ++y) {
-        for (std::size_t x = 0; x < film.width(); ++x) {
+    for (auto y = 0; y < film.height(); ++y) {
+        for (auto x = 0; x < film.width(); ++x) {
             const double u = (x + 0.5) / static_cast<double>(film.width());
             const double v = (y + 0.5) / static_cast<double>(film.height());
 

@@ -7,8 +7,10 @@
 
 #ifndef RAYTRACER_ILIGHT_HPP
 #define RAYTRACER_ILIGHT_HPP
+
 #include "Color.hpp"
 #include "maths_types.hpp"
+#include "Vector3.hpp"
 
 namespace raytracer {
 namespace light {

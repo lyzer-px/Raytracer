@@ -12,7 +12,7 @@ namespace light {
 AmbientLight::AmbientLight(const Color &radiance): _radiance{radiance}
 {}
 
-LightSample AmbientLight::sample(const Point3d &p) const
+LightSample AmbientLight::sample(const Point3d &) const
 {
     return LightSample {
         .wi = Vector3d{},
