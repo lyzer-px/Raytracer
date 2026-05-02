@@ -22,9 +22,9 @@ class Scene {
 public:
     Scene() = default;
 
-    void addPrimitive(std::shared_ptr<shape::IPrimitive> primitive);
+    void addPrimitive(std::unique_ptr<shape::IPrimitive> &primitive);
 
-    void addLight(std::shared_ptr<light::ILight> light);
+    void addLight(std::unique_ptr<light::ILight> &light);
 
     void setBackgroundColor(const Color &color);
 
@@ -33,14 +33,14 @@ public:
 
     [[nodiscard]] bool intersectAny(const Ray &ray) const;
 
-    [[nodiscard]] const std::vector<std::shared_ptr<light::ILight>> &
+    [[nodiscard]] const std::vector<std::unique_ptr<light::ILight>> &
     lights() const;
 
     [[nodiscard]] Color backgroundColor() const;
 
 private:
-    std::vector<std::shared_ptr<shape::IPrimitive>> _primitives;
-    std::vector<std::shared_ptr<light::ILight>> _lights;
+    std::vector<std::unique_ptr<shape::IPrimitive>> _primitives;
+    std::vector<std::unique_ptr<light::ILight>> _lights;
     Color _background;
 };
 } // scene
