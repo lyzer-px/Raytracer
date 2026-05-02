@@ -20,7 +20,7 @@ namespace raytracer {
 namespace scene {
 class Scene {
 public:
-    Scene() = default;
+    Scene();
 
     void addPrimitive(std::unique_ptr<shape::IPrimitive> &primitive);
 

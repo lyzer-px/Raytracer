@@ -7,6 +7,7 @@
 
 #include "Film.hpp"
 
+#include <algorithm>
 #include <cassert>
 #include <fstream>
 #include <stdexcept>

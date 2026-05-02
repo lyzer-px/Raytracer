@@ -26,5 +26,3 @@ struct Color {
     Color clamp() const;
     Color toRgb() const;
 };
-
-#include "Color.tpp"
