@@ -1,6 +1,8 @@
 add_library(shapes STATIC IShape.cpp Sphere.cpp
         IPrimitive.cpp
-        include/IPrimitive.hpp)
+        include/IPrimitive.hpp
+        GeometricPrimitive.cpp
+        include/GeometricPrimitive.hpp)
 
 target_include_directories(shapes PUBLIC include)
 

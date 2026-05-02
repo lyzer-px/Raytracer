@@ -18,6 +18,7 @@ class Ray;
 
 namespace raytracer {
 namespace shape {
+class IPrimitive;
 class IShape;
 
 struct SurfaceInteraction {
@@ -25,8 +26,7 @@ struct SurfaceInteraction {
     Normal3d n;
     Vector3d wo;
     Point2d uv;
-    const IShape *shape = nullptr;
-    // const IPrimitive *primitive;
+    const IPrimitive *primitive = nullptr;
 };
 
 class IShape {
