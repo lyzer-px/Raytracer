@@ -6,7 +6,3 @@
 */
 
 #include "include/ICamera.hpp"
-
-namespace raytracer {
-namespace camera {} // camera
-} // raytracer
