@@ -15,17 +15,17 @@ namespace raytracer {
 namespace camera {
 class PerspectiveCamera: public ICamera {
 public:
-    PerspectiveCamera(const Point3f &position, const Point3f &target,
-        const Vector3f &up, float fovDegrees, float aspectRatio);
+    PerspectiveCamera(const Point3d &position, const Point3d &target,
+        const Vector3d &up, float fovDegrees, float aspectRatio);
 
     [[nodiscard]] Ray
         generateRay(const float &u, const float &v) const override;
 
 private:
-    Point3f _origin;
-    Point3f _lowerLeft;
-    Vector3f _horizontal;
-    Vector3f _vertical;
+    Point3d _origin;
+    Point3d _lowerLeft;
+    Vector3d _horizontal;
+    Vector3d _vertical;
 };
 } // camera
 } // raytracer
