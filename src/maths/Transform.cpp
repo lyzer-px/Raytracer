@@ -6,9 +6,12 @@
 */
 
 #include "Transform.hpp"
+
 #include "Matrix.hpp"
-#include "Vector.hpp"
 #include "Point.hpp"
+#include "Vector.hpp"
+#include "Vector2.hpp"
+#include "Vector3.hpp"
 
 Vector2d operator*(const Matrix2x2 &matrix, const Vector2d &vector)
 {
