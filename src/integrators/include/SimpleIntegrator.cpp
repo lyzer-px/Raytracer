@@ -23,7 +23,7 @@ Color SimpleIntegrator::Li(const Ray &ray, const scene::Scene &scene,
     const material::IMaterial *mat = si->primitive->material();
     const Color surfaceColor       = mat->getColor(*si);
 
-    Color accumulatedRadiance(0.0f, 0.0f, 0.0f);
+    Color accumulatedRadiance(0.0, 0.0, 0.0);
 
     for (const auto &light: scene.lights()) {
         light::LightSample ls = light->sample(si->hitPoint);
@@ -34,14 +34,14 @@ Color SimpleIntegrator::Li(const Ray &ray, const scene::Scene &scene,
             continue;
         }
 
-        Point3d shadowOrigin = si->hitPoint +
-            Point3d(Vector3d(si->n) * 0.0001f);
-        Ray shadowRay(shadowOrigin, ls.wi, ls.distance);
+        Point3d shadowOrigin = si->hitPoint + (Vector3d(si->normal) * 0.0001);
+        Ray shadowRay(shadowOrigin, -ls.wi, ls.distance);
 
         if (scene.intersectAny(shadowRay))
             continue;
 
-        const float cosTheta = std::max(Vector3d{si->n}.dot(ls.wi), 0.0);
+        const double cosTheta = std::max(-(Vector3d{si->normal}.dot(ls.wi)),
+            0.0);
 
         accumulatedRadiance = accumulatedRadiance + surfaceColor * ls.radiance *
             cosTheta;
