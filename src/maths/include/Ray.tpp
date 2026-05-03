@@ -12,9 +12,9 @@
 #include "Ray.hpp"
 #include "Point.hpp"
 
-Ray::Ray() : tMax(std::numeric_limits<double>::infinity()) {}
+inline Ray::Ray() : tMax(std::numeric_limits<double>::infinity()) {}
 
-Ray::Ray(const Point3d &origin, const Vector3d &direction, double tMax)
+inline Ray::Ray(const Point3d &origin, const Vector3d &direction, double tMax)
     : origin(origin), tMax(tMax)
 {
     if (direction.hasNaN())
@@ -25,12 +25,12 @@ Ray::Ray(const Point3d &origin, const Vector3d &direction, double tMax)
         this->direction = direction;
 }
 
-Point3d Ray::operator()(double time) const
+inline Point3d Ray::operator()(double time) const
 {
     return origin + (direction * time);
 }
 
-bool Ray::hasNaN() const
+inline bool Ray::hasNaN() const
 {
     return
     std::isnan(origin.x()) || std::isnan(origin.y()) || std::isnan(origin.z()) ||
