@@ -1,3 +1,5 @@
-target_include_directories(core PUBLIC include)
+add_executable(raytracer main.cpp)
 
-target_link_libraries(core PUBLIC maths warning_options)
+target_include_directories(raytracer PUBLIC include)
+
+target_link_libraries(raytracer PUBLIC scene integrators warning_options)

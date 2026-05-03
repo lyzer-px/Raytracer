@@ -23,7 +23,7 @@ class IShape;
 
 struct SurfaceInteraction {
     Point3d hitPoint;
-    Normal3d n;
+    Normal3d normal;
     Vector3d wo;
     Point2d uv;
     const IPrimitive *primitive = nullptr;
