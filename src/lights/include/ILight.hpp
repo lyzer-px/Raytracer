@@ -7,8 +7,10 @@
 
 #ifndef RAYTRACER_ILIGHT_HPP
 #define RAYTRACER_ILIGHT_HPP
+
 #include "Color.hpp"
 #include "maths_types.hpp"
+#include "Vector3.hpp"
 
 namespace raytracer {
 namespace light {
@@ -22,7 +24,7 @@ class ILight {
 public:
     virtual ~ILight() = default;
 
-    [[nodiscard]] virtual LightSample sample(const Point3f &p) const = 0;
+    [[nodiscard]] virtual LightSample sample(const Point3d &p) const = 0;
 
     [[nodiscard]] virtual bool isDelta() const = 0;
 };

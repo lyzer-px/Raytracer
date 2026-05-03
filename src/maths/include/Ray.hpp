@@ -7,10 +7,9 @@
 
 #pragma once
 
-#include <limits>
-
-#include "Vector.hpp"
 #include "Point.hpp"
+#include "Vector.hpp"
+#include "Vector3.hpp"
 
 class Ray {
 public:

@@ -17,7 +17,7 @@ class AmbientLight: public ILight {
 public:
     explicit AmbientLight(const Color &radiance);
 
-    [[nodiscard]] LightSample sample(const Point3f &p) const override;
+    [[nodiscard]] LightSample sample(const Point3d &p) const override;
 
     [[nodiscard]] bool isDelta() const override;
 

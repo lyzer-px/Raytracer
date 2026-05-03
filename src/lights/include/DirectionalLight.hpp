@@ -15,7 +15,7 @@ class DirectionalLight: public ILight {
 public:
     DirectionalLight(const Vector3d &direction, const Color &radiance);
 
-    [[nodiscard]] LightSample sample(const Point3f &p) const override;
+    [[nodiscard]] LightSample sample(const Point3d &p) const override;
 
     [[nodiscard]] bool isDelta() const override;
 

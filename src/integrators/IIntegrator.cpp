@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2026
 ** raytracer
 ** File description:
-** ILight
+** IIntegrator
 */
 
-#include "ILight.hpp"
+#include "include/IIntegrator.hpp"

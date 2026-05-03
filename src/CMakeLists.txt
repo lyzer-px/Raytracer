@@ -14,4 +14,6 @@ add_subdirectory(cameras)
 
 add_subdirectory(scene)
 
+add_subdirectory(integrators)
+
 set_target_properties(raytracer PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})

@@ -11,6 +11,9 @@
 
 namespace raytracer {
 namespace scene {
+Scene::Scene(): _background{Color{0.0, 0.0, 0.0}}
+{}
+
 void Scene::addPrimitive(std::unique_ptr<shape::IPrimitive> &primitive)
 {
     assert(primitive != nullptr);

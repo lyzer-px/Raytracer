@@ -8,6 +8,7 @@
 #pragma once
 
 #include <cstddef>
+
 #include "Point.hpp"
 
 template <template<typename>class Derived, std::size_t N, typename T = double>
@@ -80,30 +81,5 @@ public:
 protected:
     std::array<T, N> _data;
 };
-
-template <typename T>
-class Vector3: public Vector<Vector3, 3, T> {
-public:
-    Vector3();
-
-    Vector3(T x, T y, T z) noexcept;
-
-    template <typename U>
-    explicit Vector3(const Point3<U> &v); // conversion constructor
-};
-
-template <typename T>
-class Vector2: public Vector<Vector2, 2, T> {
-public:
-    Vector2();
-
-    Vector2(T x, T y) noexcept;
-
-    template <typename U>
-    explicit Vector2(const Point2<U> &v); // conversion constructor
-};
-
-using Vector2d = Vector2<double>;
-using Vector3d = Vector3<double>;
 
 #include "Vector.tpp"

@@ -7,8 +7,9 @@
 
 #include "Point.hpp"
 
-#include <array>
 #include <gtest/gtest.h>
+
+#include "Vector3.hpp"
 
 // ============================================================================
 // Constructor Tests

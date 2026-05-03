@@ -22,7 +22,7 @@ class IPrimitive;
 class IShape;
 
 struct SurfaceInteraction {
-    Point3d p;
+    Point3d hitPoint;
     Normal3d n;
     Vector3d wo;
     Point2d uv;

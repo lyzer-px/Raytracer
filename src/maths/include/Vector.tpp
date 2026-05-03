@@ -209,27 +209,6 @@ bool Vector<Derived, N, T>::operator>=(const Derived<T> &other) const
     return normA > normB || normA == normB;
 }
 
-template <typename T>
-Vector3<T>::Vector3() : Vector<Vector3, 3, T>() {}
-
-template <typename T>
-Vector2<T>::Vector2() : Vector<Vector2, 2, T>() {}
-
-template <typename T>
-Vector3<T>::Vector3(T x, T y, T z) noexcept : Vector<Vector3, 3, T>() {
-
-    this->_data[0] = x;
-    this->_data[1] = y;
-    this->_data[2] = z;
-}
-
-template <typename T>
-Vector2<T>::Vector2(T x, T y) noexcept : Vector<Vector2, 2, T>() {
-
-    this->_data[0] = x;
-    this->_data[1] = y;
-}
-
 template <template<typename> class Derived, std::size_t N, typename T>
 Derived<T> Vector<Derived, N, T>::cross(const Derived<T> &other) const
     requires (N == 3)
