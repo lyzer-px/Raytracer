@@ -38,6 +38,7 @@
 *.app
 raytracer
 myteams_cli
+unit_tests
 
 # debug information files
 *.dwo
@@ -45,4 +46,4 @@ myteams_cli
 # useless files and directory
 build/
 .idea/
-CMakeLists.txt
+*.ppm
