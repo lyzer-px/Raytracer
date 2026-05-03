@@ -66,7 +66,7 @@ public:
     Vector3<T> operator-(const Point3<T>& other) const;
 
 
-    Point3 operator+(const Point3 &other) const = delete;
+    // Point3 operator+(const Point3 &other) const = delete;
     Point3 operator*(T scalar) const = delete;
     Point3 operator/(T scalar) const = delete;
     T operator*(const Point3 &other) const = delete;
