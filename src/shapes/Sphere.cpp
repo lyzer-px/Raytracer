@@ -31,7 +31,7 @@ std::optional<SurfaceInteraction> Sphere::intersect(const Ray &ray) const
 
     return SurfaceInteraction{
         .hitPoint  = hitPoint,
-        .n  = outwardNormal,
+        .normal  = outwardNormal,
         .wo = wo,
         .uv = Point2d{
             sphericalTheta(temp) / (2.0 * M_PI),
