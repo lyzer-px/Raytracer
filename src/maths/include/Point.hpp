@@ -33,7 +33,7 @@ public:
     Point2<T>& operator+=(const Vector2<T>& v);
     Point2<T>& operator-=(const Vector2<T>& v);
 
-    // Point - Point = Vector  (displacement between two positions)
+    // Point - Point = Vector (displacement between two positions)
     Vector2<T> operator-(const Point2<T>& other) const;
 
 
@@ -62,7 +62,7 @@ public:
     Point3<T>& operator+=(const Vector3<T>& v);
     Point3<T>& operator-=(const Vector3<T>& v);
 
-    // Point - Point = Vector  (displacement between two positions)
+    // Point - Point = Vector (displacement between two positions)
     Vector3<T> operator-(const Point3<T>& other) const;
 
 

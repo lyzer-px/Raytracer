@@ -6,4 +6,6 @@ add_subdirectory(maths)
 
 add_subdirectory(shapes)
 
+add_subdirectory(materials)
+
 set_target_properties(raytracer PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
