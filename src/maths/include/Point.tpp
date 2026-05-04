@@ -7,10 +7,9 @@
 
 #pragma once
 
-#include <cmath>
-#include <stdexcept>
 #include "Point.hpp"
-#include "Vector.hpp"
+
+namespace raytracer::maths {
 
 // Point2 Implementation
 template <typename T>
@@ -213,3 +212,5 @@ Point3<T> permute(const Point3<T>& p, int x, int y, int z)
         getComponent(p, z)
         );
 }
+
+} // namespace raytracer::maths

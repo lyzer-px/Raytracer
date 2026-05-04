@@ -9,6 +9,8 @@
 #include "maths.hpp"
 #include "Vector.hpp"
 
+namespace raytracer::maths {
+
 void coordinateSystem(const Vector3d &v1, Vector3d &v2, Vector3d &v3)
 {
     if (std::abs(v1.x()) > std::abs(v1.y()))
@@ -43,5 +45,7 @@ double sphericalTheta(const Vector3d &v)
 double sphericalPhi(const Vector3d &v)
 {
     const double phi = std::atan2(v.y(), v.x());
-    return (phi < 0) ? (phi + 2.0 * M_PI) : phi;
+    return (phi < 0) ? (phi + (2.0 * M_PI)) : phi;
 }
+
+} // namespace raytracer::maths

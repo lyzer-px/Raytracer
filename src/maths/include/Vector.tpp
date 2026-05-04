@@ -7,11 +7,9 @@
 
 #pragma once
 
-#include <algorithm>
-#include <cmath>
-#include <cstddef>
-#include <stdexcept>
 #include "Vector.hpp"
+
+namespace raytracer::maths {
 
 template <template<typename> class Derived, std::size_t N, typename T>
 bool Vector<Derived, N, T>::hasNaN() const
@@ -230,3 +228,5 @@ Derived<T> Vector<Derived, N, T>::cross(Derived<T> &other) const
     result.z() = (this->x() * other.y()) - (this->y() * other.x());
     return result;
 }
+
+} // namespace raytracer::maths

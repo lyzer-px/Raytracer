@@ -7,10 +7,9 @@
 
 #pragma once
 
-#include <cmath>
-#include <limits>
 #include "Ray.hpp"
-#include "Point.hpp"
+
+namespace raytracer::maths {
 
 inline Ray::Ray() : tMax(std::numeric_limits<double>::infinity()) {}
 
@@ -37,3 +36,5 @@ inline bool Ray::hasNaN() const
     std::isnan(direction.x()) || std::isnan(direction.y()) || std::isnan(direction.z()) ||
     std::isnan(tMax);
 }
+
+} // namespace raytracer::maths

@@ -9,6 +9,8 @@
 #include <cmath>
 #include "include/Color.hpp"
 
+namespace raytracer::maths {
+
 Color::Color(): r{0}, g{0}, b{0}
 {}
 
@@ -59,3 +61,5 @@ Color Color::toRgb() const
         std::round(b * MAX_RGB_VALUE)
     );
 }
+
+} // namespace raytracer::maths

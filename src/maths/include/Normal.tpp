@@ -9,6 +9,8 @@
 
 #include "Normal.hpp"
 
+namespace raytracer::maths {
+
 template <typename T>
 Normal3<T>::Normal3() : Vector<Normal3, 3, T>() {}
 
@@ -19,3 +21,5 @@ template <typename T>
 template <typename U>
 Normal3<T>::Normal3(const Vector3<U>& v) :
     Vector<Normal3, 3, T>({(v.x()), (v.y()), (v.z())}) {}
+
+} // namespace raytracer::maths

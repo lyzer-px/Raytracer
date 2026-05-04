@@ -7,6 +7,8 @@
 
 #pragma once
 
+namespace raytracer::maths {
+
 constexpr auto MAX_RGB_VALUE = 255.0;
 
 
@@ -26,3 +28,6 @@ struct Color {
     Color clamp() const;
     Color toRgb() const;
 };
+
+} // namespace raytracer::maths
+

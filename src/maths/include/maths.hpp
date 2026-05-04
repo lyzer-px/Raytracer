@@ -16,6 +16,8 @@
 #include "Ray.hpp"
 #include "Transform.hpp"
 
+namespace raytracer::maths {
+
 // Build an orthonormal basis (v2, v3) from a single unit vector v1.
 // Used by PerspectiveCamera to derive right and up vectors from the forward direction.
 void coordinateSystem(const Vector3d& v1, Vector3d &v2, Vector3d &v3);
@@ -32,3 +34,5 @@ double sphericalTheta(const Vector3d& v);
 
 // Azimuthal angle phi of a direction vector (angle in the xy-plane).
 double sphericalPhi(const Vector3d& v);
+
+} // namespace raytracer::maths

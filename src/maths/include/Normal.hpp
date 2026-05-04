@@ -9,6 +9,8 @@
 
 #include "Vector.hpp"
 
+namespace raytracer::maths {
+
 template <typename T = double>
 class Normal3: public Vector<Normal3, 3, T> {
 public:
@@ -22,4 +24,7 @@ public:
 
 using Normal3d = Normal3<double>;
 
+} // namespace raytracer::maths
+
 #include "Normal.tpp"
+
