@@ -277,7 +277,7 @@ jobs:
         run: |
           echo `clang --version`
           apt update
-          apt install -y python3-full llvm-18 llvm-18-tools
+          apt install -y python3-full
 
       - name: Checkout Repository
         uses: actions/checkout@v4
