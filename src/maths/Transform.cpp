@@ -13,6 +13,8 @@
 #include "Vector2.hpp"
 #include "Vector3.hpp"
 
+namespace raytracer::maths {
+
 Vector2d operator*(const Matrix2x2 &matrix, const Vector2d &vector)
 {
 
@@ -50,3 +52,5 @@ Point3d operator*(const Matrix3x3 &matrix, const Point3d &point)
         (matrix[2][0] * point.x()) + (matrix[2][1] * point.y()) + (matrix[2][2] * point.z())
     };
 }
+
+} // namespace raytracer::maths

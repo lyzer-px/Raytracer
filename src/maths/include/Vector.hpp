@@ -7,9 +7,14 @@
 
 #pragma once
 
+#include <algorithm>
+#include <cmath>
 #include <cstddef>
+#include <stdexcept>
 
 #include "Point.hpp"
+
+namespace raytracer::maths {
 
 template <template<typename>class Derived, std::size_t N, typename T = double>
 class Vector {
@@ -82,4 +87,7 @@ protected:
     std::array<T, N> _data;
 };
 
+} // namespace raytracer::maths
+
 #include "Vector.tpp"
+

@@ -20,7 +20,7 @@ class IIntegrator {
 public:
     virtual ~IIntegrator() = default;
 
-    virtual Color Li(const Ray &ray, const scene::Scene &scene,
+    virtual maths::Color Li(const maths::Ray &ray, const scene::Scene &scene,
         int depth) const = 0;
 
     virtual void render(const scene::Scene &scene,

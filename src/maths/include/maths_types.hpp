@@ -11,6 +11,8 @@
 #include "Point.hpp"
 #include "Normal.hpp"
 
+namespace raytracer::maths {
+
 // Vectors
 using Vector2f = Vector2<float>;
 using Vector2i = Vector2<int>;
@@ -25,3 +27,6 @@ using Point3i = Point3<int>;
 
 // Normals
 using Normal3f = Normal3<float>;
+
+} // namespace raytracer::maths
+

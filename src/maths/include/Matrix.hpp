@@ -12,6 +12,8 @@
 #include <array>
 #include <initializer_list>
 
+namespace raytracer::maths {
+
 template <size_t rows, size_t cols, typename T = double>
 class Matrix {
 public:
@@ -42,5 +44,7 @@ class MatrixOperationException : public std::exception {
 using Matrix2x2 = Matrix<2, 2>;
 using Matrix3x3 = Matrix<3, 3>;
 using Matrix4x4 = Matrix<4, 4>;
+
+} // namespace raytracer::maths
 
 #include "Matrix.tpp"

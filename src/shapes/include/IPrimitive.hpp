@@ -19,9 +19,9 @@ public:
     virtual ~IPrimitive() = default;
 
     [[nodiscard]] virtual std::optional<SurfaceInteraction> intersect(
-        const Ray& ray) const = 0;
+        const maths::Ray& ray) const = 0;
 
-    [[nodiscard]] virtual bool intersectP(const Ray& ray) const = 0;
+    [[nodiscard]] virtual bool intersectP(const maths::Ray& ray) const = 0;
 
     [[nodiscard]] virtual const material::IMaterial* material() const = 0;
 };

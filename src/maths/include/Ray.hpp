@@ -7,9 +7,15 @@
 
 #pragma once
 
+#include <cmath>
+#include <limits>
+#include <stdexcept>
+
 #include "Point.hpp"
 #include "Vector.hpp"
 #include "Vector3.hpp"
+
+namespace raytracer::maths {
 
 class Ray {
 public:
@@ -25,4 +31,7 @@ public:
     mutable double tMax;   // reduced by each intersection hit -- enables BVH early exit
 };
 
+} // namespace raytracer::maths
+
 #include "Ray.tpp"
+

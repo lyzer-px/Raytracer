@@ -9,6 +9,8 @@
 
 #include "Vector3.hpp"
 
+namespace raytracer::maths {
+
 template <typename T>
 Vector3<T>::Vector3(): Vector<Vector3, 3, T>()
 {}
@@ -33,3 +35,5 @@ template <typename U>
 Vector3<T>::Vector3(const Normal3<U> &v): Vector<Vector3, 3, T>(
     {static_cast<T>(v.x()), static_cast<T>(v.y()), static_cast<T>(v.z())})
 {}
+
+} // namespace raytracer::maths

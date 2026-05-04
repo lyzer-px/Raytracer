@@ -19,9 +19,9 @@ public:
         std::unique_ptr<material::IMaterial> &material);
 
     [[nodiscard]] std::optional<SurfaceInteraction> intersect(
-        const Ray &ray) const override;
+        const maths::Ray &ray) const override;
 
-    [[nodiscard]] bool intersectP(const Ray &ray) const override;
+    [[nodiscard]] bool intersectP(const maths::Ray &ray) const override;
 
     [[nodiscard]] const material::IMaterial *material() const override;
 

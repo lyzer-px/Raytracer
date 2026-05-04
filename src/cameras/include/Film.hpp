@@ -18,9 +18,9 @@ class Film {
 public:
     Film(int width, int height);
 
-    void addSample(int x, int y, const Color &color);
+    void addSample(int x, int y, const maths::Color &color);
 
-    const Color &getPixel(int x, int y) const;
+    const maths::Color &getPixel(int x, int y) const;
 
     int width() const;
 
@@ -31,7 +31,7 @@ public:
 private:
     int _width;
     int _height;
-    std::vector<Color> _buffer;
+    std::vector<maths::Color> _buffer;
 };
 } // camera
 } // raytracer

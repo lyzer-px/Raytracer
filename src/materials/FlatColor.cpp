@@ -9,10 +9,10 @@
 
 namespace raytracer {
 namespace material {
-FlatColor::FlatColor(const Color &color): _color{color}
+FlatColor::FlatColor(const maths::Color &color): _color{color}
 {}
 
-Color FlatColor::getColor(const shape::SurfaceInteraction &) const // NOLINT
+maths::Color FlatColor::getColor(const shape::SurfaceInteraction &) const // NOLINT
 {
     return _color;
 }

@@ -8,7 +8,11 @@
 #pragma once
 
 #include <array>
+#include <cmath>
 #include <cstddef>
+#include <stdexcept>
+
+namespace raytracer::maths {
 
 template <template<typename>class Derived, std::size_t N, typename T>
 class Vector;
@@ -94,4 +98,7 @@ template <typename T> Point3<T> floor(const Point3<T>& p);
 template <typename T> Point3<T> ceil(const Point3<T>& p);
 template <typename T> Point3<T> permute(const Point3<T>& p, int x, int y, int z);
 
+} // namespace raytracer::maths
+
 #include "Point.tpp"
+

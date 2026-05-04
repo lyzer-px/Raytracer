@@ -15,7 +15,7 @@ class ICamera {
 public:
     virtual ~ICamera() = default;
 
-    [[nodiscard]] virtual Ray generateRay(const float &u, const float &v) const
+    [[nodiscard]] virtual maths::Ray generateRay(const float &u, const float &v) const
     = 0;
 };
 } // camera

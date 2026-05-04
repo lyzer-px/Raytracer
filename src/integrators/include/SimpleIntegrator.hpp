@@ -16,7 +16,7 @@ class SimpleIntegrator: public IIntegrator {
 public:
     explicit SimpleIntegrator(int maxDepth = 0);
 
-    Color Li(const Ray &ray,
+    maths::Color Li(const maths::Ray &ray,
         const scene::Scene &scene,
         int depth) const override;
 

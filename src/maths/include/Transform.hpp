@@ -9,6 +9,8 @@
 
 #include "Matrix.hpp"
 
+namespace raytracer::maths {
+
 template <typename T>
 class Vector2;
 
@@ -46,3 +48,5 @@ const Matrix3x3 &reflectionMatrix3D(bool reflectX, bool reflectY) noexcept;
 const Matrix2x2 &reflectionMatrix2D(bool reflectX, bool reflectY) noexcept;
 
 }
+
+} // namespace raytracer::maths
