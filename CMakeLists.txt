@@ -1,8 +1,5 @@
 cmake_minimum_required(VERSION 3.28)
 
-project(raytracer VERSION 1.0
-        LANGUAGES CXX)
-
 find_program(CPP_COMPILER NAMES clang++ REQUIRED FALSE)
 if(CPP_COMPILER)
    set(CMAKE_C_COMPILER ${CPP_COMPILER} CACHE FILEPATH "clang++ compiler" FORCE)
@@ -22,6 +19,9 @@ endif()
 set(CMAKE_CXX_STANDARD 20)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+project(raytracer VERSION 1.0
+        LANGUAGES CXX)
 
 add_library(warning_options INTERFACE)
 
