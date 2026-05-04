@@ -15,14 +15,14 @@ namespace light {
 
 class AmbientLight: public ILight {
 public:
-    explicit AmbientLight(const Color &radiance);
+    explicit AmbientLight(const maths::Color &radiance);
 
-    [[nodiscard]] LightSample sample(const Point3d &p) const override;
+    [[nodiscard]] LightSample sample(const maths::Point3d &p) const override;
 
     [[nodiscard]] bool isDelta() const override;
 
 private:
-    Color _radiance;
+    maths::Color _radiance;
 };
 
 } // light

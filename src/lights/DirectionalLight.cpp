@@ -9,11 +9,11 @@
 
 namespace raytracer {
 namespace light {
-DirectionalLight::DirectionalLight(const Vector3d &direction,
-    const Color &radiance): _direction{direction.normalize()}, _radiance{radiance}
+DirectionalLight::DirectionalLight(const maths::Vector3d &direction,
+    const maths::Color &radiance): _direction{direction.normalize()}, _radiance{radiance}
 {}
 
-LightSample DirectionalLight::sample(const Point3d &) const
+LightSample DirectionalLight::sample(const maths::Point3d &) const
 {
     return LightSample{
         .wi = -_direction,

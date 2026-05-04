@@ -12,7 +12,7 @@ namespace integrator {
 SimpleIntegrator::SimpleIntegrator(int maxDepth): _maxDepth{maxDepth}
 {}
 
-Color SimpleIntegrator::Li(const Ray &ray, const scene::Scene &scene,
+maths::Color SimpleIntegrator::Li(const maths::Ray &ray, const scene::Scene &scene,
     int) const
 {
     const auto si = scene.intersect(ray);
@@ -21,9 +21,9 @@ Color SimpleIntegrator::Li(const Ray &ray, const scene::Scene &scene,
         return scene.backgroundColor();
 
     const material::IMaterial *mat = si->primitive->material();
-    const Color surfaceColor       = mat->getColor(*si);
+    const maths::Color surfaceColor       = mat->getColor(*si);
 
-    Color accumulatedRadiance(0.0, 0.0, 0.0);
+    maths::Color accumulatedRadiance(0.0, 0.0, 0.0);
 
     for (const auto &light: scene.lights()) {
         light::LightSample ls = light->sample(si->hitPoint);
@@ -34,13 +34,13 @@ Color SimpleIntegrator::Li(const Ray &ray, const scene::Scene &scene,
             continue;
         }
 
-        Point3d shadowOrigin = si->hitPoint + (Vector3d(si->normal) * 0.0001);
-        Ray shadowRay(shadowOrigin, -ls.wi, ls.distance);
+        maths::Point3d shadowOrigin = si->hitPoint + (maths::Vector3d(si->normal) * 0.0001);
+        maths::Ray shadowRay(shadowOrigin, -ls.wi, ls.distance);
 
         if (scene.intersectAny(shadowRay))
             continue;
 
-        const double cosTheta = std::max(-(Vector3d{si->normal}.dot(ls.wi)),
+        const double cosTheta = std::max(-(maths::Vector3d{si->normal}.dot(ls.wi)),
             0.0);
 
         accumulatedRadiance = accumulatedRadiance + surfaceColor * ls.radiance *
@@ -58,9 +58,9 @@ void SimpleIntegrator::render(const scene::Scene &scene,
             const double u = (x + 0.5) / static_cast<double>(film.width());
             const double v = (y + 0.5) / static_cast<double>(film.height());
 
-            Ray ray = camera.generateRay(u, v);
+            maths::Ray ray = camera.generateRay(u, v);
 
-            Color color = Li(ray, scene, _maxDepth);
+            maths::Color color = Li(ray, scene, _maxDepth);
 
             film.addSample(x, y, color);
         }

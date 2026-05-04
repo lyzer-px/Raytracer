@@ -17,13 +17,13 @@ namespace material {
 
 class FlatColor: public IMaterial {
 public:
-    explicit FlatColor(const Color &color);
+    explicit FlatColor(const maths::Color &color);
 
-    [[nodiscard]] Color
+    [[nodiscard]] maths::Color
         getColor(const shape::SurfaceInteraction &si) const override; // NOLINT
 
 private:
-    Color _color;
+    maths::Color _color;
 };
 
 } // material

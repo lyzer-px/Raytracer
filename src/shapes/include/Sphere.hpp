@@ -14,17 +14,17 @@ namespace shape {
 
 class Sphere: public IShape {
 public:
-    Sphere(const Point3d &center, const float &radius);
+    Sphere(const maths::Point3d &center, const float &radius);
 
     [[nodiscard]] std::optional<SurfaceInteraction> intersect(
-        const Ray &ray) const override;
+        const maths::Ray &ray) const override;
 
-    [[nodiscard]] bool intersectP(const Ray &ray) const override;
+    [[nodiscard]] bool intersectP(const maths::Ray &ray) const override;
 
 private:
-    [[nodiscard]] std::optional<double> solveQuadratic(const Ray &ray) const;
+    [[nodiscard]] std::optional<double> solveQuadratic(const maths::Ray &ray) const;
 
-    Point3d _center;
+    maths::Point3d _center;
     float _radius;
 };
 

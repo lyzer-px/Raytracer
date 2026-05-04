@@ -18,7 +18,7 @@ class IMaterial {
 public:
     virtual ~IMaterial() = default;
 
-    [[nodiscard]] virtual Color getColor(
+    [[nodiscard]] virtual maths::Color getColor(
         const shape::SurfaceInteraction &si) const = 0; //NOLINT
 };
 

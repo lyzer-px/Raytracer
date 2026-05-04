@@ -26,22 +26,22 @@ public:
 
     void addLight(std::unique_ptr<light::ILight> &light);
 
-    void setBackgroundColor(const Color &color);
+    void setBackgroundColor(const maths::Color &color);
 
     [[nodiscard]] std::optional<shape::SurfaceInteraction> intersect(
-        const Ray &ray) const;
+        const maths::Ray &ray) const;
 
-    [[nodiscard]] bool intersectAny(const Ray &ray) const;
+    [[nodiscard]] bool intersectAny(const maths::Ray &ray) const;
 
     [[nodiscard]] const std::vector<std::unique_ptr<light::ILight>> &
     lights() const;
 
-    [[nodiscard]] Color backgroundColor() const;
+    [[nodiscard]] maths::Color backgroundColor() const;
 
 private:
     std::vector<std::unique_ptr<shape::IPrimitive>> _primitives;
     std::vector<std::unique_ptr<light::ILight>> _lights;
-    Color _background;
+    maths::Color _background;
 };
 } // scene
 } // raytracer

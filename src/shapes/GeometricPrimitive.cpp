@@ -15,7 +15,7 @@ GeometricPrimitive::GeometricPrimitive(std::unique_ptr<IShape> &shape,
 {}
 
 std::optional<SurfaceInteraction> GeometricPrimitive::intersect(
-    const Ray &ray) const
+    const maths::Ray &ray) const
 {
     auto surfaceInteraction = _shape->intersect(ray);
     if (!surfaceInteraction)
@@ -26,7 +26,7 @@ std::optional<SurfaceInteraction> GeometricPrimitive::intersect(
     return surfaceInteraction;
 }
 
-bool GeometricPrimitive::intersectP(const Ray &ray) const
+bool GeometricPrimitive::intersectP(const maths::Ray &ray) const
 {
     return _shape->intersectP(ray);
 }

@@ -13,15 +13,15 @@ namespace raytracer {
 namespace light {
 class DirectionalLight: public ILight {
 public:
-    DirectionalLight(const Vector3d &direction, const Color &radiance);
+    DirectionalLight(const maths::Vector3d &direction, const maths::Color &radiance);
 
-    [[nodiscard]] LightSample sample(const Point3d &p) const override;
+    [[nodiscard]] LightSample sample(const maths::Point3d &p) const override;
 
     [[nodiscard]] bool isDelta() const override;
 
 private:
-    Vector3d _direction;
-    Color _radiance;
+    maths::Vector3d _direction;
+    maths::Color _radiance;
 };
 } // light
 } // raytracer

@@ -15,8 +15,8 @@
 namespace raytracer {
 namespace light {
 struct LightSample {
-    Vector3d wi;
-    Color radiance;
+    maths::Vector3d wi;
+    maths::Color radiance;
     double distance = 0.0;
 };
 
@@ -24,7 +24,7 @@ class ILight {
 public:
     virtual ~ILight() = default;
 
-    [[nodiscard]] virtual LightSample sample(const Point3d &p) const = 0;
+    [[nodiscard]] virtual LightSample sample(const maths::Point3d &p) const = 0;
 
     [[nodiscard]] virtual bool isDelta() const = 0;
 };
