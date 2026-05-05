@@ -13,6 +13,11 @@
 
 namespace raytracer {
 namespace material {
+struct ScatterRecord {
+    maths::Ray scattered;
+    maths::Color attenuation;
+    bool isSpecular = false;
+};
 
 class IMaterial {
 public:
