@@ -16,5 +16,11 @@ maths::Color FlatColor::getColor(const shape::SurfaceInteraction &) const // NOL
 {
     return _color;
 }
+
+std::optional<ScatterRecord> FlatColor::scatter(const maths::Ray &,
+    const shape::SurfaceInteraction &) const
+{
+    return std::nullopt;
+}
 } // material
 } // raytracer
