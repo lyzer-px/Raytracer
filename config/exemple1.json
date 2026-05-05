@@ -1,86 +1,83 @@
 {
-  "scene": {
-    "backgroundColor": {
-      "r": 0.2,
-      "g": 0.3,
-      "b": 1
+  "camera": {
+    "resolution": [1920, 1080],
+    "position":   [0.0, -100.0, 20.0],
+    "target":     [0.0,   0.0,   0.0],
+    "up":         [0.0,   0.0,   1.0],
+    "fov":        72.0
+  },
+  "materials": [
+    {
+      "id":   "red_lambertian",
+      "type": "lambertian",
+      "config": {
+        "albedo": [255, 0, 0]
+      }
     },
-    "materials": [
-      {
-        "name" : "Flat Red",
-        "type": "Lambertian",
-        "albedo": {
-          "r": 0.8,
-          "g": 0.3,
-          "b": 0.3
-        }
-      },
-      {
-        "name" : "Glass",
-        "type": "Dielectric",
-        "indexOfRefraction": 1.5
-      },
-      {
-        "name" : "Grey Metal",
-        "type": "Metal",
-        "albedo": {
-          "r": 0.8,
-          "g": 0.8,
-          "b": 0.8
-        },
-        "fuzz": 0.3
+    {
+      "id":   "blue_metal",
+      "type": "metal",
+      "config": {
+        "albedo": [0, 0, 255],
+        "fuzz":   0.5
       }
-    ],
-    "primitives": [
-      {
-        "type": "GeometricPrimitive",
-        "shape": {
-          "type": "Sphere",
-          "center": {
-            "x": 60,
-            "y": 5,
-            "z": 40
-          },
-          "radius": 25
-        },
-        "material": "Flat Red"
-      },
-      {
-        "type": "GeometricPrimitive",
-        "shape": {
-          "type": "Sphere",
-          "center": {
-            "x": 0,
-            "y": 0,
-            "z": 0
-          },
-          "radius": 25
-        },
-        "material": "Glass"
+    },
+    {
+      "id":   "glass",
+      "type": "dielectric",
+      "config": {
+        "ior": 1.5
       }
-    ],
-    "lights": [
-      {
-        "type": "AmbientLight",
-        "color": {
-          "r": 0.3,
-          "g": 0.3,
-          "b": 0.3
-        }
-      },
-      {
-        "type": "DirectionalLight",
-        "direction": {
-          "x": -1,
-          "y": -1,
-          "z": -1
-        },
-        "color": {
-          "r": 1,
-          "g": 1,
-          "b": 1
+    }
+  ],
+  "primitives": [
+    {
+      "type":        "geometric_primitive",
+      "material_id": "red_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [60.0, 5.0, 40.0],
+          "radius":   25.0
         }
       }
-    ]
-  }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "glass",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [260.0, 5.0, 140.0],
+          "radius":   25.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "blue_metal",
+      "shape": {
+        "type": "plane",
+        "config": {
+          "point":  [0.0, 0.0, 30.0],
+          "normal": [0.0, 0.0,  1.0]
+        }
+      }
+    }
+  ],
+  "lights": [
+    {
+      "type": "ambient",
+      "config": {
+        "radiance": [102, 102, 102]
+      }
+    },
+    {
+      "type": "directional",
+      "config": {
+        "direction": [1.0,  1.0, 1.0],
+        "radiance":  [255,  255, 255]
+      }
+    }
+  ]
 }
