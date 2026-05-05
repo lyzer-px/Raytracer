@@ -6,25 +6,25 @@
 */
 
 #include <string>
-#include "ConfigParser.hpp"
+#include "SceneBuilder.hpp"
 #include "jsonParser.hpp"
 #include "FactoryTemplate.hpp"
-#include "maths/Color.hpp"
+#include "Color.hpp"
 
-namespace raytracer::scene {
+//namespace raytracer::scene {
 
-void SceneBuilder::buildScene(nlohmann::json &config)
-{
-    try {
-         = config["camera"];
-        for (const auto &materialJson : config["materials"])
-            _materials.push_back();
-        for (const auto &primitiveJson : config["primitives"])
-            _primitives.push_back();
-        for (const auto &lightJson : config["lights"])
-            _lights.push_back();
-    } catch (const std::exception &e) {
-        throw std::runtime_error(std::string("Failed to build scene: ") + e.what());
-    }
-}
-}
+//void SceneBuilder::buildScene(nlohmann::json &config)
+//{
+//    try {
+//         = config["camera"];
+//        for (const auto &materialJson : config["materials"])
+//            _materials.push_back();
+//        for (const auto &primitiveJson : config["primitives"])
+//            _primitives.push_back();
+//        for (const auto &lightJson : config["lights"])
+//            _lights.push_back();
+//    } catch (const std::exception &e) {
+//        throw std::runtime_error(std::string("Failed to build scene: ") + e.what());
+//    }
+//}
+//}

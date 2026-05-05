@@ -23,21 +23,14 @@ namespace nlohmann {
 
 template <>
 struct adl_serializer<raytracer::maths::Vector3d> {
-    static void to_json(json &j, const std::unique_ptr<raytracer::maths::Vector3d> c);
-    static void from_json(const json &j, std::unique_ptr<raytracer::maths::Vector3d> &c);
+    static void to_json(json &j, const raytracer::maths::Vector3d &c); // NOLINT
+    static void from_json(const json &j, raytracer::maths::Vector3d &c); // NOLINT
 };
-
 
 template <>
 struct adl_serializer<raytracer::maths::Color> {
     static void to_json(json &j, const std::unique_ptr<raytracer::maths::Color> &c);
     static void from_json(const json &j, std::unique_ptr<raytracer::maths::Color> &c);
-};
-
-template <>
-struct adl_serializer<raytracer::maths::Matrix3x3> {
-    static void to_json(json &j, const std::unique_ptr<raytracer::maths::Matrix3x3> &c);
-    static void from_json(const json &j, std::unique_ptr<raytracer::maths::Matrix3x3> &c);
 };
 
 template <>

@@ -20,4 +20,6 @@ add_subdirectory(core)
 
 add_subdirectory(utils)
 
+add_subdirectory(DesignPattern)
+
 set_target_properties(raytracer PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})

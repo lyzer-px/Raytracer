@@ -28,6 +28,3 @@ private:
 };
 
 } // light
-} // raytracer
-
-#endif //RAYTRACER_AMBIENTLIGHT_HPP

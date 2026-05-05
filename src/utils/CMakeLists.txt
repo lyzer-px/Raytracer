@@ -1,4 +1,4 @@
-add_library(utils STATIC json.cpp Serializer.cpp)
+add_library(utils STATIC Serializer.cpp)
 
 target_include_directories(utils PUBLIC include)
 

@@ -68,4 +68,5 @@ void Film::write(const Film &film, const std::string &path)
             file << r << " " << g << " " << b << "\n";
         }
     }
+}
 } // namespace raytracer::camera
