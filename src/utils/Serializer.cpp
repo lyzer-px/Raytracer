@@ -5,56 +5,44 @@
 ** Serializer.cpp
 */
 
+#include <memory>
+#include <stdexcept>
+
 #include "Serializer.hpp"
 #include "ICamera.hpp"
 #include "ILight.hpp"
 #include "IPrimitive.hpp"
 #include "IMaterial.hpp"
 #include "Color.hpp"
+#include "PerspectiveCamera.hpp"
+#include "jsonParser.hpp"
 
 namespace nlohmann {
 
-void adl_serializer<raytracer::camera::ICamera>::to_json(nlohmann::json &j, const raytracer::camera::ICamera &camera)
+template<>
+void adl_serializer<raytracer::maths::Vector3d>::to_json(json &j, const std::unique_ptr<raytracer::maths::Color> &c)
 {
-    throw std::runtime_error("Serialization of ICamera is not implemented");
+    throw std::runtime_error("Unimplemented");
 }
 
-void adl_serializer<raytracer::camera::ICamera>::from_json(const nlohmann::json &j, raytracer::camera::ICamera &camera)
+template<>
+void adl_serializer<raytracer::maths::Vector3d>from_json(const json &j, std::unique_ptr<Vector3d> &a)
 {
-    camera.resolution = j["camera"]["resolution"];
-    camera.position = j["camera"]["position"];
-    camera.target = j["camera"]["target"];
-    camera.up = j["camera"]["up"];
-    camera.fov = j["camera"]["fov"];
+    auto arr = json::array();
+    
+    a = std::make_unique(a[0], a[1], a[2]);
 }
-void adl_serializer<raytracer::material::IMaterial>::to_json(nlohmann::json &j, const raytracer::material::IMaterial &material)
+
+template<>
+void adl_serializer<raytracer::maths::Color>::to_json(json &j, const std::unique_pt<raytracer::maths::Color> &c)
 {
-    throw std::runtime_error("Serialization of IMaterial is not implemented");
+    throw std::runtime_error("Unimplemented");
 }
-void adl_serializer<raytracer::material::IMaterial>::from_json(const nlohmann::json &j, raytracer::material::IMaterial &material)
+
+template<>
+void adl_serializer<raytracer::maths::Color>from_json(const json &j, const std::unique_ptr<raytracer::maths::Color> &a)
 {
-    material.id = j["material"]["id"];
-    material.type = j["material"]["type"];
-    material.config = j["material"]["config"];
-}
-void adl_serializer<raytracer::shape::IPrimitive>::to_json(nlohmann::json &j, const raytracer::shape::IPrimitive &primitive)
-{
-    throw std::runtime_error("Serialization of IPrimitive is not implemented");
-}
-void adl_serializer<raytracer::shape::IPrimitive>::from_json(const nlohmann::json &j, raytracer::shape::IPrimitive &primitive)
-{
-    primitive.type = j["primitive"]["type"];
-    primitive.materialId = j["primitive"]["materialId"];
-    primitive.config = j["primitive"]["config"];
-}
-void adl_serializer<raytracer::light::ILight>::to_json(nlohmann::json &j, const raytracer::light::ILight &light)
-{
-    throw std::runtime_error("Serialization of ILight is not implemented");
-}
-void adl_serializer<raytracer::light::ILight>::from_json(const nlohmann::json &j, raytracer::light::ILight &light)
-{
-    light.type = j["light"]["type"];
-    light.config = j["light"]["config"];
+    a = std::make_unique(a[0], a[1], a[2]);
 }
 
 }

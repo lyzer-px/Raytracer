@@ -11,6 +11,7 @@
 namespace raytracer::light {
 DirectionalLight::DirectionalLight(const nlohmann::json &config) :
 _direction{config["direction"]}, _radiance{config["radiance"]} {}
+
 DirectionalLight::DirectionalLight(const maths::Vector3d &direction,
     const maths::Color &radiance): _direction{direction.normalize()}, _radiance{radiance}
 {}

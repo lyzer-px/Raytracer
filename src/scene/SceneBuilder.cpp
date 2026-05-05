@@ -16,7 +16,7 @@ namespace raytracer::scene {
 void SceneBuilder::buildScene(nlohmann::json &config)
 {
     try {
-        camera::ICamera *camera = config["camera"];
+         = config["camera"];
         for (const auto &materialJson : config["materials"])
             _materials.push_back();
         for (const auto &primitiveJson : config["primitives"])

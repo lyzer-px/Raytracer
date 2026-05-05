@@ -8,7 +8,10 @@
 #pragma once
 
 #include "IShape.hpp"
+#include "Matrix.hpp"
+#include "PerspectiveCamera.hpp"
 #include "jsonParser.hpp"
+#include "maths_types.hpp"
 #include "Scene.hpp"
 #include "IMaterial.hpp"
 #include "IPrimitive.hpp"
@@ -19,27 +22,39 @@
 namespace nlohmann {
 
 template <>
-struct adl_serializer<raytracer::camera::ICamera> {
-    static void to_json(nlohmann::json &j, const raytracer::camera::ICamera &camera);
-    static void from_json(const nlohmann::json &j, raytracer::camera::ICamera &camera);
+struct adl_serializer<raytracer::maths::Vector3d> {
+    static void to_json(json &j, const std::unique_ptr<raytracer::maths::Vector3d> c);
+    static void from_json(const json &j, std::unique_ptr<raytracer::maths::Vector3d> &c);
+};
+
+
+template <>
+struct adl_serializer<raytracer::maths::Color> {
+    static void to_json(json &j, const std::unique_ptr<raytracer::maths::Color> &c);
+    static void from_json(const json &j, std::unique_ptr<raytracer::maths::Color> &c);
 };
 
 template <>
-struct adl_serializer<raytracer::material::IMaterial> {
-    static void to_json(nlohmann::json &j, const raytracer::material::IMaterial &material);
-    static void from_json(const nlohmann::json &j, raytracer::material::IMaterial &material);
+struct adl_serializer<raytracer::maths::Matrix3x3> {
+    static void to_json(json &j, const std::unique_ptr<raytracer::maths::Matrix3x3> &c);
+    static void from_json(const json &j, std::unique_ptr<raytracer::maths::Matrix3x3> &c);
 };
 
 template <>
-struct adl_serializer<raytracer::shape::IPrimitive> {
-    static void to_json(nlohmann::json &j, const raytracer::shape::IPrimitive &primitive);
-    static void from_json(const nlohmann::json &j, raytracer::shape::IPrimitive &primitive);
+struct adl_serializer<raytracer::maths::Normal3d> {
+    static void to_json(json &j, const std::unique_ptr<raytracer::maths::Normal3d> &c);
+    static void from_json(const json &j, std::unique_ptr<raytracer::maths::Normal3d> &c);
 };
 
 template <>
-struct adl_serializer<raytracer::light::ILight> {
-    static void to_json(nlohmann::json &j, const raytracer::light::ILight &light);
-    static void from_json(const nlohmann::json &j, raytracer::light::ILight &light);
+struct adl_serializer<raytracer::maths::Point3d> {
+    static void to_json(json &j, const std::unique_ptr<raytracer::maths::Point3d> &c);
+    static void from_json(const json &j, std::unique_ptr<raytracer::maths::Point3d> &c);
+};
+template <>
+struct adl_serializer<raytracer::camera::PerspectiveCamera> {
+    static void to_json(json &j, const std::unique_ptr<raytracer::camera::PerspectiveCamera> &c);
+    static void from_json(const json &j, std::unique_ptr<raytracer::camera::PerspectiveCamera> &c);
 };
 
 }

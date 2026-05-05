@@ -11,6 +11,7 @@
 #include <optional>
 #include <vector>
 
+#include "ICamera.hpp"
 #include "Color.hpp"
 #include "ILight.hpp"
 #include "IPrimitive.hpp"
@@ -39,6 +40,7 @@ public:
 private:
     std::vector<std::unique_ptr<shape::IPrimitive>> _primitives;
     std::vector<std::unique_ptr<light::ILight>> _lights;
+    std::unique_ptr<camera::ICamera> _camera;
     maths::Color _background;
 };
 } // namespace raytracer::scene
