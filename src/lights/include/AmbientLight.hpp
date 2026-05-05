@@ -5,21 +5,23 @@
 ** AmbientLight
 */
 
-#ifndef RAYTRACER_AMBIENTLIGHT_HPP
-#define RAYTRACER_AMBIENTLIGHT_HPP
+#pragma once
 
 #include "ILight.hpp"
+#include "jsonParser.hpp"
 
-namespace raytracer {
-namespace light {
+namespace raytracer::light {
 
 class AmbientLight: public ILight {
 public:
+    explicit AmbientLight(const nlohmann::json &config);
     explicit AmbientLight(const maths::Color &radiance);
 
     [[nodiscard]] LightSample sample(const maths::Point3d &p) const override;
 
     [[nodiscard]] bool isDelta() const override;
+
+    static void create(const nlohmann::json &config);
 
 private:
     maths::Color _radiance;

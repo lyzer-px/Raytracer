@@ -8,6 +8,7 @@
 #ifndef RAYTRACER_ICAMERA_HPP
 #define RAYTRACER_ICAMERA_HPP
 #include "Ray.hpp"
+#include "jsonParser.hpp"
 
 namespace raytracer {
 namespace camera {
