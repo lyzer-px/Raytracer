@@ -12,7 +12,7 @@
 #include "Color.hpp"
 #include "DirectionalLight.hpp"
 #include "Film.hpp"
-#include "FlatColor.hpp"
+#include "Lambertian.hpp"
 #include "GeometricPrimitive.hpp"
 #include "maths_types.hpp"
 #include "PerspectiveCamera.hpp"
@@ -28,7 +28,7 @@ static raytracer::scene::Scene buildScene()
         raytracer::shape::Sphere>(raytracer::maths::Point3d{60.0, 5.0, 40.0}, 25.0);
     std::unique_ptr<raytracer::material::IMaterial> sphereMaterial =
         std::make_unique<
-            raytracer::material::FlatColor>(raytracer::maths::Color{1.0, 0.25, 0.25});
+            raytracer::material::Lambertian>(raytracer::maths::Color{1.0, 0.25, 0.25});
     std::unique_ptr<raytracer::shape::IPrimitive> spherePrimitive =
         std::make_unique<raytracer::shape::GeometricPrimitive>(sphere,
             sphereMaterial);
@@ -38,7 +38,7 @@ static raytracer::scene::Scene buildScene()
         raytracer::shape::Sphere>(raytracer::maths::Point3d{0.0, 0.0, 0.0}, 25.0);
     std::unique_ptr<raytracer::material::IMaterial> sphereMaterial2 =
         std::make_unique<
-            raytracer::material::FlatColor>(raytracer::maths::Color{0.0, 1.0, 0.0});
+            raytracer::material::Lambertian>(raytracer::maths::Color{0.0, 1.0, 0.0});
     std::unique_ptr<raytracer::shape::IPrimitive> spherePrimitive2 =
         std::make_unique<raytracer::shape::GeometricPrimitive>(sphere2,
             sphereMaterial2);
