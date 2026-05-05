@@ -7,14 +7,11 @@
 
 #include <memory>
 #include "include/FlatColor.hpp"
+#include "Serializer.hpp"
 #include "IMaterial.hpp"
 
 namespace raytracer::material {
-FlatColor::FlatColor(const nlohmann::json &config) : _color{
-    config["color"][0].get<double>(),
-    config["color"][1].get<double>(),
-    config["color"][2].get<double>()
-} {}
+FlatColor::FlatColor(const nlohmann::json &config) : _color{config["color"].get<raytracer::maths::Color>()} {}
 FlatColor::FlatColor(const maths::Color &color): _color{color}
 {}
 
@@ -27,11 +24,7 @@ std::unique_ptr<IMaterial> FlatColor::create(const nlohmann::json &config)
 {
     if (!config.contains("albedo"))
         throw std::runtime_error("FlatColor material requires 'albedo' field in config");
-    return std::make_unique<FlatColor>(raytracer::maths::Color(
-        config["albedo"][0].get<double>(),
-        config["albedo"][1].get<double>(),
-        config["albedo"][2].get<double>()
-    ));
+    return std::make_unique<FlatColor>(config["albedo"].get<raytracer::maths::Color>());
 
 }
-} // raytracer::material
+} // raytracer::materials

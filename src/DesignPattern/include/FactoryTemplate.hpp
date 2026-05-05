@@ -11,13 +11,14 @@
 #include <memory>
 #include <sstream>
 #include <unordered_map>
+#include <utility>
 
 namespace designPattern {
 template <typename BaseClass, typename ConcreteClass, typename... Args>
 concept HasCreateMethod = requires(Args... args)
 {
     {
-        ConcreteClass::create(args...)
+        ConcreteClass::create(std::declval<Args>()...)
     } -> std::same_as<std::unique_ptr<BaseClass>>;
 };
 
@@ -57,7 +58,7 @@ public:
         const auto itt = _creators.find(key);
 
         if (itt != _creators.end())
-            return (*itt).second(args...);
+            return (*itt).second(std::forward<Args>(args)...);
 
         std::stringstream sstream;
         sstream << "No creator found for key: " << key;

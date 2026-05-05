@@ -64,4 +64,5 @@ void SimpleIntegrator::render(const scene::Scene &scene,
             film.addSample(x, y, color);
         }
     }
+}
 } // namespace raytracer::integrator

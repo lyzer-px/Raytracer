@@ -19,7 +19,7 @@ public:
 
     [[nodiscard]] bool isDelta() const override;
 
-    static std::unique_ptr<DirectionalLight> create(const nlohmann::json &config);
+    static std::unique_ptr<ILight> create(const nlohmann::json &config);
 
 private:
     maths::Vector3d _direction;

@@ -4,13 +4,13 @@
 
 add_subdirectory(maths)
 
+add_subdirectory(cameras)
+
 add_subdirectory(shapes)
 
 add_subdirectory(materials)
 
 add_subdirectory(lights)
-
-add_subdirectory(cameras)
 
 add_subdirectory(scene)
 

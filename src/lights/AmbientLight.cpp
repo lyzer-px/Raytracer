@@ -6,12 +6,14 @@
 */
 
 #include <memory>
+#include "ILight.hpp"
+#include "Serializer.hpp"
 #include "AmbientLight.hpp"
 
 namespace raytracer::light {
 
 AmbientLight::AmbientLight(const nlohmann::json &config) :
-_radiance{config["radiance"]} {}
+_radiance{config["radiance"].get<raytracer::maths::Color>()} {}
 
 AmbientLight::AmbientLight(const maths::Color &radiance): _radiance{radiance}
 {}
@@ -30,7 +32,7 @@ bool AmbientLight::isDelta() const
     return false;
 }
 
-std::unique_ptr<AmbientLight> AmbientLight::create(const nlohmann::json &config)
+std::unique_ptr<ILight> AmbientLight::create(const nlohmann::json &config)
 {
     return std::make_unique<AmbientLight>(nlohmann::json(config));
 }

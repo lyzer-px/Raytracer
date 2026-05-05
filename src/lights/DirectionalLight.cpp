@@ -31,7 +31,7 @@ bool DirectionalLight::isDelta() const
     return true;
 }
 
-std::unique_ptr<DirectionalLight> DirectionalLight::create(const nlohmann::json &config)
+std::unique_ptr<ILight> DirectionalLight::create(const nlohmann::json &config)
 {
     return std::make_unique<DirectionalLight>(nlohmann::json(config));
 }

@@ -10,12 +10,29 @@
 
 #include "AmbientLight.hpp"
 #include "DirectionalLight.hpp"
+#include "FlatColor.hpp"
 #include "GeometricPrimitive.hpp"
+#include "Sphere.hpp"
 #include "PerspectiveCamera.hpp"
 #include "SceneBuilder.hpp"
 
 namespace raytracer::scene {
 // NOLINTNEXTLINE(readability-function-cognitive-complexity)
+
+SceneBuilder::SceneBuilder()
+{
+    registerCreators();
+}
+
+void SceneBuilder::registerCreators()
+{
+    _materialFactory.registerCreator<material::FlatColor>("lambertian");
+    _shapeFactory.registerCreator<shape::Sphere>("sphere");
+    _primitiveFactory.registerCreator<shape::GeometricPrimitive>("geometric_primitive");
+    _lightFactory.registerCreator<light::AmbientLight>("ambient");
+    _lightFactory.registerCreator<light::DirectionalLight>("directional");
+}
+
 void SceneBuilder::buildScene(nlohmann::json &config)
 {
     try {
@@ -25,14 +42,17 @@ void SceneBuilder::buildScene(nlohmann::json &config)
             _camera = camera::PerspectiveCamera::create(config.at("camera"));
         for (const auto &material : config.at("materials")) {
             auto tmp = _materialFactory.create(material.at("type").get<std::string>(), material["config"]);
-            _scene->addMaterial(tmp);
+            _scene->addMaterial(material["id"].get<std::string>(), tmp);
         }
         for (const auto &primitive : config.at("primitives")) {
             auto shapeTmp = _shapeFactory.create(primitive.at("shape").at("type").get<std::string>(), primitive.at("shape")["config"]);
-            auto tmp = _primitiveFactory.create(primitive.at("type").get<std::string>(), primitive["config"]);
+            auto tmp = _primitiveFactory.create(primitive["type"].get<std::string>(), shapeTmp, _scene->getMaterial(primitive["material_id"].get<std::string>()));
             _scene->addPrimitive(tmp);
         }
-        
+        for (const auto &light : config.at("lights")) {
+            auto tmp = _lightFactory.create(light.at("type").get<std::string>(), light["config"]);
+            _scene->addLight(tmp);
+        }
     } catch (const std::exception &e) {
         throw std::runtime_error(std::string("Error building scene: ") + e.what());
     }
@@ -41,5 +61,10 @@ void SceneBuilder::buildScene(nlohmann::json &config)
 const std::unique_ptr<Scene> &SceneBuilder::scene() const
 {
     return _scene;
+}
+
+const std::unique_ptr<camera::PerspectiveCamera> &SceneBuilder::camera() const
+{
+    return _camera;
 }
 } // namespace raytracer::scene
