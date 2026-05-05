@@ -46,14 +46,16 @@ T &Vector<Derived, N, T>::y()
 }
 
 template <template<typename> class Derived, std::size_t N, typename T>
-const T &Vector<Derived, N, T>::z() const requires (N >= 3)
+const T &Vector<Derived, N, T>::z() const
+    requires (N >= 3)
 
 {
     return _data.at(2);
 }
 
 template <template<typename> class Derived, std::size_t N, typename T>
-T &Vector<Derived, N, T>::z() requires (N >= 3)
+T &Vector<Derived, N, T>::z()
+    requires (N >= 3)
 {
     return _data.at(2);
 }
@@ -81,7 +83,7 @@ T Vector<Derived, N, T>::length() const
 
     for (std::size_t i = 0; i < N; ++i) {
         T value = _data[i];
-        norm += value * value;
+        norm    += value * value;
     }
     return static_cast<T>(std::sqrt(norm));
 }
@@ -96,7 +98,7 @@ T Vector<Derived, N, T>::calculateAngle(const Derived<T> &other) const
         throw std::runtime_error("In angle calculation: null norm");
 
     T cosine = ((*this) * other) / (lhsNorm * rhsNorm);
-    cosine = std::clamp(cosine, static_cast<T>(-1), static_cast<T>(1));
+    cosine   = std::clamp(cosine, static_cast<T>(-1), static_cast<T>(1));
     return static_cast<T>(std::acos(cosine));
 }
 
@@ -205,6 +207,17 @@ bool Vector<Derived, N, T>::operator>=(const Derived<T> &other) const
     T normB = other.length();
 
     return normA > normB || normA == normB;
+}
+
+template <template <typename> class Derived, std::size_t N, typename T>
+bool Vector<Derived, N, T>::isNearZero() const noexcept
+{
+    static constexpr T eps = static_cast<T>(1e-8);
+
+    for (std::size_t i = 0; i < N; ++i)
+        if (std::abs(_data[i]) >= eps)
+            return false;
+    return true;
 }
 
 template <template<typename> class Derived, std::size_t N, typename T>
