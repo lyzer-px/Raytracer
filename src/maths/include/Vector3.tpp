@@ -55,4 +55,10 @@ Vector3<T> Vector3<T>::randomUnitVector() noexcept
     return randomUnitVector();
 }
 
+template <typename T>
+Vector3<T> Vector3<T>::reflect(const Vector3 &other) const
+{
+    return *this - other * static_cast<T>(2.0) * this->dot(other);
+}
+
 } // namespace raytracer::maths
