@@ -16,13 +16,13 @@ namespace raytracer::material {
 
 class FlatColor: public IMaterial {
 public:
-    explicit FlatColor(nlohmann::json &config);
+    explicit FlatColor(const nlohmann::json &config);
     explicit FlatColor(const maths::Color &color);
 
     [[nodiscard]] maths::Color
         getColor(const shape::SurfaceInteraction &si) const override; // NOLINT
 
-    static std::unique_ptr<FlatColor> create(const nlohmann::json &config);
+    static std::unique_ptr<IMaterial> create(const nlohmann::json &config);
 private:
     maths::Color _color;
 };

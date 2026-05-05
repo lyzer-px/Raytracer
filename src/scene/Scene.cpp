@@ -25,6 +25,12 @@ void Scene::addLight(std::unique_ptr<light::ILight> &light)
     _lights.push_back(std::move(light));
 }
 
+void Scene::addMaterial(std::unique_ptr<material::IMaterial> &material)
+{
+    assert(material != nullptr);
+    _materials.push_back(std::move(material));
+}
+
 void Scene::setBackgroundColor(const maths::Color &color)
 {
     _background = color;

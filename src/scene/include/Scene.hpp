@@ -25,6 +25,8 @@ public:
 
     void addLight(std::unique_ptr<light::ILight> &light);
 
+    void addMaterial(std::unique_ptr<material::IMaterial> &material);
+
     void setBackgroundColor(const maths::Color &color);
 
     [[nodiscard]] std::optional<shape::SurfaceInteraction> intersect(
@@ -40,6 +42,7 @@ public:
 private:
     std::vector<std::unique_ptr<shape::IPrimitive>> _primitives;
     std::vector<std::unique_ptr<light::ILight>> _lights;
+    std::vector<std::unique_ptr<material::IMaterial>> _materials;
     std::unique_ptr<camera::ICamera> _camera;
     maths::Color _background;
 };

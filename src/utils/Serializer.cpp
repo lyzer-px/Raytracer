@@ -9,13 +9,6 @@
 #include <stdexcept>
 
 #include "Serializer.hpp"
-#include "ICamera.hpp"
-#include "ILight.hpp"
-#include "IPrimitive.hpp"
-#include "IMaterial.hpp"
-#include "Color.hpp"
-#include "PerspectiveCamera.hpp"
-#include "Point.hpp"
 #include "jsonParser.hpp"
 
 namespace nlohmann {
@@ -25,39 +18,67 @@ void adl_serializer<raytracer::maths::Vector3d>::to_json(json &, const raytracer
     throw std::runtime_error("Unimplemented");
 }
 
-void adl_serializer<raytracer::maths::Vector3d>::from_json(const json &json,std::unique_ptr<raytracer::maths::Vector3d> &a)
+void adl_serializer<raytracer::maths::Vector3d>::from_json(const json &j, raytracer::maths::Vector3d &c)
 {
-    a = std::make_unique<raytracer::maths::Vector3d>(json["resolution"].get<raytracer::maths::Vector3d>());
+    c = raytracer::maths::Vector3d(
+        j.at(0).get<double>(),
+        j.at(1).get<double>(),
+        j.at(2).get<double>()
+    );
 }
 
-void adl_serializer<raytracer::maths::Color>::to_json(json &, const std::unique_ptr<raytracer::maths::Color> &c)
+void adl_serializer<raytracer::maths::Color>::to_json(json &, const raytracer::maths::Color &)
 {
     throw std::runtime_error("Unimplemented");
 }
 
-void adl_serializer<raytracer::maths::Color>::from_json(const json &j, const std::unique_ptr<raytracer::maths::Color> &a)
+void adl_serializer<raytracer::maths::Color>::from_json(const json &j, raytracer::maths::Color &c)
 {
-    a = std::make_unique<raytracer::maths::Color>(j[0], j[1], j[2]);
+    c = raytracer::maths::Color(
+        j.at(0).get<double>(),
+        j.at(1).get<double>(),
+        j.at(2).get<double>()
+    );
 }
 
-void adl_serializer<raytracer::maths::Normal3d>::to_json(json &, const std::unique_ptr<raytracer::maths::Normal3d> &)
+void adl_serializer<raytracer::maths::Normal3d>::to_json(json &, const raytracer::maths::Normal3d &)
 {
     throw std::runtime_error("Unimplemented");
 }
 
-void adl_serializer<raytracer::maths::Normal3d>::from_json(const json &j, const std::unique_ptr<raytracer::maths::Normal3d> &a)
+void adl_serializer<raytracer::maths::Normal3d>::from_json(const json &j, raytracer::maths::Normal3d &c)
 {
-    a = std::make_unique<raytracer::maths::Normal3d>(j[0], j[1], j[2]);
+    c = raytracer::maths::Normal3d(
+        j.at(0).get<double>(),
+        j.at(1).get<double>(),
+        j.at(2).get<double>()
+    );
 }
 
-void adl_serializer<raytracer::maths::Point3d>::to_json(json &, const std::unique_ptr<raytracer::maths::Point3d> &)
+void adl_serializer<raytracer::maths::Point3d>::to_json(json &, const raytracer::maths::Point3d &)
 {
     throw std::runtime_error("Unimplemented");
 }
 
-void adl_serializer<raytracer::maths::Point3d>::from_json(const json &j, const std::unique_ptr<raytracer::maths::Point3d> &a)
+void adl_serializer<raytracer::maths::Point3d>::from_json(const json &j, raytracer::maths::Point3d &c)
 {
-    a = std::make_unique<raytracer::maths::Point3d>(j[0], j[1], j[2]);
+    c = raytracer::maths::Point3d(
+        j.at(0).get<double>(),
+        j.at(1).get<double>(),
+        j.at(2).get<double>()
+    );
+}
+
+void adl_serializer<raytracer::camera::PerspectiveCamera>::to_json(json &,
+    const std::unique_ptr<raytracer::camera::PerspectiveCamera> &)
+{
+    throw std::runtime_error("Unimplemented");
+}
+
+void adl_serializer<raytracer::camera::PerspectiveCamera>::from_json(const json &j,
+    std::unique_ptr<raytracer::camera::PerspectiveCamera> &c)
+{
+    c = std::make_unique<raytracer::camera::PerspectiveCamera>(j);
 }
 
 }

@@ -6,17 +6,18 @@
 */
 
 #include "Sphere.hpp"
-
+#include "Serializer.hpp"
+#include "IShape.hpp"
 #include "maths.hpp"
 #include "Normal.hpp"
 
 namespace raytracer::shape {
 Sphere::Sphere(const nlohmann::json &config) :
-_center{config["center"]},
-_radius{config["radius"]}
+_center{config["center"].get<maths::Point3d>()},
+_radius{config["radius"].get<double>()}
 {}
 
-Sphere::Sphere(const maths::Point3d &center, const float &radius): _center{center},
+Sphere::Sphere(const maths::Point3d &center, const double &radius): _center{center},
     _radius{radius}
 {}
 
@@ -73,7 +74,7 @@ std::optional<double> Sphere::solveQuadratic(const maths::Ray &ray) const
     return std::nullopt;
 }
 
-std::unique_ptr<Sphere> Sphere::create(const nlohmann::json &config)
+std::unique_ptr<IShape> Sphere::create(const nlohmann::json &config)
 {
     return std::make_unique<Sphere>(nlohmann::json(config));
 }

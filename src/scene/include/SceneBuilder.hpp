@@ -8,11 +8,9 @@
 #pragma once
 
 #include <memory>
-#include <vector>
-#include "IPrimitive.hpp"
-#include "ILight.hpp"
 #include "FactoryTemplate.hpp"
 #include "IMaterial.hpp"
+#include "PerspectiveCamera.hpp"
 #include "Scene.hpp"
 #include "jsonParser.hpp"
 
@@ -20,17 +18,23 @@ namespace raytracer::scene {
 
 class SceneBuilder {
 public:
-    using PrimitiveFactory = designPattern::FactoryTemplate<shape::IPrimitive, nlohmann::json>;
-    using LightFactory = designPattern::FactoryTemplate<light::ILight, nlohmann::json>;
-    using MaterialFactory = designPattern::FactoryTemplate<material::IMaterial, nlohmann::json>;
+
+    using MaterialFactory = designPattern::FactoryTemplate<material::IMaterial, std::string, const nlohmann::json&>;
+    using ShapeFactory = designPattern::FactoryTemplate<shape::IShape, std::string, const nlohmann::json&>;
+    using PrimitiveFactory = designPattern::FactoryTemplate<shape::IPrimitive, std::string, const nlohmann::json&>;
+
     SceneBuilder() = default;
 
     void buildScene(nlohmann::json &config);
+
+    [[nodiscard]] const std::unique_ptr<Scene> &scene() const;
+
 private:
-    const std::vector<std::unique_ptr<shape::IPrimitive>> &_primitives;
-    const std::vector<std::unique_ptr<light::ILight>> &_lights;
-    const std::vector<std::unique_ptr<material::IMaterial>> &_materials;
     std::unique_ptr<Scene> _scene;
+    std::unique_ptr<camera::PerspectiveCamera> _camera;
+    MaterialFactory _materialFactory;
+    ShapeFactory _shapeFactory;
+    PrimitiveFactory _primitiveFactory;
 };
 
 } // namespace raytracer::scene

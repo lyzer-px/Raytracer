@@ -6,19 +6,15 @@
 */
 
 #include "GeometricPrimitive.hpp"
+#include "FactoryTemplate.hpp"
 #include "IShape.hpp"
+#include <string>
 
 namespace raytracer::shape {
 
-GeometricPrimitive::GeometricPrimitive(const nlohmann::json &config)
-{
-    _shape = designPattern::FactoryTemplate<IShape, nlohmann::json>::create(config["shape"]);
-    _material = designPattern::FactoryTemplate<material::IMaterial, nlohmann::json>::create(config["material"]);
-}
-
 GeometricPrimitive::GeometricPrimitive(std::unique_ptr<IShape> &shape,
-    std::unique_ptr<material::IMaterial> &material): _shape{std::move(shape)},
-    _material{std::move(material)}
+    material::IMaterial *material): _shape{std::move(shape)},
+    _material{material}
 {}
 
 std::optional<SurfaceInteraction> GeometricPrimitive::intersect(
@@ -38,8 +34,15 @@ bool GeometricPrimitive::intersectP(const maths::Ray &ray) const
     return _shape->intersectP(ray);
 }
 
+std::unique_ptr<GeometricPrimitive> create(std::unique_ptr<IShape> &shape,
+    material::IMaterial *material)
+{
+    return std::make_unique<GeometricPrimitive>(shape, material);
+}
+
+
 const material::IMaterial *GeometricPrimitive::material() const
 {
-    return _material.get();
+    return _material;
 }
 } // raytracer::shape
