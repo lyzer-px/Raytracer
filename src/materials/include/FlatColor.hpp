@@ -19,8 +19,10 @@ class FlatColor: public IMaterial {
 public:
     explicit FlatColor(const maths::Color &color);
 
-    [[nodiscard]] maths::Color
-        getColor(const shape::SurfaceInteraction &si) const override; // NOLINT
+    [[nodiscard]] maths::Color getColor(const shape::SurfaceInteraction &si) const override; // NOLINT
+
+    [[nodiscard]] std::optional<ScatterRecord> scatter(const maths::Ray &ray,
+        const shape::SurfaceInteraction &si) const override;
 
 private:
     maths::Color _color;
