@@ -9,8 +9,7 @@
 
 #include <cassert>
 
-namespace raytracer {
-namespace scene {
+namespace raytracer::scene {
 Scene::Scene(): _background{maths::Color{0.0, 0.0, 0.0}}
 {}
 
@@ -63,5 +62,4 @@ maths::Color Scene::backgroundColor() const
 {
     return _background;
 }
-} // scene
-} // raytracer
+} // namespace raytracer::scene

@@ -6,9 +6,16 @@
 */
 
 #include "GeometricPrimitive.hpp"
+#include "IShape.hpp"
 
-namespace raytracer {
-namespace shape {
+namespace raytracer::shape {
+
+GeometricPrimitive::GeometricPrimitive(const nlohmann::json &config)
+{
+    _shape = designPattern::FactoryTemplate<IShape, nlohmann::json>::create(config["shape"]);
+    _material = designPattern::FactoryTemplate<material::IMaterial, nlohmann::json>::create(config["material"]);
+}
+
 GeometricPrimitive::GeometricPrimitive(std::unique_ptr<IShape> &shape,
     std::unique_ptr<material::IMaterial> &material): _shape{std::move(shape)},
     _material{std::move(material)}
@@ -35,5 +42,4 @@ const material::IMaterial *GeometricPrimitive::material() const
 {
     return _material.get();
 }
-} // shape
-} // raytracer
+} // raytracer::shape

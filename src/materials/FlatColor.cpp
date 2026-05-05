@@ -7,8 +7,8 @@
 
 #include "include/FlatColor.hpp"
 
-namespace raytracer {
-namespace material {
+namespace raytracer::material {
+FlatColor::FlatColor(const nlohmann::json &config) : _color{config["color"]} {}
 FlatColor::FlatColor(const maths::Color &color): _color{color}
 {}
 
@@ -16,5 +16,4 @@ maths::Color FlatColor::getColor(const shape::SurfaceInteraction &) const // NOL
 {
     return _color;
 }
-} // material
-} // raytracer
+} // raytracer::material

@@ -9,9 +9,7 @@
 #include "Matrix.hpp"
 #include "Vector.hpp"
 
-namespace raytracer::maths {
-
-namespace Transform {
+namespace raytracer::maths::Transform {
 
 const Matrix2x2 &scalingMatrix2D(double scaleX, double scaleY) noexcept
 {
@@ -110,6 +108,4 @@ const Matrix3x3 &reflectionMatrix3D(bool reflectX, bool reflectY) noexcept
     return matrix;
 }
 
-} // namespace Transform
-
-} // namespace raytracer::maths
+} // namespace raytracer::maths::Transform

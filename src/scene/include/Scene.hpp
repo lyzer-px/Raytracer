@@ -5,8 +5,7 @@
 ** Scene
 */
 
-#ifndef RAYTRACER_SCENE_HPP
-#define RAYTRACER_SCENE_HPP
+#pragma once
 
 #include <memory>
 #include <optional>
@@ -16,8 +15,7 @@
 #include "ILight.hpp"
 #include "IPrimitive.hpp"
 
-namespace raytracer {
-namespace scene {
+namespace raytracer::scene {
 class Scene {
 public:
     Scene();
@@ -43,7 +41,4 @@ private:
     std::vector<std::unique_ptr<light::ILight>> _lights;
     maths::Color _background;
 };
-} // scene
-} // raytracer
-
-#endif //RAYTRACER_SCENE_HPP
+} // namespace raytracer::scene

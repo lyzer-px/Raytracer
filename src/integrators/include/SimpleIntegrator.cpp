@@ -7,8 +7,7 @@
 
 #include "SimpleIntegrator.hpp"
 
-namespace raytracer {
-namespace integrator {
+namespace raytracer::integrator {
 SimpleIntegrator::SimpleIntegrator(int maxDepth): _maxDepth{maxDepth}
 {}
 
@@ -65,6 +64,4 @@ void SimpleIntegrator::render(const scene::Scene &scene,
             film.addSample(x, y, color);
         }
     }
-}
-} // integrator
-} // raytracer
+} // namespace raytracer::integrator

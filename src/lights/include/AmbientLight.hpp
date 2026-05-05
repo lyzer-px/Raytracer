@@ -21,7 +21,7 @@ public:
 
     [[nodiscard]] bool isDelta() const override;
 
-    static void create(const nlohmann::json &config);
+    static std::unique_ptr<AmbientLight> create(const nlohmann::json &config);
 
 private:
     maths::Color _radiance;

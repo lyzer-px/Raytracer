@@ -5,13 +5,11 @@
 ** SimpleIntegrator
 */
 
-#ifndef RAYTRACER_SIMPLEINTEGRATOR_HPP
-#define RAYTRACER_SIMPLEINTEGRATOR_HPP
+#pragma once
 
 #include "IIntegrator.hpp"
 
-namespace raytracer {
-namespace integrator {
+namespace raytracer::integrator {
 class SimpleIntegrator: public IIntegrator {
 public:
     explicit SimpleIntegrator(int maxDepth = 0);
@@ -26,7 +24,4 @@ public:
 private:
     int _maxDepth;
 };
-} // integrator
-} // raytracer
-
-#endif //RAYTRACER_SIMPLEINTEGRATOR_HPP
+} // namespace raytracer::integrator

@@ -5,16 +5,14 @@
 ** FlatColor
 */
 
-#ifndef RAYTRACER_FLATCOLOR_HPP
-#define RAYTRACER_FLATCOLOR_HPP
+#pragma once
 
 #include "Color.hpp"
 #include "IMaterial.hpp"
 #include "IShape.hpp"
-#include <sys/stat.h>
+#include "jsonParser.hpp"
 
-namespace raytracer {
-namespace material {
+namespace raytracer::material {
 
 class FlatColor: public IMaterial {
 public:
@@ -24,12 +22,9 @@ public:
     [[nodiscard]] maths::Color
         getColor(const shape::SurfaceInteraction &si) const override; // NOLINT
 
-    static void create(const nlohmann::json &config);
+    static std::unique_ptr<FlatColor> create(const nlohmann::json &config);
 private:
     maths::Color _color;
 };
 
-} // material
-} // raytracer
-
-#endif //RAYTRACER_FLATCOLOR_HPP
+} // raytracer::material

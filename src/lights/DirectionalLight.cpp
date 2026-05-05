@@ -6,9 +6,11 @@
 */
 
 #include "DirectionalLight.hpp"
+#include <memory>
 
-namespace raytracer {
-namespace light {
+namespace raytracer::light {
+DirectionalLight::DirectionalLight(const nlohmann::json &config) :
+_direction{config["direction"]}, _radiance{config["radiance"]} {}
 DirectionalLight::DirectionalLight(const maths::Vector3d &direction,
     const maths::Color &radiance): _direction{direction.normalize()}, _radiance{radiance}
 {}
@@ -26,5 +28,9 @@ bool DirectionalLight::isDelta() const
 {
     return true;
 }
-} // light
-} // raytracer
+
+std::unique_ptr<DirectionalLight> DirectionalLight::create(const nlohmann::json &config)
+{
+    return std::make_unique<DirectionalLight>(nlohmann::json(config));
+}
+} // raytracer::light

@@ -5,14 +5,12 @@
 ** IMaterial
 */
 
-#ifndef RAYTRACER_IMATERIAL_HPP
-#define RAYTRACER_IMATERIAL_HPP
+#pragma once
 
 #include "Color.hpp"
 #include "IShape.hpp"
 
-namespace raytracer {
-namespace material {
+namespace raytracer::material {
 
 class IMaterial {
 public:
@@ -22,7 +20,4 @@ public:
         const shape::SurfaceInteraction &si) const = 0; //NOLINT
 };
 
-} // material
-} // raytracer
-
-#endif //RAYTRACER_IMATERIAL_HPP
+} // namespace raytracer::material

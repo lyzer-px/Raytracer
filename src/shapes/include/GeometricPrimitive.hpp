@@ -5,16 +5,16 @@
 ** GeometricPrimitive
 */
 
-#ifndef RAYTRACER_GEOMETRICPRIMITIVE_HPP
-#define RAYTRACER_GEOMETRICPRIMITIVE_HPP
+#pragma once
 #include <memory>
 
 #include "IPrimitive.hpp"
+#include "jsonParser.hpp"
 
-namespace raytracer {
-namespace shape {
+namespace raytracer::shape {
 class GeometricPrimitive: public IPrimitive {
 public:
+    explicit GeometricPrimitive(const nlohmann::json &config);
     explicit GeometricPrimitive(std::unique_ptr<IShape> &shape,
         std::unique_ptr<material::IMaterial> &material);
 
@@ -25,11 +25,10 @@ public:
 
     [[nodiscard]] const material::IMaterial *material() const override;
 
+    static std::unique_ptr<GeometricPrimitive> create(const nlohmann::json &config);
+
 private:
     std::unique_ptr<IShape> _shape;
     std::unique_ptr<material::IMaterial> _material;
 };
-} // shape
-} // raytracer
-
-#endif //RAYTRACER_GEOMETRICPRIMITIVE_HPP
+} // raytracer::shape

@@ -6,9 +6,9 @@
 */
 
 #include "PerspectiveCamera.hpp"
+#include <memory>
 
-namespace raytracer {
-namespace camera {
+namespace raytracer::camera {
 PerspectiveCamera::PerspectiveCamera(const maths::Point3d &position,
     const maths::Point3d &target, const maths::Vector3d &up, float fovDegrees,
     float aspectRatio): _origin{position}
@@ -36,5 +36,9 @@ maths::Ray PerspectiveCamera::generateRay(const float &u, const float &v) const
 
     return maths::Ray{_origin, direction};
 }
-} // camera
-} // raytracer
+
+std::unique_ptr<PerspectiveCamera> PerspectiveCamera::create(const nlohmann::json &config)
+{
+    return std::make_unique<PerspectiveCamera>(nlohmann::json(config));
+}
+}

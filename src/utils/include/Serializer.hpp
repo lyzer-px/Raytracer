@@ -31,9 +31,9 @@ struct adl_serializer<raytracer::material::IMaterial> {
 };
 
 template <>
-struct adl_serializer<raytracer::primitive::IPrimitive> {
-    static void to_json(nlohmann::json &j, const raytracer::primitive::IPrimitive &primitive);
-    static void from_json(const nlohmann::json &j, raytracer::primitive::IPrimitive &primitive);
+struct adl_serializer<raytracer::shape::IPrimitive> {
+    static void to_json(nlohmann::json &j, const raytracer::shape::IPrimitive &primitive);
+    static void from_json(const nlohmann::json &j, raytracer::shape::IPrimitive &primitive);
 };
 
 template <>

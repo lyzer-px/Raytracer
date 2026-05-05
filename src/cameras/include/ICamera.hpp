@@ -5,13 +5,11 @@
 ** ICamera
 */
 
-#ifndef RAYTRACER_ICAMERA_HPP
-#define RAYTRACER_ICAMERA_HPP
+#pragma once
 #include "Ray.hpp"
 #include "jsonParser.hpp"
 
-namespace raytracer {
-namespace camera {
+namespace raytracer::camera {
 class ICamera {
 public:
     virtual ~ICamera() = default;
@@ -19,7 +17,4 @@ public:
     [[nodiscard]] virtual maths::Ray generateRay(const float &u, const float &v) const
     = 0;
 };
-} // camera
-} // raytracer
-
-#endif //RAYTRACER_ICAMERA_HPP
+} // namespace raytracer::camera
