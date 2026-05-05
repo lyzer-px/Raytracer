@@ -1,6 +1,8 @@
 add_library(materials STATIC IMaterial.cpp
         Lambertian.cpp
-        include/Lambertian.hpp)
+        include/Lambertian.hpp
+        Metal.cpp
+        include/Metal.hpp)
 
 target_include_directories(materials PUBLIC include)
 
