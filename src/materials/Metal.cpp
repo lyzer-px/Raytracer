@@ -21,7 +21,7 @@ Metal::Metal(const maths::Color &eta, const maths::Vector3d &k,
 std::optional<ScatterRecord> Metal::scatter(const maths::Ray &ray,
     const shape::SurfaceInteraction &si) const
 {
-    const maths::Vector3d reflected = ray.direction.normalize().reflect(
+    const maths::Vector3d reflected = -ray.direction.normalize().reflect(
         maths::Vector3d{si.normal});
     const maths::Vector3d scatterDir = reflected +
         maths::Vector3d::randomUnitVector() * _roughness;
