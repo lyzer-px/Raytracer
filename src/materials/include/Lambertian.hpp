@@ -15,9 +15,9 @@
 namespace raytracer {
 namespace material {
 
-class FlatColor: public IMaterial {
+class Lambertian: public IMaterial {
 public:
-    explicit FlatColor(const maths::Color &color);
+    explicit Lambertian(const maths::Color &color);
 
     [[nodiscard]] maths::Color getColor(const shape::SurfaceInteraction &si) const override; // NOLINT
 
@@ -25,7 +25,7 @@ public:
         const shape::SurfaceInteraction &si) const override;
 
 private:
-    maths::Color _color;
+    maths::Color _albedo;
 };
 
 } // material
