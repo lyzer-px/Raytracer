@@ -25,6 +25,12 @@ public:
 
     [[nodiscard]] virtual maths::Color getColor(
         const shape::SurfaceInteraction &si) const = 0; //NOLINT
+
+    [[nodiscard]] virtual std::optional<ScatterRecord> scatter(
+        const maths::Ray &ray, const shape::SurfaceInteraction &si) const = 0;
+
+    [[nodiscard]] virtual maths::Color emitted(
+        const shape::SurfaceInteraction &si) const;
 };
 
 } // material

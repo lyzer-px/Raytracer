@@ -8,5 +8,10 @@
 #include "include/IMaterial.hpp"
 
 namespace raytracer {
-namespace material {} // material
+namespace material {
+maths::Color IMaterial::emitted(const shape::SurfaceInteraction &) const
+{
+    return maths::Color{0.0, 0.0, 0.0};
+}
+} // material
 } // raytracer
