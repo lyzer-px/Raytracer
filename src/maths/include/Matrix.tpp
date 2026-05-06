@@ -77,4 +77,54 @@ Matrix<rows, cols, T> Matrix<rows, cols, T>::operator/(
     return (*this) * (static_cast<T>(1) / other);
 }
 
+template <size_t rows, size_t cols, typename T>
+bool Matrix<rows, cols, T>::operator==(const Matrix &other) const
+{
+    return _values == other._values;
+}
+
+template <size_t rows, size_t cols, typename T>
+bool Matrix<rows, cols, T>::operator!=(const Matrix &other) const
+{
+    return !(*this == other);
+}
+
+template <size_t rows, size_t cols, typename T>
+[[nodiscard]] bool Matrix<rows, cols, T>::isIdentity() const
+{
+    if (rows != cols)
+        return false;
+    for (size_t i = 0; i != rows; i++)
+        for (size_t j = 0; j != cols; j++)
+            if ((i == j && _values[i][j] != static_cast<T>(1)) ||
+                (i != j && _values[i][j] != static_cast<T>(0)))
+                return false;
+    return true;
+}
+
+template <>
+[[nodiscard]] double Matrix<4, 4, double>::determinant() const // NOLINT
+{
+    const auto &m = _values;
+    const auto a00 = m[0][0], a01 = m[0][1], a02 = m[0][2], a03 = m[0][3];
+    const auto a10 = m[1][0], a11 = m[1][1], a12 = m[1][2], a13 = m[1][3];
+    const auto a20 = m[2][0], a21 = m[2][1], a22 = m[2][2], a23 = m[2][3];
+    const auto a30 = m[3][0], a31 = m[3][1], a32 = m[3][2], a33 = m[3][3];
+
+    const auto m00 = (a11 * ((a22 * a33) - (a23 * a32)))
+        - (a12 * ((a21 * a33) - (a23 * a31)))
+        + (a13 * ((a21 * a32) - (a22 * a31)));
+    const auto m01 = (a10 * ((a22 * a33) - (a23 * a32)))
+        - (a12 * ((a20 * a33) - (a23 * a30)))
+        + (a13 * ((a20 * a32) - (a22 * a30)));
+    const auto m02 = (a10 * ((a21 * a33) - (a23 * a31)))
+        - (a11 * ((a20 * a33) - (a23 * a30)))
+        + (a13 * ((a20 * a31) - (a21 * a30)));
+    const auto m03 = (a10 * ((a21 * a32) - (a22 * a31)))
+        - (a11 * ((a20 * a32) - (a22 * a30)))
+        + (a12 * ((a20 * a31) - (a21 * a30)));
+
+    return (a00 * m00) - (a01 * m01) + (a02 * m02) - (a03 * m03);
+}
+
 } // namespace raytracer::maths

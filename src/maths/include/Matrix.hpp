@@ -30,6 +30,13 @@ public:
     Matrix operator*(const Matrix &other) const;
     Matrix operator/(const Matrix &other) const;
 
+    bool operator==(const Matrix &other) const;
+    bool operator!=(const Matrix &other) const;
+
+    [[nodiscard]] bool isIdentity() const;
+
+    [[nodiscard]] double determinant() const requires (rows == cols) && (rows == 4);
+
 private:
     std::array<std::array<T, cols>, rows> _values;
 };
@@ -43,7 +50,6 @@ class MatrixOperationException : public std::exception {
 
 using Matrix2x2 = Matrix<2, 2>;
 using Matrix3x3 = Matrix<3, 3>;
-using Matrix4x4 = Matrix<4, 4>;
 
 } // namespace raytracer::maths
 
