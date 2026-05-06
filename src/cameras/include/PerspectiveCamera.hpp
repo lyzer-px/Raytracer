@@ -14,7 +14,7 @@ namespace raytracer::camera {
 
 struct CameraProjection {
     double fovDegrees;
-    float aspectRatio;
+    double aspectRatio;
 };
 
 class PerspectiveCamera: public ICamera {
