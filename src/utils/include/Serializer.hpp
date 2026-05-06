@@ -17,6 +17,7 @@
 
 namespace nlohmann {
 
+// NOLINTBEGIN
 template <>
 struct adl_serializer<raytracer::maths::Vector3d> {
     static void to_json(json &j, const raytracer::maths::Vector3d &c);
