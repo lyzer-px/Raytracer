@@ -30,11 +30,6 @@ public:
     static std::unique_ptr<PerspectiveCamera> create(
         const nlohmann::json &config);
 
-    [[nodiscard]] const maths::Point3d &origin() const;
-    [[nodiscard]] const maths::Point3d &lowerLeft() const;
-    [[nodiscard]] const maths::Vector3d &horizontal() const;
-    [[nodiscard]] const maths::Vector3d &vertical() const;
-
 private:
     maths::Point3d _origin;
     maths::Point3d _lowerLeft;
