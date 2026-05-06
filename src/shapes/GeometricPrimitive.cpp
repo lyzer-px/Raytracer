@@ -40,7 +40,7 @@ bool GeometricPrimitive::intersectP(const maths::Ray &ray) const
     return _shape->intersectP(ray);
 }
 
-std::unique_ptr<IPrimitive> create(std::unique_ptr<IShape> &shape,
+std::unique_ptr<IPrimitive> GeometricPrimitive::create(std::unique_ptr<IShape> &shape,
     material::IMaterial *material)
 {
     return std::make_unique<GeometricPrimitive>(shape, material);

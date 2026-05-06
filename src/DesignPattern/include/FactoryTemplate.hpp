@@ -18,7 +18,7 @@ template <typename BaseClass, typename ConcreteClass, typename... Args>
 concept HasCreateMethod = requires(Args... args)
 {
     {
-        ConcreteClass::create(std::declval<Args>()...)
+        ConcreteClass::create(std::forward<Args>(args)...)
     } -> std::same_as<std::unique_ptr<BaseClass>>;
 };
 
