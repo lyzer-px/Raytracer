@@ -14,6 +14,7 @@
 #include "DirectionalLight.hpp"
 #include "Lambertian.hpp"
 #include "GeometricPrimitive.hpp"
+#include "Metal.hpp"
 #include "PerspectiveCamera.hpp"
 #include "Serializer.hpp"
 #include "Sphere.hpp"
@@ -29,6 +30,7 @@ SceneBuilder::SceneBuilder()
 void SceneBuilder::registerCreators()
 {
     _materialFactory.registerCreator<material::Lambertian>("lambertian");
+    _materialFactory.registerCreator<material::Metal>("metal");
     _shapeFactory.registerCreator<shape::Sphere>("sphere");
     _primitiveFactory.registerCreator<shape::GeometricPrimitive>(
         "geometric_primitive");

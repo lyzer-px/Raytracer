@@ -11,7 +11,7 @@ namespace raytracer::integrator {
 SimpleIntegrator::SimpleIntegrator(int maxDepth): _maxDepth{maxDepth}
 {}
 
-maths::Color SimpleIntegrator::Li(
+maths::Color SimpleIntegrator::accumulatedRadiance(
     const maths::Ray &ray, const scene::Scene &scene, int) const
 {
     const auto si = scene.intersect(ray);
@@ -62,9 +62,7 @@ void SimpleIntegrator::render(const scene::Scene &scene,
             const double v = (y + 0.5) / static_cast<double>(film.height());
 
             maths::Ray ray = camera.generateRay(u, v);
-
-            maths::Color color = Li(ray, scene, _maxDepth);
-
+            maths::Color color = accumulatedRadiance(ray, scene, _maxDepth);
             film.addSample(x, y, color);
         }
     }
