@@ -15,8 +15,9 @@ PerspectiveCamera::PerspectiveCamera(const nlohmann::json &config):
     PerspectiveCamera(config.at("position").get<maths::Point3d>(),
         config.at("target").get<maths::Point3d>(),
         config.at("up").get<maths::Vector3d>(),
-        CameraProjection{.fovDegrees=config.at("fov_degrees").get<double>(),
-            .aspectRatio=config.at("aspect_ratio").get<float>()})
+        CameraProjection{.fovDegrees=config.at("fov").get<double>(),
+            .aspectRatio=config.at("resolution").at(0).get<double>() /
+            config.at("resolution").at(1).get<double>()})
 {}
 
 PerspectiveCamera::PerspectiveCamera(const maths::Point3d &position,
