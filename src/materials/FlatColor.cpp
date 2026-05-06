@@ -5,17 +5,22 @@
 ** FlatColor
 */
 
-#include <memory>
 #include "include/FlatColor.hpp"
-#include "Serializer.hpp"
+
+#include <memory>
+
 #include "IMaterial.hpp"
+#include "Serializer.hpp"
 
 namespace raytracer::material {
-FlatColor::FlatColor(const nlohmann::json &config) : _color{config["color"].get<raytracer::maths::Color>()} {}
+FlatColor::FlatColor(const nlohmann::json &config):
+    _color{config["color"].get<raytracer::maths::Color>()}
+{}
 FlatColor::FlatColor(const maths::Color &color): _color{color}
 {}
 
-maths::Color FlatColor::getColor(const shape::SurfaceInteraction &) const // NOLINT
+maths::Color FlatColor::getColor(
+    const shape::SurfaceInteraction &) const // NOLINT
 {
     return _color;
 }
@@ -23,8 +28,9 @@ maths::Color FlatColor::getColor(const shape::SurfaceInteraction &) const // NOL
 std::unique_ptr<IMaterial> FlatColor::create(const nlohmann::json &config)
 {
     if (!config.contains("albedo"))
-        throw std::runtime_error("FlatColor material requires 'albedo' field in config");
-    return std::make_unique<FlatColor>(config["albedo"].get<raytracer::maths::Color>());
-
+        throw std::runtime_error(
+            "FlatColor material requires 'albedo' field in config");
+    return std::make_unique<FlatColor>(
+        config["albedo"].get<raytracer::maths::Color>());
 }
-} // raytracer::materials
+} // namespace raytracer::material

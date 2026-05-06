@@ -6,15 +6,15 @@
 */
 
 #pragma once
-#include "Ray.hpp"
 #include "jsonParser.hpp"
+#include "Ray.hpp"
 
 namespace raytracer::camera {
 class ICamera {
 public:
     virtual ~ICamera() = default;
 
-    [[nodiscard]] virtual maths::Ray generateRay(const float &u, const float &v) const
-    = 0;
+    [[nodiscard]] virtual maths::Ray generateRay(
+        const float &u, const float &v) const = 0;
 };
 } // namespace raytracer::camera

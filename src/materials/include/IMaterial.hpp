@@ -17,7 +17,7 @@ public:
     virtual ~IMaterial() = default;
 
     [[nodiscard]] virtual maths::Color getColor(
-        const shape::SurfaceInteraction &si) const = 0; //NOLINT
+        const shape::SurfaceInteraction &si) const = 0; // NOLINT
 };
 
 } // namespace raytracer::material

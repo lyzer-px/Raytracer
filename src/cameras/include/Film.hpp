@@ -24,7 +24,7 @@ public:
 
     int height() const;
 
-    static void write(const Film& film, const std::string& path);
+    static void write(const Film &film, const std::string &path);
 
 private:
     int _width;

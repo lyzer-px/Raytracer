@@ -8,29 +8,34 @@
 #pragma once
 
 #include <memory>
+
 #include "FactoryTemplate.hpp"
 #include "IMaterial.hpp"
 #include "IShape.hpp"
+#include "jsonParser.hpp"
 #include "PerspectiveCamera.hpp"
 #include "Scene.hpp"
-#include "jsonParser.hpp"
 
 namespace raytracer::scene {
 
 class SceneBuilder {
 public:
-
-    using MaterialFactory = designPattern::FactoryTemplate<material::IMaterial, std::string, const nlohmann::json&>;
-    using ShapeFactory = designPattern::FactoryTemplate<shape::IShape, std::string, const nlohmann::json&>;
-    using PrimitiveFactory = designPattern::FactoryTemplate<shape::IPrimitive, std::string, std::unique_ptr<shape::IShape>&, material::IMaterial*>;
-    using LightFactory = designPattern::FactoryTemplate<light::ILight, std::string, const nlohmann::json&>;
+    using MaterialFactory  = designPattern::FactoryTemplate<material::IMaterial,
+        std::string, const nlohmann::json &>;
+    using ShapeFactory     = designPattern::FactoryTemplate<shape::IShape,
+        std::string, const nlohmann::json &>;
+    using PrimitiveFactory = designPattern::FactoryTemplate<shape::IPrimitive,
+        std::string, std::unique_ptr<shape::IShape> &, material::IMaterial *>;
+    using LightFactory     = designPattern::FactoryTemplate<light::ILight,
+        std::string, const nlohmann::json &>;
 
     SceneBuilder();
 
     void buildScene(nlohmann::json &config);
 
     [[nodiscard]] const std::unique_ptr<Scene> &scene() const;
-    [[nodiscard]] const std::unique_ptr<camera::PerspectiveCamera> &camera() const;
+    [[nodiscard]] const std::unique_ptr<camera::PerspectiveCamera> &
+        camera() const;
 
 private:
     std::unique_ptr<Scene> _scene;

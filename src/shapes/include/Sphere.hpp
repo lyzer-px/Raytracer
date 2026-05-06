@@ -6,8 +6,8 @@
 */
 
 #pragma once
-#include "jsonParser.hpp"
 #include "IShape.hpp"
+#include "jsonParser.hpp"
 
 namespace raytracer::shape {
 
@@ -24,10 +24,11 @@ public:
     static std::unique_ptr<IShape> create(const nlohmann::json &config);
 
 private:
-    [[nodiscard]] std::optional<double> solveQuadratic(const maths::Ray &ray) const;
+    [[nodiscard]] std::optional<double> solveQuadratic(
+        const maths::Ray &ray) const;
 
     maths::Point3d _center;
     double _radius;
 };
 
-} // shape
+} // namespace raytracer::shape
