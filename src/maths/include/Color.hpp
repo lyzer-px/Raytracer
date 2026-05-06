@@ -17,7 +17,7 @@ struct Color {
 
     Color();
 
-    explicit Color(double r, double g, double b);
+    explicit Color(double r = 0, double g = 0, double b = 0);
 
     Color operator+(const Color& other) const;
     Color operator*(const Color& other) const;

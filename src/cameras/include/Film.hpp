@@ -5,13 +5,15 @@
 ** Film
 */
 
-#pragma once
+#ifndef RAYTRACER_FILM_HPP
+#define RAYTRACER_FILM_HPP
 #include <string>
 #include <vector>
 
 #include "Color.hpp"
 
-namespace raytracer::camera {
+namespace raytracer {
+namespace camera {
 class Film {
 public:
     Film(int width, int height);
@@ -24,11 +26,14 @@ public:
 
     int height() const;
 
-    static void write(const Film &film, const std::string &path);
+    static void write(const Film& film, const std::string& path);
 
 private:
     int _width;
     int _height;
     std::vector<maths::Color> _buffer;
 };
-} // namespace raytracer::camera
+} // camera
+} // raytracer
+
+#endif //RAYTRACER_FILM_HPP
