@@ -6,5 +6,3 @@
 */
 
 #include "include/IMaterial.hpp"
-
-namespace raytracer::material {}
