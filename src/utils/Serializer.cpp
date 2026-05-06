@@ -35,9 +35,9 @@ void adl_serializer<raytracer::maths::Color>::to_json(json &, const raytracer::m
 void adl_serializer<raytracer::maths::Color>::from_json(const json &j, raytracer::maths::Color &c)
 {
     c = raytracer::maths::Color(
-        j.at(0).get<double>(),
-        j.at(1).get<double>(),
-        j.at(2).get<double>()
+        j.at(0).get<double>() / raytracer::maths::MAX_RGB_VALUE,
+        j.at(1).get<double>() / raytracer::maths::MAX_RGB_VALUE,
+        j.at(2).get<double>() / raytracer::maths::MAX_RGB_VALUE
     );
 }
 

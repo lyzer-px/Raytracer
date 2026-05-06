@@ -7,7 +7,7 @@
 
 #include <string>
 #include <unordered_map>
-
+#include "Serializer.hpp"
 #include "AmbientLight.hpp"
 #include "DirectionalLight.hpp"
 #include "FlatColor.hpp"
@@ -38,6 +38,9 @@ void SceneBuilder::buildScene(nlohmann::json &config)
     try {
         _scene = std::make_unique<Scene>();
 
+        if (config.contains("background_color")) {;
+            _scene->setBackgroundColor(config.at("background_color").get<maths::Color>());
+        }
         if (config.contains("camera"))
             _camera = camera::PerspectiveCamera::create(config.at("camera"));
         for (const auto &material : config.at("materials")) {
