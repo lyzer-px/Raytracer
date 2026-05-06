@@ -13,8 +13,8 @@
 
 namespace raytracer::shape {
 Sphere::Sphere(const nlohmann::json &config) :
-_center{config["center"].get<maths::Point3d>()},
-_radius{config["radius"].get<double>()}
+_center{config.at("position").get<maths::Point3d>()},
+_radius{config.at("radius").get<double>()}
 {}
 
 Sphere::Sphere(const maths::Point3d &center, const double &radius): _center{center},
