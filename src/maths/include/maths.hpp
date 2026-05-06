@@ -36,13 +36,18 @@ double sphericalTheta(const Vector3d &v);
 double sphericalPhi(const Vector3d &v);
 
 template <typename T>
+double randomNumber()
+{
+    static std::uniform_real_distribution<T> distribution(0.0, 1.0);
+    static std::mt19937 generator(std::random_device{}());
+
+    return distribution(generator);
+}
+
+template <typename T>
 T randomNumber(const T &low, const T &high)
 {
-    static std::random_device randomDevice;
-    static std::default_random_engine engine(randomDevice());
-    static std::uniform_real_distribution<T> distribute(low, high);
-
-    return distribute(engine);
+    return low + (high - low) * randomNumber<T>();
 }
 
 } // namespace raytracer::maths
