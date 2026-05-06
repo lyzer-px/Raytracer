@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <stdexcept>
 #include "Matrix.hpp"
 
 namespace raytracer::maths {
@@ -102,8 +103,14 @@ template <size_t rows, size_t cols, typename T>
     return true;
 }
 
+template <size_t rows, size_t cols, typename T>
+[[nodiscard]] double Matrix<rows, cols, T>::determinant() const
+{
+    throw std::runtime_error("Determinant not implemented for this matrix size");
+}
+
 template <>
-[[nodiscard]] double Matrix<4, 4, double>::determinant() const // NOLINT
+[[nodiscard]] inline double Matrix<4, 4, double>::determinant() const
 {
     const auto &m = _values;
     const auto a00 = m[0][0], a01 = m[0][1], a02 = m[0][2], a03 = m[0][3];

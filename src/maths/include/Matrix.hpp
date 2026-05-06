@@ -35,7 +35,7 @@ public:
 
     [[nodiscard]] bool isIdentity() const;
 
-    [[nodiscard]] double determinant() const requires (rows == cols) && (rows == 4);
+    [[nodiscard]] double determinant() const;
 
 private:
     std::array<std::array<T, cols>, rows> _values;
