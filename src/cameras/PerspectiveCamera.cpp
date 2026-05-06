@@ -5,27 +5,18 @@
 ** PerspectiveCamera
 */
 
+#include "Serializer.hpp"
 #include "PerspectiveCamera.hpp"
 
 #include <memory>
 
 namespace raytracer::camera {
 PerspectiveCamera::PerspectiveCamera(const nlohmann::json &config):
-    PerspectiveCamera(maths::Point3d(config.at("position").at(0).get<double>(),
-                          config.at("position").at(1).get<double>(),
-                          config.at("position").at(2).get<double>()),
-        maths::Point3d(config.at("target").at(0).get<double>(),
-            config.at("target").at(1).get<double>(),
-            config.at("target").at(2).get<double>()),
-        maths::Vector3d(config.at("up").at(0).get<double>(),
-            config.at("up").at(1).get<double>(),
-            config.at("up").at(2).get<double>()),
-        CameraProjection{.fovDegrees = config.at("fov").get<double>(),
-            .aspectRatio             = config.contains("resolution")
-                ? static_cast<float>(
-                      config.at("resolution").at(0).get<double>() /
-                      config.at("resolution").at(1).get<double>())
-                : config.at("aspect_ratio").get<float>()})
+    PerspectiveCamera(config.at("position").get<maths::Point3d>(),
+        config.at("target").get<maths::Point3d>(),
+        config.at("up").get<maths::Vector3d>(),
+        CameraProjection{.fovDegrees=config.at("fov_degrees").get<double>(),
+            .aspectRatio=config.at("aspect_ratio").get<float>()})
 {}
 
 PerspectiveCamera::PerspectiveCamera(const maths::Point3d &position,
@@ -63,23 +54,4 @@ std::unique_ptr<PerspectiveCamera> PerspectiveCamera::create(
     return std::make_unique<PerspectiveCamera>(config);
 }
 
-const maths::Point3d &PerspectiveCamera::origin() const
-{
-    return _origin;
-}
-
-const maths::Point3d &PerspectiveCamera::lowerLeft() const
-{
-    return _lowerLeft;
-}
-
-const maths::Vector3d &PerspectiveCamera::horizontal() const
-{
-    return _horizontal;
-}
-
-const maths::Vector3d &PerspectiveCamera::vertical() const
-{
-    return _vertical;
-}
 } // namespace raytracer::camera
