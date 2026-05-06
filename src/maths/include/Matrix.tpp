@@ -12,15 +12,17 @@
 namespace raytracer::maths {
 
 template <size_t rows, size_t cols, typename T>
-Matrix<rows, cols, T>::Matrix(std::array<std::array<T, cols>, rows> values)
-: _values(values) {}
+Matrix<rows, cols, T>::Matrix(std::array<std::array<T, cols>, rows> values):
+    _values(values)
+{}
 
 template <size_t rows, size_t cols, typename T>
 Matrix<rows, cols, T>::Matrix(std::initializer_list<std::array<T, cols>> values)
 {
     size_t rowIndex = 0;
-    for (const auto &row : values) {
-        if (rowIndex >= rows) break;
+    for (const auto &row: values) {
+        if (rowIndex >= rows)
+            break;
         _values[rowIndex++] = row;
     }
 }
@@ -38,20 +40,21 @@ template <size_t rows, size_t cols, typename T>
 }
 
 template <size_t rows, size_t cols, typename T>
-std::array<T, cols>& Matrix<rows, cols, T>::operator[](const size_t &index)
+std::array<T, cols> &Matrix<rows, cols, T>::operator[](const size_t &index)
 {
     return _values[index];
 }
 
 template <size_t rows, size_t cols, typename T>
-const std::array<T, cols>& Matrix<rows, cols, T>::operator[](const size_t &index) const
+const std::array<T, cols> &Matrix<rows, cols, T>::operator[](
+    const size_t &index) const
 {
     return _values[index];
 }
 
-
 template <size_t rows, size_t cols, typename T>
-Matrix<rows, cols, T> Matrix<rows, cols, T>::operator*(const Matrix &other) const
+Matrix<rows, cols, T> Matrix<rows, cols, T>::operator*(
+    const Matrix &other) const
 {
     if (cols != other.getNbRows())
         throw MatrixOperationException();
@@ -68,7 +71,8 @@ Matrix<rows, cols, T> Matrix<rows, cols, T>::operator*(const Matrix &other) cons
 }
 
 template <size_t rows, size_t cols, typename T>
-Matrix<rows, cols, T> Matrix<rows, cols, T>::operator/(const Matrix &other) const
+Matrix<rows, cols, T> Matrix<rows, cols, T>::operator/(
+    const Matrix &other) const
 {
     return (*this) * (static_cast<T>(1) / other);
 }

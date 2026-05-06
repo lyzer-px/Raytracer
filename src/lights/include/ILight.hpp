@@ -5,15 +5,13 @@
 ** ILight
 */
 
-#ifndef RAYTRACER_ILIGHT_HPP
-#define RAYTRACER_ILIGHT_HPP
+#pragma once
 
 #include "Color.hpp"
 #include "maths_types.hpp"
 #include "Vector3.hpp"
 
-namespace raytracer {
-namespace light {
+namespace raytracer::light {
 struct LightSample {
     maths::Vector3d wi;
     maths::Color radiance;
@@ -29,7 +27,5 @@ public:
     [[nodiscard]] virtual bool isDelta() const = 0;
 };
 
-} // light
-} // raytracer
+} // raytracer::light
 
-#endif //RAYTRACER_ILIGHT_HPP

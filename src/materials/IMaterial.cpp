@@ -6,7 +6,3 @@
 */
 
 #include "include/IMaterial.hpp"
-
-namespace raytracer {
-namespace material {} // material
-} // raytracer
