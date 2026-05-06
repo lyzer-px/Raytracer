@@ -12,10 +12,6 @@ namespace material {
 Lambertian::Lambertian(const maths::Color &color): _albedo{color}
 {}
 
-maths::Color Lambertian::getColor(const shape::SurfaceInteraction &) const // NOLINT
-{
-    return _albedo;
-}
 
 std::unique_ptr<IMaterial> Lambertian::create(const nlohmann::json &config)
 {

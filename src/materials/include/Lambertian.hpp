@@ -23,8 +23,6 @@ public:
     [[nodiscard]] static std::unique_ptr<IMaterial> create(
         const nlohmann::json &config);
 
-    [[nodiscard]] maths::Color getColor(const shape::SurfaceInteraction &si) const override; // NOLINT
-
     [[nodiscard]] std::optional<ScatterRecord> scatter(const maths::Ray &ray,
         const shape::SurfaceInteraction &si) const override;
 

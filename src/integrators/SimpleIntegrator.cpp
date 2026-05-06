@@ -19,8 +19,11 @@ maths::Color SimpleIntegrator::Li(
     if (!si)
         return scene.backgroundColor();
 
-    const material::IMaterial *mat  = si->primitive->material();
-    const maths::Color surfaceColor = mat->getColor(*si);
+    const material::IMaterial *mat = si->primitive->material();
+    const auto scatterRecord       = mat->scatter(ray, *si);
+    if (!scatterRecord)
+        return scene.backgroundColor();
+    const maths::Color surfaceColor = scatterRecord->attenuation;
 
     maths::Color accumulatedRadiance(0.0, 0.0, 0.0);
 
