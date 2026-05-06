@@ -21,6 +21,8 @@ public:
 
 private:
     double _ior;
+
+    static double schlick(const double &cosTheta, const double &ratio);
 };
 
 } // material
