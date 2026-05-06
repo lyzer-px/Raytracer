@@ -5,8 +5,7 @@
 ** IIntegrator
 */
 
-#ifndef RAYTRACER_IINTEGRATOR_HPP
-#define RAYTRACER_IINTEGRATOR_HPP
+#pragma once
 
 #include "Color.hpp"
 #include "Film.hpp"
@@ -14,19 +13,15 @@
 #include "Ray.hpp"
 #include "Scene.hpp"
 
-namespace raytracer {
-namespace integrator {
+namespace raytracer::integrator {
 class IIntegrator {
 public:
     virtual ~IIntegrator() = default;
 
-    virtual maths::Color Li(const maths::Ray &ray, const scene::Scene &scene,
-        int depth) const = 0;
+    virtual maths::Color Li(
+        const maths::Ray &ray, const scene::Scene &scene, int depth) const = 0;
 
     virtual void render(const scene::Scene &scene,
         const camera::ICamera &camera, camera::Film &film) const = 0;
 };
-} // integrator
-} // raytracer
-
-#endif //RAYTRACER_IINTEGRATOR_HPP
+} // namespace raytracer::integrator

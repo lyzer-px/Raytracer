@@ -5,8 +5,10 @@
 ** maths.cpp
 */
 
-#include <cstdlib>
 #include "maths.hpp"
+
+#include <cstdlib>
+
 #include "Vector.hpp"
 
 namespace raytracer::maths {
@@ -22,19 +24,14 @@ void coordinateSystem(const Vector3d &v1, Vector3d &v2, Vector3d &v3)
 
 Vector3d sphericalDirection(double sinTheta, double cosTheta, double phi)
 {
-    return {
-        sinTheta * std::cos(phi),
-        sinTheta * std::sin(phi),
-        cosTheta
-    };
+    return {sinTheta * std::cos(phi), sinTheta * std::sin(phi), cosTheta};
 }
 
 Vector3d sphericalDirection(double sinTheta, double cosTheta, double phi,
-                             const Vector3d &x, const Vector3d &y, const Vector3d &z)
+    const Vector3d &x, const Vector3d &y, const Vector3d &z)
 {
-    return {
-        (x * (sinTheta * std::cos(phi))) + (y * (sinTheta * std::sin(phi))) + (z * cosTheta)
-    };
+    return {(x * (sinTheta * std::cos(phi))) +
+        (y * (sinTheta * std::sin(phi))) + (z * cosTheta)};
 }
 
 double sphericalTheta(const Vector3d &v)

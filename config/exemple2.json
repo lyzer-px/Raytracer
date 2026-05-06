@@ -1,0 +1,478 @@
+{
+  "background_color": [24, 184, 224],
+  "camera": {
+    "resolution": [1920, 1080],
+    "position":   [0.0, -100.0, 60.0],
+    "target":     [0.0,   0.0,   0.0],
+    "up":         [0.0,   0.0,   1.0],
+    "fov":        60.0
+  },
+  "materials": [
+    {
+      "id":   "red_lambertian",
+      "type": "lambertian",
+      "config": {
+        "albedo": [255, 0, 0]
+      }
+    },
+    {
+      "id":   "green_lambertian",
+      "type": "lambertian",
+      "config": {
+        "albedo": [0, 255, 0]
+      }
+    },
+    {
+      "id":   "blue_lambertian",
+      "type": "lambertian",
+      "config": {
+        "albedo": [0, 120, 255]
+      }
+    },
+    {
+      "id":   "yellow_lambertian",
+      "type": "lambertian",
+      "config": {
+        "albedo": [255, 220, 0]
+      }
+    },
+    {
+      "id":   "cyan_lambertian",
+      "type": "lambertian",
+      "config": {
+        "albedo": [0, 220, 220]
+      }
+    },
+    {
+      "id":   "magenta_lambertian",
+      "type": "lambertian",
+      "config": {
+        "albedo": [220, 0, 220]
+      }
+    }
+  ],
+  "primitives": [
+    {
+      "type":        "geometric_primitive",
+      "material_id": "red_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [-50.0, -50.0, 0.0],
+          "radius":   25.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "green_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [70.0, 30.0, 30.0],
+          "radius":   25.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "red_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [-80.0, 40.0, 10.0],
+          "radius":   5.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "green_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [-60.0, -10.0, 15.0],
+          "radius":   4.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "red_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [-30.0, 60.0, 5.0],
+          "radius":   6.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "green_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [-10.0, -70.0, 20.0],
+          "radius":   5.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "red_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [5.0, 25.0, 8.0],
+          "radius":   4.5
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "green_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [15.0, -35.0, 12.0],
+          "radius":   6.5
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "red_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [25.0, 75.0, 18.0],
+          "radius":   5.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "green_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [35.0, -5.0, 22.0],
+          "radius":   4.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "red_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [45.0, 10.0, 6.0],
+          "radius":   5.5
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "green_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [55.0, -55.0, 14.0],
+          "radius":   6.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "red_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [65.0, 50.0, 9.0],
+          "radius":   4.5
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "green_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [75.0, -20.0, 11.0],
+          "radius":   5.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "red_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [85.0, 15.0, 16.0],
+          "radius":   6.5
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "green_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [95.0, -65.0, 4.0],
+          "radius":   4.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "red_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [-95.0, 20.0, 7.0],
+          "radius":   5.5
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "green_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [-75.0, -30.0, 13.0],
+          "radius":   6.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "red_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [-55.0, 70.0, 3.0],
+          "radius":   4.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "green_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [-35.0, -80.0, 9.0],
+          "radius":   5.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "red_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [-15.0, 5.0, 17.0],
+          "radius":   6.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "blue_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [-25.0, 35.0, 12.0],
+          "radius":   4.5
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "yellow_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [-5.0, -25.0, 8.0],
+          "radius":   5.5
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "cyan_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [10.0, 55.0, 14.0],
+          "radius":   4.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "magenta_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [20.0, -45.0, 19.0],
+          "radius":   6.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "blue_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [30.0, 5.0, 6.0],
+          "radius":   4.5
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "yellow_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [40.0, 35.0, 10.0],
+          "radius":   5.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "cyan_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [50.0, -15.0, 15.0],
+          "radius":   4.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "magenta_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [60.0, 65.0, 7.0],
+          "radius":   5.5
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "blue_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [70.0, -35.0, 12.0],
+          "radius":   6.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "yellow_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [80.0, 25.0, 5.0],
+          "radius":   4.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "cyan_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [90.0, -5.0, 16.0],
+          "radius":   5.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "magenta_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [-90.0, 55.0, 11.0],
+          "radius":   4.5
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "blue_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [-70.0, -45.0, 18.0],
+          "radius":   6.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "yellow_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [-50.0, 15.0, 9.0],
+          "radius":   5.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "cyan_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [-40.0, -65.0, 6.0],
+          "radius":   4.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "magenta_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [-20.0, 75.0, 13.0],
+          "radius":   5.5
+        }
+      }
+    }
+  ],
+  "lights": [
+    {
+      "type": "ambient",
+      "config": {
+        "radiance": [80, 80, 80]
+      }
+    },
+    {
+      "type": "directional",
+      "config": {
+        "direction": [-1.0,  -1.0, -1.0],
+        "radiance":  [255,  255, 255]
+      }
+    }
+  ]
+}

@@ -12,11 +12,12 @@
 #include <fstream>
 #include <stdexcept>
 
-namespace raytracer {
-namespace camera {
-Film::Film(int width, int height): _width{width}, _height{height},
+namespace raytracer::camera {
+Film::Film(int width, int height):
+    _width{width},
+    _height{height},
     _buffer{static_cast<long unsigned int>(width * height),
-            maths::Color{0.0, 0.0, 0.0}}
+        maths::Color{0.0, 0.0, 0.0}}
 {
     assert(width > 0);
     assert(height > 0);
@@ -70,5 +71,4 @@ void Film::write(const Film &film, const std::string &path)
         }
     }
 }
-} // camera
-} // raytracer
+} // namespace raytracer::camera
