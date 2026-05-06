@@ -9,6 +9,7 @@
 #include <iostream>
 #include <memory>
 
+
 #include "Scene.hpp"
 #include "SceneBuilder.hpp"
 #include "SimpleIntegrator.hpp"
