@@ -11,6 +11,7 @@
 #include "Color.hpp"
 #include "IMaterial.hpp"
 #include "IShape.hpp"
+#include "Serializer.hpp"
 
 namespace raytracer {
 namespace material {
@@ -18,6 +19,9 @@ namespace material {
 class Lambertian: public IMaterial {
 public:
     explicit Lambertian(const maths::Color &color);
+
+    [[nodiscard]] static std::unique_ptr<IMaterial> create(
+        const nlohmann::json &config);
 
     [[nodiscard]] maths::Color getColor(const shape::SurfaceInteraction &si) const override; // NOLINT
 

@@ -17,6 +17,12 @@ maths::Color Lambertian::getColor(const shape::SurfaceInteraction &) const // NO
     return _albedo;
 }
 
+std::unique_ptr<IMaterial> Lambertian::create(const nlohmann::json &config)
+{
+    return std::make_unique<Lambertian>(
+        config.at("albedo").get<maths::Color>());
+}
+
 std::optional<ScatterRecord> Lambertian::scatter(const maths::Ray &,
     const shape::SurfaceInteraction &si) const
 {

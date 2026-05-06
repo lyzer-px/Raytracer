@@ -5,14 +5,13 @@
 ** IMaterial
 */
 
-#ifndef RAYTRACER_IMATERIAL_HPP
-#define RAYTRACER_IMATERIAL_HPP
+#pragma once
 
 #include "Color.hpp"
 #include "IShape.hpp"
 
-namespace raytracer {
-namespace material {
+namespace raytracer::material {
+
 struct ScatterRecord {
     maths::Ray scattered;
     maths::Color attenuation;
@@ -24,7 +23,7 @@ public:
     virtual ~IMaterial() = default;
 
     [[nodiscard]] virtual maths::Color getColor(
-        const shape::SurfaceInteraction &si) const = 0; //NOLINT
+        const shape::SurfaceInteraction &si) const = 0; // NOLINT
 
     [[nodiscard]] virtual std::optional<ScatterRecord> scatter(
         const maths::Ray &ray, const shape::SurfaceInteraction &si) const = 0;
@@ -33,7 +32,4 @@ public:
         const shape::SurfaceInteraction &si) const;
 };
 
-} // material
-} // raytracer
-
-#endif //RAYTRACER_IMATERIAL_HPP
+} // namespace raytracer::material

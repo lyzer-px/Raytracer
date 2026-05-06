@@ -2,86 +2,50 @@
 ** EPITECH PROJECT, 2026
 ** OOP
 ** File description:
-** 
+**
 */
 
+#include <fstream>
 #include <iostream>
 #include <memory>
 
-#include "AmbientLight.hpp"
-#include "Color.hpp"
-#include "DirectionalLight.hpp"
-#include "Film.hpp"
-#include "Lambertian.hpp"
-#include "GeometricPrimitive.hpp"
-#include "maths_types.hpp"
-#include "PerspectiveCamera.hpp"
+
 #include "Scene.hpp"
+#include "SceneBuilder.hpp"
 #include "SimpleIntegrator.hpp"
-#include "Sphere.hpp"
 
-static raytracer::scene::Scene buildScene()
+void start(const std::string configPath)
 {
-    raytracer::scene::Scene scene;
+    constexpr auto width  = 1920;
+    constexpr auto height = 1080;
+    raytracer::camera::Film film(width, height);
 
-    std::unique_ptr<raytracer::shape::IShape> sphere = std::make_unique<
-        raytracer::shape::Sphere>(raytracer::maths::Point3d{60.0, 5.0, 40.0}, 25.0);
-    std::unique_ptr<raytracer::material::IMaterial> sphereMaterial =
-        std::make_unique<
-            raytracer::material::Lambertian>(raytracer::maths::Color{1.0, 0.25, 0.25});
-    std::unique_ptr<raytracer::shape::IPrimitive> spherePrimitive =
-        std::make_unique<raytracer::shape::GeometricPrimitive>(sphere,
-            sphereMaterial);
-    scene.addPrimitive(spherePrimitive);
+    raytracer::scene::SceneBuilder builder;
+    raytracer::integrator::SimpleIntegrator integrator;
 
-    std::unique_ptr<raytracer::shape::IShape> sphere2 = std::make_unique<
-        raytracer::shape::Sphere>(raytracer::maths::Point3d{0.0, 0.0, 0.0}, 25.0);
-    std::unique_ptr<raytracer::material::IMaterial> sphereMaterial2 =
-        std::make_unique<
-            raytracer::material::Lambertian>(raytracer::maths::Color{0.0, 1.0, 0.0});
-    std::unique_ptr<raytracer::shape::IPrimitive> spherePrimitive2 =
-        std::make_unique<raytracer::shape::GeometricPrimitive>(sphere2,
-            sphereMaterial2);
-    scene.addPrimitive(spherePrimitive2);
+    std::ifstream ifs(configPath);
+    if (!ifs)
+        throw std::runtime_error(
+            std::string("Failed to open config file: ") + configPath);
+    nlohmann::json config;
+    ifs >> config;
+    builder.buildScene(config);
+    integrator.render(*builder.scene(), *builder.camera(), film);
 
-    std::unique_ptr<raytracer::light::ILight> ambient = std::make_unique<
-        raytracer::light::AmbientLight>(raytracer::maths::Color{0.3, 0.3, 0.3});
-    scene.addLight(ambient);
+    const std::string outputPath = "output.ppm";
+    raytracer::camera::Film::write(film, outputPath);
 
-    std::unique_ptr<raytracer::light::ILight> directional = std::make_unique<
-        raytracer::light::DirectionalLight>(raytracer::maths::Vector3d{-1.0, -1.0, -1.0},
-        raytracer::maths::Color{1.0, 1.0, 1.0});
-    scene.addLight(directional);
-
-    scene.setBackgroundColor(raytracer::maths::Color{0.2, 0.3, 1.0});
-
-    return scene;
+    std::cout << "Rendered: " << outputPath << "\n";
 }
 
-int main()
+int main(int ac, char **av)
 {
     try {
-        const raytracer::scene::Scene scene = buildScene();
-
-        const raytracer::camera::PerspectiveCamera camera(
-            raytracer::maths::Point3d{0.0, -100.0, 10.0},
-            raytracer::maths::Point3d{0.0, 0.0, 0.0},
-            raytracer::maths::Vector3d{0.0, 0.0, 1.0},
-            72.0,
-            16.0 / 9.0
-        );
-
-        constexpr auto width  = 1920;
-        constexpr auto height = 1080;
-        raytracer::camera::Film film(width, height);
-
-        raytracer::integrator::SimpleIntegrator integrator;
-        integrator.render(scene, camera, film);
-
-        const std::string outputPath = "output.ppm";
-        raytracer::camera::Film::write(film, outputPath);
-
-        std::cout << "Rendered: " << outputPath << "\n";
+        if (ac != 2) {
+            std::cerr << "Usage: " << av[0] << " <config.json>" << std::endl;
+            return 84;
+        }
+        start(av[1]);
 
     } catch (const std::exception &e) {
         std::cerr << "Error: " << e.what() << "\n";
