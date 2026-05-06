@@ -30,6 +30,8 @@ public:
     static Vector3 randomUnitVector() noexcept;
 
     Vector3 reflect(const Vector3 &other) const;
+
+    Vector3 refract(const Vector3 &other, const double &ratio);
 };
 
 using Vector3d = Vector3<double>;
