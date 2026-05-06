@@ -14,6 +14,13 @@
       "config": {
         "albedo": [255, 0, 0]
       }
+    },
+    {
+      "id":   "green_lambertian",
+      "type": "lambertian",
+      "config": {
+        "albedo": [0, 255, 0]
+      }
     }
   ],
   "primitives": [
@@ -23,7 +30,18 @@
       "shape": {
         "type": "sphere",
         "config": {
-          "position": [0.0, 0.0, 0.0],
+          "position": [-50.0, -50.0, 0.0],
+          "radius":   25.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "green_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [70.0, 30.0, 30.0],
           "radius":   25.0
         }
       }
