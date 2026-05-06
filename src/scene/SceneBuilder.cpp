@@ -12,7 +12,7 @@
 
 #include "AmbientLight.hpp"
 #include "DirectionalLight.hpp"
-#include "Lambertian.hpp"
+#include "FlatColor.hpp"
 #include "GeometricPrimitive.hpp"
 #include "PerspectiveCamera.hpp"
 #include "Serializer.hpp"
@@ -28,7 +28,7 @@ SceneBuilder::SceneBuilder()
 
 void SceneBuilder::registerCreators()
 {
-    _materialFactory.registerCreator<material::Lambertian>("lambertian");
+    _materialFactory.registerCreator<material::FlatColor>("lambertian");
     _shapeFactory.registerCreator<shape::Sphere>("sphere");
     _primitiveFactory.registerCreator<shape::GeometricPrimitive>(
         "geometric_primitive");
