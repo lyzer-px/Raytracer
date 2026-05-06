@@ -7,11 +7,16 @@
 
 #include "GeometricPrimitive.hpp"
 
-namespace raytracer {
-namespace shape {
-GeometricPrimitive::GeometricPrimitive(std::unique_ptr<IShape> &shape,
-    std::unique_ptr<material::IMaterial> &material): _shape{std::move(shape)},
-    _material{std::move(material)}
+#include <string>
+
+#include "FactoryTemplate.hpp"
+#include "IShape.hpp"
+
+namespace raytracer::shape {
+
+GeometricPrimitive::GeometricPrimitive(
+    std::unique_ptr<IShape> &shape, material::IMaterial *material):
+    _shape{std::move(shape)}, _material{material}
 {}
 
 std::optional<SurfaceInteraction> GeometricPrimitive::intersect(
@@ -31,9 +36,14 @@ bool GeometricPrimitive::intersectP(const maths::Ray &ray) const
     return _shape->intersectP(ray);
 }
 
+std::unique_ptr<IPrimitive> GeometricPrimitive::create(
+    std::unique_ptr<IShape> &shape, material::IMaterial *material)
+{
+    return std::make_unique<GeometricPrimitive>(shape, material);
+}
+
 const material::IMaterial *GeometricPrimitive::material() const
 {
-    return _material.get();
+    return _material;
 }
-} // shape
-} // raytracer
+} // namespace raytracer::shape

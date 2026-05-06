@@ -1,5 +1,5 @@
 add_library(integrators STATIC IIntegrator.cpp
-        SimpleIntegrator.cpp
+        include/SimpleIntegrator.cpp
         include/SimpleIntegrator.hpp)
 
 target_include_directories(integrators PUBLIC include)

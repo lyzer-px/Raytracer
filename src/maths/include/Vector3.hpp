@@ -7,8 +7,6 @@
 
 #pragma once
 
-#include <random>
-
 #include "Normal.hpp"
 #include "Vector.hpp"
 
@@ -26,12 +24,6 @@ public:
 
     template <typename U>
     explicit Vector3(const Normal3<U> &v); // conversion constructor
-
-    static Vector3 randomUnitVector() noexcept;
-
-    Vector3 reflect(const Vector3 &other) const;
-
-    Vector3 refract(const Vector3 &other, const double &ratio);
 };
 
 using Vector3d = Vector3<double>;
