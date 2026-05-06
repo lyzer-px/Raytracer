@@ -6,40 +6,32 @@
 */
 
 #include "PerspectiveCamera.hpp"
+
 #include <memory>
 
 namespace raytracer::camera {
-PerspectiveCamera::PerspectiveCamera(const nlohmann::json &config)
-    : PerspectiveCamera(
-        maths::Point3d(
-            config.at("position").at(0).get<double>(),
-            config.at("position").at(1).get<double>(),
-            config.at("position").at(2).get<double>()
-        ),
-        maths::Point3d(
-            config.at("target").at(0).get<double>(),
+PerspectiveCamera::PerspectiveCamera(const nlohmann::json &config):
+    PerspectiveCamera(maths::Point3d(config.at("position").at(0).get<double>(),
+                          config.at("position").at(1).get<double>(),
+                          config.at("position").at(2).get<double>()),
+        maths::Point3d(config.at("target").at(0).get<double>(),
             config.at("target").at(1).get<double>(),
-            config.at("target").at(2).get<double>()
-        ),
-        maths::Vector3d(
-            config.at("up").at(0).get<double>(),
+            config.at("target").at(2).get<double>()),
+        maths::Vector3d(config.at("up").at(0).get<double>(),
             config.at("up").at(1).get<double>(),
-            config.at("up").at(2).get<double>()
-        ),
-        CameraProjection{
-            .fovDegrees=config.at("fov").get<double>(),
-            .aspectRatio=config.contains("resolution")
-                ? static_cast<float>(config.at("resolution").at(0).get<double>() /
-                                     config.at("resolution").at(1).get<double>())
-                : config.at("aspect_ratio").get<float>()
-        })
-{
-}
+            config.at("up").at(2).get<double>()),
+        CameraProjection{.fovDegrees = config.at("fov").get<double>(),
+            .aspectRatio             = config.contains("resolution")
+                ? static_cast<float>(
+                      config.at("resolution").at(0).get<double>() /
+                      config.at("resolution").at(1).get<double>())
+                : config.at("aspect_ratio").get<float>()})
+{}
 
 PerspectiveCamera::PerspectiveCamera(const maths::Point3d &position,
     const maths::Point3d &target, const maths::Vector3d &up,
-    const CameraProjection &projection)
-    : _origin{position}
+    const CameraProjection &projection):
+    _origin{position}
 {
     const double theta      = projection.fovDegrees * M_PI / 180.0;
     const double halfHeight = std::tan(theta / 2.0);
@@ -65,7 +57,8 @@ maths::Ray PerspectiveCamera::generateRay(const float &u, const float &v) const
     return maths::Ray{_origin, direction};
 }
 
-std::unique_ptr<PerspectiveCamera> PerspectiveCamera::create(const nlohmann::json &config)
+std::unique_ptr<PerspectiveCamera> PerspectiveCamera::create(
+    const nlohmann::json &config)
 {
     return std::make_unique<PerspectiveCamera>(config);
 }
@@ -89,4 +82,4 @@ const maths::Vector3d &PerspectiveCamera::vertical() const
 {
     return _vertical;
 }
-}
+} // namespace raytracer::camera

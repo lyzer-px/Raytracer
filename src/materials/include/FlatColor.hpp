@@ -19,12 +19,13 @@ public:
     explicit FlatColor(const nlohmann::json &config);
     explicit FlatColor(const maths::Color &color);
 
-    [[nodiscard]] maths::Color
-        getColor(const shape::SurfaceInteraction &si) const override; // NOLINT
+    [[nodiscard]] maths::Color getColor(
+        const shape::SurfaceInteraction &si) const override; // NOLINT
 
     static std::unique_ptr<IMaterial> create(const nlohmann::json &config);
+
 private:
     maths::Color _color;
 };
 
-} // raytracer::material
+} // namespace raytracer::material

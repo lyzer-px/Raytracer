@@ -14,11 +14,11 @@
 namespace raytracer::shape {
 class GeometricPrimitive: public IPrimitive {
 public:
-    explicit GeometricPrimitive(std::unique_ptr<IShape> &shape,
-        material::IMaterial *material);
+    explicit GeometricPrimitive(
+        std::unique_ptr<IShape> &shape, material::IMaterial *material);
 
-    explicit GeometricPrimitive(std::unique_ptr<IShape> &&shape,
-        material::IMaterial *material);
+    explicit GeometricPrimitive(
+        std::unique_ptr<IShape> &&shape, material::IMaterial *material);
 
     [[nodiscard]] std::optional<SurfaceInteraction> intersect(
         const maths::Ray &ray) const override;
@@ -27,11 +27,11 @@ public:
 
     [[nodiscard]] const material::IMaterial *material() const override;
 
-    static std::unique_ptr<IPrimitive> create(std::unique_ptr<IShape> &shape,
-        material::IMaterial *material);
+    static std::unique_ptr<IPrimitive> create(
+        std::unique_ptr<IShape> &shape, material::IMaterial *material);
 
 private:
     std::unique_ptr<IShape> _shape;
     material::IMaterial *_material;
 };
-} // raytracer::shape
+} // namespace raytracer::shape

@@ -25,7 +25,8 @@ void Scene::addLight(std::unique_ptr<light::ILight> &light)
     _lights.push_back(std::move(light));
 }
 
-void Scene::addMaterial(const std::string &name, std::unique_ptr<material::IMaterial> &material)
+void Scene::addMaterial(
+    const std::string &name, std::unique_ptr<material::IMaterial> &material)
 {
     assert(material != nullptr);
     _materials[name] = std::move(material);
@@ -36,7 +37,8 @@ void Scene::setBackgroundColor(const maths::Color &color)
     _background = color;
 }
 
-std::optional<shape::SurfaceInteraction> Scene::intersect(const maths::Ray &ray) const
+std::optional<shape::SurfaceInteraction> Scene::intersect(
+    const maths::Ray &ray) const
 {
     std::optional<shape::SurfaceInteraction> hitPointData = std::nullopt;
 
@@ -59,7 +61,7 @@ bool Scene::intersectAny(const maths::Ray &ray) const
     return false;
 }
 
-const std::vector<std::unique_ptr<light::ILight>> & Scene::lights() const
+const std::vector<std::unique_ptr<light::ILight>> &Scene::lights() const
 {
     return _lights;
 }

@@ -20,13 +20,15 @@ struct CameraProjection {
 class PerspectiveCamera: public ICamera {
 public:
     explicit PerspectiveCamera(const nlohmann::json &config);
-    explicit PerspectiveCamera(const maths::Point3d &position, const maths::Point3d &target,
-        const maths::Vector3d &up, const CameraProjection &projection);
+    explicit PerspectiveCamera(const maths::Point3d &position,
+        const maths::Point3d &target, const maths::Vector3d &up,
+        const CameraProjection &projection);
 
-    [[nodiscard]] maths::Ray
-        generateRay(const float &u, const float &v) const override;
+    [[nodiscard]] maths::Ray generateRay(
+        const float &u, const float &v) const override;
 
-    static std::unique_ptr<PerspectiveCamera> create(const nlohmann::json &config);
+    static std::unique_ptr<PerspectiveCamera> create(
+        const nlohmann::json &config);
 
     [[nodiscard]] const maths::Point3d &origin() const;
     [[nodiscard]] const maths::Point3d &lowerLeft() const;

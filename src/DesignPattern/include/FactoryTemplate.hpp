@@ -15,8 +15,7 @@
 
 namespace designPattern {
 template <typename BaseClass, typename ConcreteClass, typename... Args>
-concept HasCreateMethod = requires(Args... args)
-{
+concept HasCreateMethod = requires(Args... args) {
     {
         ConcreteClass::create(std::forward<Args>(args)...)
     } -> std::same_as<std::unique_ptr<BaseClass>>;

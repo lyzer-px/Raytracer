@@ -2,16 +2,16 @@
 ** EPITECH PROJECT, 2026
 ** OOP
 ** File description:
-** 
+**
 */
 
+#include <fstream>
 #include <iostream>
 #include <memory>
-#include <fstream>
 
 #include "Scene.hpp"
-#include "SimpleIntegrator.hpp"
 #include "SceneBuilder.hpp"
+#include "SimpleIntegrator.hpp"
 
 void start(const std::string configPath)
 {
@@ -24,7 +24,8 @@ void start(const std::string configPath)
 
     std::ifstream ifs(configPath);
     if (!ifs)
-        throw std::runtime_error(std::string("Failed to open config file: ") + configPath);
+        throw std::runtime_error(
+            std::string("Failed to open config file: ") + configPath);
     nlohmann::json config;
     ifs >> config;
     builder.buildScene(config);
