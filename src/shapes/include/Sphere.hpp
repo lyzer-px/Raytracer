@@ -5,30 +5,30 @@
 ** Sphere
 */
 
-#pragma once
+#ifndef RAYTRACER_SPHERE_HPP
+#define RAYTRACER_SPHERE_HPP
 #include "IShape.hpp"
-#include "jsonParser.hpp"
 
-namespace raytracer::shape {
+namespace raytracer { // NOLINT
+namespace shape {
 
 class Sphere: public IShape {
 public:
-    Sphere(const nlohmann::json &config);
-    Sphere(const maths::Point3d &center, const double &radius);
+    Sphere(const maths::Point3d &center, const float &radius);
 
     [[nodiscard]] std::optional<SurfaceInteraction> intersect(
         const maths::Ray &ray) const override;
 
     [[nodiscard]] bool intersectP(const maths::Ray &ray) const override;
 
-    static std::unique_ptr<IShape> create(const nlohmann::json &config);
-
 private:
-    [[nodiscard]] std::optional<double> solveQuadratic(
-        const maths::Ray &ray) const;
+    [[nodiscard]] std::optional<double> solveQuadratic(const maths::Ray &ray) const;
 
     maths::Point3d _center;
-    double _radius;
+    float _radius;
 };
 
-} // namespace raytracer::shape
+} // shape
+} // raytracer
+
+#endif //RAYTRACER_SPHERE_HPP

@@ -5,4 +5,4 @@ add_library(lights STATIC ILight.cpp
 
 target_include_directories(lights PUBLIC include)
 
-target_link_libraries(lights PUBLIC maths utils warning_options)
+target_link_libraries(lights PUBLIC maths warning_options)

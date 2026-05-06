@@ -5,7 +5,8 @@
 ** IShape
 */
 
-#pragma once
+#ifndef RAYTRACER_ISHAPE_HPP
+#define RAYTRACER_ISHAPE_HPP
 
 #include <optional>
 
@@ -13,7 +14,8 @@
 #include "Point.hpp"
 #include "Ray.hpp"
 
-namespace raytracer::shape {
+namespace raytracer {
+namespace shape {
 class IPrimitive;
 class IShape;
 
@@ -35,4 +37,7 @@ public:
     [[nodiscard]] virtual bool intersectP(const maths::Ray &ray) const = 0;
 };
 
-} // namespace raytracer::shape
+} // shape
+} // raytracer
+
+#endif //RAYTRACER_ISHAPE_HPP

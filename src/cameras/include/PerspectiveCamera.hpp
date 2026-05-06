@@ -5,30 +5,21 @@
 ** PerspectiveCamera
 */
 
-#pragma once
+#ifndef RAYTRACER_PERSPECTIVECAMERA_HPP
+#define RAYTRACER_PERSPECTIVECAMERA_HPP
 
 #include "ICamera.hpp"
-#include "jsonParser.hpp"
+#include "maths_types.hpp"
 
-namespace raytracer::camera {
-
-struct CameraProjection {
-    double fovDegrees;
-    double aspectRatio;
-};
-
+namespace raytracer {
+namespace camera {
 class PerspectiveCamera: public ICamera {
 public:
-    explicit PerspectiveCamera(const nlohmann::json &config);
-    explicit PerspectiveCamera(const maths::Point3d &position,
-        const maths::Point3d &target, const maths::Vector3d &up,
-        const CameraProjection &projection);
+    PerspectiveCamera(const maths::Point3d &position, const maths::Point3d &target,
+        const maths::Vector3d &up, float fovDegrees, float aspectRatio);
 
-    [[nodiscard]] maths::Ray generateRay(
-        const float &u, const float &v) const override;
-
-    static std::unique_ptr<PerspectiveCamera> create(
-        const nlohmann::json &config);
+    [[nodiscard]] maths::Ray
+        generateRay(const float &u, const float &v) const override;
 
 private:
     maths::Point3d _origin;
@@ -36,4 +27,7 @@ private:
     maths::Vector3d _horizontal;
     maths::Vector3d _vertical;
 };
-} // namespace raytracer::camera
+} // camera
+} // raytracer
+
+#endif //RAYTRACER_PERSPECTIVECAMERA_HPP

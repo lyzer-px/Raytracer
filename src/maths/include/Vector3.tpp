@@ -11,7 +11,8 @@
 
 namespace raytracer::maths {
 
-template <typename T> Vector3<T>::Vector3(): Vector<Vector3, 3, T>()
+template <typename T>
+Vector3<T>::Vector3(): Vector<Vector3, 3, T>()
 {}
 
 template <typename T>
@@ -25,16 +26,39 @@ Vector3<T>::Vector3(T x, T y, T z) noexcept: Vector<Vector3, 3, T>()
 
 template <typename T>
 template <typename U>
-Vector3<T>::Vector3(const Point3<U> &v):
-    Vector<Vector3, 3, T>(
-        {static_cast<T>(v.x()), static_cast<T>(v.y()), static_cast<T>(v.z())})
+Vector3<T>::Vector3(const Point3<U> &v): Vector<Vector3, 3, T>(
+    {static_cast<T>(v.x()), static_cast<T>(v.y()), static_cast<T>(v.z())})
 {}
 
 template <typename T>
 template <typename U>
-Vector3<T>::Vector3(const Normal3<U> &v):
-    Vector<Vector3, 3, T>(
-        {static_cast<T>(v.x()), static_cast<T>(v.y()), static_cast<T>(v.z())})
+Vector3<T>::Vector3(const Normal3<U> &v): Vector<Vector3, 3, T>(
+    {static_cast<T>(v.x()), static_cast<T>(v.y()), static_cast<T>(v.z())})
 {}
+
+template <typename T>
+Vector3<T> Vector3<T>::randomUnitVector() noexcept
+{
+    static std::random_device randomDevice;
+    static std::default_random_engine engine(randomDevice());
+    static std::uniform_real_distribution<T> distribute(static_cast<T>(-1),
+        static_cast<T>(1));
+
+    Vector3d res{
+        distribute(engine),
+        distribute(engine),
+        distribute(engine)
+    };
+
+    if (res.dot(res) < static_cast<T>(1))
+        return res.normalize();
+    return randomUnitVector();
+}
+
+template <typename T>
+Vector3<T> Vector3<T>::reflect(const Vector3 &other) const
+{
+    return *this - other * static_cast<T>(2.0) * this->dot(other);
+}
 
 } // namespace raytracer::maths
