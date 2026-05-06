@@ -5,18 +5,20 @@
 ** GeometricPrimitive
 */
 
-#ifndef RAYTRACER_GEOMETRICPRIMITIVE_HPP
-#define RAYTRACER_GEOMETRICPRIMITIVE_HPP
+#pragma once
 #include <memory>
 
 #include "IPrimitive.hpp"
+#include "jsonParser.hpp"
 
-namespace raytracer {
-namespace shape {
+namespace raytracer::shape {
 class GeometricPrimitive: public IPrimitive {
 public:
     explicit GeometricPrimitive(std::unique_ptr<IShape> &shape,
-        std::unique_ptr<material::IMaterial> &material);
+        material::IMaterial *material);
+
+    explicit GeometricPrimitive(std::unique_ptr<IShape> &&shape,
+        material::IMaterial *material);
 
     [[nodiscard]] std::optional<SurfaceInteraction> intersect(
         const maths::Ray &ray) const override;
@@ -25,11 +27,11 @@ public:
 
     [[nodiscard]] const material::IMaterial *material() const override;
 
+    static std::unique_ptr<IPrimitive> create(std::unique_ptr<IShape> &shape,
+        material::IMaterial *material);
+
 private:
     std::unique_ptr<IShape> _shape;
-    std::unique_ptr<material::IMaterial> _material;
+    material::IMaterial *_material;
 };
-} // shape
-} // raytracer
-
-#endif //RAYTRACER_GEOMETRICPRIMITIVE_HPP
+} // raytracer::shape

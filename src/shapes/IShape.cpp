@@ -7,6 +7,4 @@
 
 #include "include/IShape.hpp"
 
-namespace raytracer {
-namespace shape {} // shape
-} // raytracer
+namespace raytracer::shape {} // namespace raytracer::shape

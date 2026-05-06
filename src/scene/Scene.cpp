@@ -9,8 +9,7 @@
 
 #include <cassert>
 
-namespace raytracer {
-namespace scene {
+namespace raytracer::scene {
 Scene::Scene(): _background{maths::Color{0.0, 0.0, 0.0}}
 {}
 
@@ -24,6 +23,12 @@ void Scene::addLight(std::unique_ptr<light::ILight> &light)
 {
     assert(light != nullptr);
     _lights.push_back(std::move(light));
+}
+
+void Scene::addMaterial(const std::string &name, std::unique_ptr<material::IMaterial> &material)
+{
+    assert(material != nullptr);
+    _materials[name] = std::move(material);
 }
 
 void Scene::setBackgroundColor(const maths::Color &color)
@@ -63,5 +68,12 @@ maths::Color Scene::backgroundColor() const
 {
     return _background;
 }
-} // scene
-} // raytracer
+
+material::IMaterial *Scene::getMaterial(const std::string &name) const
+{
+    if (_materials.contains(name))
+        return _materials.at(name).get();
+    throw std::runtime_error("Material '" + name + "' not found in scene");
+}
+
+} // namespace raytracer::scene

@@ -4,18 +4,22 @@
 
 add_subdirectory(maths)
 
+add_subdirectory(cameras)
+
 add_subdirectory(shapes)
 
 add_subdirectory(materials)
 
 add_subdirectory(lights)
 
-add_subdirectory(cameras)
-
 add_subdirectory(scene)
 
 add_subdirectory(integrators)
 
 add_subdirectory(core)
+
+add_subdirectory(utils)
+
+add_subdirectory(DesignPattern)
 
 set_target_properties(raytracer PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
