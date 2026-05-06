@@ -17,9 +17,6 @@ public:
     explicit GeometricPrimitive(
         std::unique_ptr<IShape> &shape, material::IMaterial *material);
 
-    explicit GeometricPrimitive(
-        std::unique_ptr<IShape> &&shape, material::IMaterial *material);
-
     [[nodiscard]] std::optional<SurfaceInteraction> intersect(
         const maths::Ray &ray) const override;
 

@@ -19,11 +19,6 @@ GeometricPrimitive::GeometricPrimitive(
     _shape{std::move(shape)}, _material{material}
 {}
 
-GeometricPrimitive::GeometricPrimitive(
-    std::unique_ptr<IShape> &&shape, material::IMaterial *material):
-    _shape{std::move(shape)}, _material{material}
-{}
-
 std::optional<SurfaceInteraction> GeometricPrimitive::intersect(
     const maths::Ray &ray) const
 {
