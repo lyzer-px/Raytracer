@@ -10,8 +10,9 @@
 
 namespace raytracer {
 namespace integrator {
-RecursiveIntegrator::RecursiveIntegrator(const int &maxDepth, int samplesPerPixel)
-    : _maxDepth{maxDepth}, _samplesPerPixel{samplesPerPixel}
+RecursiveIntegrator::RecursiveIntegrator(
+    const int &maxDepth/*, int samplesPerPixel*/): _maxDepth{maxDepth}
+/*, _samplesPerPixel{samplesPerPixel}*/
 {}
 
 maths::Color RecursiveIntegrator::accumulatedRadiance(const maths::Ray &ray,
@@ -30,24 +31,26 @@ maths::Color RecursiveIntegrator::accumulatedRadiance(const maths::Ray &ray,
         return emitted;
 
     maths::Color direct(0.0, 0.0, 0.0);
-    for (const auto &light: scene.lights()) {
-        light::LightSample ls = light->sample(si->hitPoint);
+    if (!scatter->isSpecular) {
+        for (const auto &light: scene.lights()) {
+            light::LightSample ls = light->sample(si->hitPoint);
 
-        if (!light->isDelta()) {
-            direct = direct + scatter->attenuation * ls.radiance;
-            continue;
+            if (!light->isDelta()) {
+                direct = direct + scatter->attenuation * ls.radiance;
+                continue;
+            }
+
+            maths::Point3d shadowOrigin =
+                si->hitPoint + maths::Vector3d(si->normal) * 0.0001;
+            maths::Ray shadowRay(shadowOrigin, -ls.wi, ls.distance);
+
+            if (scene.intersectAny(shadowRay))
+                continue;
+
+            const double cosTheta =
+                std::max(-(maths::Vector3d{si->normal}.dot(ls.wi)), 0.0);
+            direct = direct + scatter->attenuation * ls.radiance * cosTheta;
         }
-
-        maths::Point3d shadowOrigin =
-            si->hitPoint + maths::Vector3d(si->normal) * 0.0001;
-        maths::Ray shadowRay(shadowOrigin, -ls.wi, ls.distance);
-
-        if (scene.intersectAny(shadowRay))
-            continue;
-
-        const double cosTheta =
-            std::max(-(maths::Vector3d{si->normal}.dot(ls.wi)), 0.0);
-        direct = direct + scatter->attenuation * ls.radiance * cosTheta;
     }
 
     if (depth == 0)
@@ -77,10 +80,11 @@ void RecursiveIntegrator::render(const scene::Scene &scene,
 
                 maths::Ray ray = camera.generateRay(u, v);
                 accumulated    =
-                    accumulated + accumulatedRadiance(ray, scene, _maxDepth);
+                    accumulated + accumulatedRadiance(ray, scene, _maxDepth) * (
+                        1.0 / _samplesPerPixel);
             }
 
-            film.addSample(x, y, accumulated * (1.0 / _samplesPerPixel));
+            film.addSample(x, y, accumulated/* * (1.0 / _samplesPerPixel)*/);
         }
     }
 }

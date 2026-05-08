@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include <optional>
+
 #include "maths_types.hpp"
 #include "Matrix.hpp"
 #include "Point.hpp"

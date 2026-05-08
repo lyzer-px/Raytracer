@@ -15,32 +15,49 @@ Dielectric::Dielectric(const double &ior): _ior{ior}
 std::optional<ScatterRecord> Dielectric::scatter(const maths::Ray &ray,
     const shape::SurfaceInteraction &si) const
 {
-    const maths::Color attenuation{1.0, 1.0, 1.0};
-    const auto normalVec = maths::Vector3d{si.normal};
-    const bool frontFace = normalVec.dot(
-        -ray.direction.normalize()) > 0.0;
-    const double ratio      = frontFace ? (1.0 / _ior) : _ior;
-    maths::Vector3d unitDir = ray.direction.normalize();
-    const double cosTheta   = std::min((-unitDir).dot(normalVec),
-        1.0);
-    const double sinTheta     = std::sqrt(1.0 - (cosTheta * cosTheta));
-    const bool cannotRefract  = ratio * sinTheta > 1.0;
-    const bool schlickReflect = schlick(cosTheta, ratio) >
-        maths::randomNumber<double>();
-    const bool isReflect             = cannotRefract || schlickReflect;
-    const maths::Vector3d scatterDir = isReflect
-        ? unitDir.reflect(normalVec)
-        : unitDir.refract(maths::Vector3d{si.normal}, ratio);
-    const auto normalDir        = maths::Vector3d{si.normal};
-    const maths::Point3d origin = si.hitPoint + normalDir * (isReflect
-        ? 0.0001
-        : -0.0001);
+    maths::Vector3d surfaceNormal;
+    const maths::Vector3d reflected = ray.direction.reflect(si.normal);
+    double ratio;
+    double cosTheta;
 
+    if (ray.direction.dot(si.normal) > 0) {
+        surfaceNormal = maths::Vector3d{-si.normal};
+        ratio = _ior;
+        cosTheta = ray.direction.normalize().dot(si.normal);
+    } else {
+        surfaceNormal = maths::Vector3d{si.normal};
+        ratio = 1.0 / _ior;
+        cosTheta = -ray.direction.dot(si.normal);
+    }
+
+    const maths::Point3d reflectOrigin = si.hitPoint + surfaceNormal * 0.0001;
+    const maths::Point3d refractOrigin = si.hitPoint - surfaceNormal * 0.0001;
+
+    const std::optional<maths::Vector3d> refracted = ray.direction.refraction(
+        surfaceNormal, ratio);
+    double reflectionProbability;
+    if (refracted)
+        reflectionProbability = schlick(cosTheta, _ior);
+    else
+        reflectionProbability = 1.0;
+
+    if (maths::randomNumber<double>() < reflectionProbability) {
+        return ScatterRecord{
+            .scattered = maths::Ray{reflectOrigin, reflected},
+            .attenuation = maths::Color{1.0, 1.0, 1.0},
+            .isSpecular = true
+        };
+    }
     return ScatterRecord{
-        .scattered   = maths::Ray{origin, scatterDir.normalize()},
-        .attenuation = attenuation,
-        .isSpecular  = true
+        .scattered = maths::Ray{refractOrigin, *refracted},
+        .attenuation = maths::Color{1.0, 1.0, 1.0},
+        .isSpecular = true
     };
+}
+
+std::unique_ptr<IMaterial> Dielectric::create(const nlohmann::json &config)
+{
+    return std::make_unique<Dielectric>(config.at("ior").get<double>());
 }
 
 double Dielectric::schlick(const double &cosTheta, const double &ratio)

@@ -34,11 +34,11 @@ std::optional<ScatterRecord> Metal::scatter(const maths::Ray &ray,
     const shape::SurfaceInteraction &si) const
 {
     const maths::Vector3d reflected = ray.direction.normalize().reflect(
-        maths::Vector3d{si.normal});
+        si.normal);
     const maths::Vector3d scatterDir = reflected +
         maths::Vector3d::randomUnitVector() * _roughness;
 
-    if (scatterDir.dot(maths::Vector3d{si.normal}) <= 0.0)
+    if (scatterDir.dot(si.normal) <= 0.0)
         return std::nullopt;
 
     const maths::Point3d origin = si.hitPoint + maths::Vector3d{
@@ -49,9 +49,9 @@ std::optional<ScatterRecord> Metal::scatter(const maths::Ray &ray,
         .attenuation = _physical
         ? fresnelConductor(std::abs(
             ray.direction.normalize().dot(
-                maths::Vector3d{si.normal.normalize()})))
+                si.normal.normalize())))
         : _eta,
-        .isSpecular = true
+        .isSpecular = false
     };
 }
 

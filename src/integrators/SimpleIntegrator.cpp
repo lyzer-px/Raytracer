@@ -20,34 +20,38 @@ maths::Color SimpleIntegrator::accumulatedRadiance(
         return scene.backgroundColor();
 
     const material::IMaterial *mat = si->primitive->material();
-    const auto scatterRecord       = mat->scatter(ray, *si);
-    if (!scatterRecord)
+    const auto scatter       = mat->scatter(ray, *si);
+    if (!scatter)
         return scene.backgroundColor();
-    const maths::Color surfaceColor = scatterRecord->attenuation;
+    const maths::Color surfaceColor = scatter->attenuation;
 
     maths::Color accumulatedRadiance(0.0, 0.0, 0.0);
 
-    for (const auto &light: scene.lights()) {
-        light::LightSample ls = light->sample(si->hitPoint);
+    if (!scatter->isSpecular) {
+        for (const auto &light: scene.lights()) {
+            light::LightSample ls = light->sample(si->hitPoint);
 
-        if (!light->isDelta()) {
+            if (!light->isDelta()) {
+                accumulatedRadiance =
+                    accumulatedRadiance + surfaceColor * ls.radiance;
+                continue;
+            }
+
+            maths::Point3d shadowOrigin =
+                si->hitPoint + (maths::Vector3d(si->normal) * 0.0001);
+            maths::Ray shadowRay(shadowOrigin, -ls.wi, ls.distance);
+
+            if (scene.intersectAny(shadowRay))
+                continue;
+
+            const double cosTheta =
+                std::max(-(maths::Vector3d{si->normal}.dot(ls.wi)), 0.0);
+
             accumulatedRadiance =
-                accumulatedRadiance + surfaceColor * ls.radiance;
-            continue;
+                accumulatedRadiance + surfaceColor * ls.radiance * cosTheta;
         }
-
-        maths::Point3d shadowOrigin =
-            si->hitPoint + (maths::Vector3d(si->normal) * 0.0001);
-        maths::Ray shadowRay(shadowOrigin, -ls.wi, ls.distance);
-
-        if (scene.intersectAny(shadowRay))
-            continue;
-
-        const double cosTheta =
-            std::max(-(maths::Vector3d{si->normal}.dot(ls.wi)), 0.0);
-
-        accumulatedRadiance =
-            accumulatedRadiance + surfaceColor * ls.radiance * cosTheta;
+    } else {
+        accumulatedRadiance = maths::Color{1.0, 1.0, 1.0};
     }
 
     return accumulatedRadiance;

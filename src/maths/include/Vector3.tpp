@@ -60,19 +60,68 @@ Vector3<T> Vector3<T>::randomUnitVector() noexcept
 }
 
 template <typename T>
-Vector3<T> Vector3<T>::reflect(const Vector3 &other) const
+Vector3<T> Vector3<T>::reflect(const Normal3<T> &normal) const
 {
-    return *this - other * static_cast<T>(2.0) * this->dot(other);
+    return *this - normal * static_cast<T>(2.0) * this->dot(normal);
 }
 
 template <typename T>
-Vector3<T> Vector3<T>::refract(const Vector3 &other, const double &ratio)
+Vector3<T> Vector3<T>::refract(const Vector3 &normal, const double &ratio)
 {
-    double cosTheta = std::min(-(*this).dot(other), 1.0);
-    Vector3 rPerp = (*this + other * cosTheta) * ratio;
-    Vector3 rPara = other * -std::sqrt(std::abs(1.0 - rPerp.dot(rPerp)));
+    double cosTheta = std::min(-(*this).dot(normal), 1.0);
+    Vector3 rPerp   = (*this + normal * cosTheta) * ratio;
+    Vector3 rPara   = normal * -std::sqrt(std::abs(1.0 - rPerp.dot(rPerp)));
 
     return rPerp + rPara;
+}
+
+template <typename T>
+std::optional<Vector3<T>> Vector3<T>::refraction(const Vector3 &normal,
+    const double &ratio) const
+{
+    Vector3 normalized = this->normalize();
+    const double cosTheta = normalized.dot(normal);
+    double discriminant = 1.0 - (ratio * ratio * (1.0 - (cosTheta * cosTheta)));
+
+    if (discriminant > 0)
+        return (normalized - normal * cosTheta) * ratio - normal * std::sqrt(
+            discriminant);
+
+    return std::nullopt;
+}
+
+template <typename T>
+double Vector3<T>::dot(const Normal3<T> &normal) const
+{
+    return (this->x() * normal.x()) + (this->y() * normal.y()) + (this->z() *
+        normal.z());
+}
+
+// template <typename T>
+// double Vector3<T>::dot(const Vector3 &other) const
+// {
+//     return (this->x() * other.x()) + (this->y() * other.y()) + (this->z() *
+//         other.z());
+// }
+
+template <typename T>
+Vector3<T> Vector3<T>::operator+(const Normal3<T> &normal) const noexcept
+{
+    return Vector3{
+        this->x() + normal.x(),
+        this->y() + normal.y(),
+        this->z() + normal.z()
+    };
+}
+
+template <typename T>
+Vector3<T> Vector3<T>::operator-(const Normal3<T> &normal) const noexcept
+{
+    return Vector3{
+        this->x() - normal.x(),
+        this->y() - normal.y(),
+        this->z() - normal.z()
+    };
 }
 
 } // namespace raytracer::maths

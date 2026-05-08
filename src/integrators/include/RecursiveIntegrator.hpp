@@ -15,9 +15,9 @@ namespace integrator {
 
 class RecursiveIntegrator: public IIntegrator {
 public:
-    explicit RecursiveIntegrator(const int &maxDepth = 5, int samplesPerPixel = 32);
+    explicit RecursiveIntegrator(const int &maxDepth = 5);
 
-    maths::Color accumulatedRadiance(const maths::Ray &ray,
+    [[nodiscard]] maths::Color accumulatedRadiance(const maths::Ray &ray,
         const scene::Scene &scene, int depth) const override;
 
     void render(const scene::Scene &scene, const camera::ICamera &camera,
@@ -25,7 +25,7 @@ public:
 
 private:
     int _maxDepth        = 5;
-    int _samplesPerPixel = 32;
+    int _samplesPerPixel = 6;
 };
 
 } // integrator

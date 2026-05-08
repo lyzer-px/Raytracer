@@ -48,6 +48,20 @@
         "k":    [3.1,  2.7,  1.9],
         "fuzz": 0.35
       }
+    },
+    {
+      "id":   "glass",
+      "type": "dielectric",
+      "config": {
+        "ior": 1.5
+      }
+    },
+    {
+      "id":   "diamond",
+      "type": "dielectric",
+      "config": {
+        "ior": 2.4
+      }
     }
   ],
   "primitives": [
@@ -103,6 +117,17 @@
         "config": {
           "position": [32.0, -25.0, -10.0],
           "radius":   14.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "glass",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [-10.0, -40.0, 8.0],
+          "radius":   16.0
         }
       }
     }
