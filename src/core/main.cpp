@@ -32,13 +32,13 @@ void start(const std::string configPath)
     builder.buildScene(config);
     integrator.render(*builder.scene(), *builder.camera(), film);
 
-    const std::string outputPath = "output2.ppm";
+    const std::string outputPath = "output7.ppm";
     raytracer::camera::Film::write(film, outputPath);
 
     std::cout << "Rendered: " << outputPath << "\n";
 }
 
-int main(int ac, char **av)
+int main(const int ac, char **av)
 {
     try {
         if (ac != 2) {

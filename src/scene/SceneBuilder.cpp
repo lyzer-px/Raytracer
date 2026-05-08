@@ -11,6 +11,7 @@
 #include <unordered_map>
 
 #include "AmbientLight.hpp"
+#include "Dielectric.hpp"
 #include "DirectionalLight.hpp"
 #include "Lambertian.hpp"
 #include "GeometricPrimitive.hpp"
@@ -31,6 +32,7 @@ void SceneBuilder::registerCreators()
 {
     _materialFactory.registerCreator<material::Lambertian>("lambertian");
     _materialFactory.registerCreator<material::Metal>("metal");
+    _materialFactory.registerCreator<material::Dielectric>("dielectric");
     _shapeFactory.registerCreator<shape::Sphere>("sphere");
     _primitiveFactory.registerCreator<shape::GeometricPrimitive>(
         "geometric_primitive");
@@ -50,25 +52,31 @@ void SceneBuilder::buildScene(nlohmann::json &config)
         }
         if (config.contains("camera"))
             _camera = camera::PerspectiveCamera::create(config.at("camera"));
-        for (const auto &material: config.at("materials")) {
-            auto tmp = _materialFactory.create(
-                material.at("type").get<std::string>(), material["config"]);
-            _scene->addMaterial(material["id"].get<std::string>(), tmp);
+        if (config.contains("materials")) {
+            for (const auto &material: config.at("materials")) {
+                auto tmp = _materialFactory.create(
+                    material.at("type").get<std::string>(), material["config"]);
+                _scene->addMaterial(material["id"].get<std::string>(), tmp);
+            }
         }
-        for (const auto &primitive: config.at("primitives")) {
-            auto shapeTmp = _shapeFactory.create(
-                primitive.at("shape").at("type").get<std::string>(),
-                primitive.at("shape")["config"]);
-            auto tmp = _primitiveFactory.create(
-                primitive["type"].get<std::string>(), shapeTmp,
-                _scene->getMaterial(
-                    primitive["material_id"].get<std::string>()));
-            _scene->addPrimitive(tmp);
+        if (config.contains("primitives")) {
+            for (const auto &primitive: config.at("primitives")) {
+                auto shapeTmp = _shapeFactory.create(
+                    primitive.at("shape").at("type").get<std::string>(),
+                    primitive.at("shape")["config"]);
+                auto tmp = _primitiveFactory.create(
+                    primitive["type"].get<std::string>(), shapeTmp,
+                    _scene->getMaterial(
+                        primitive["material_id"].get<std::string>()));
+                _scene->addPrimitive(tmp);
+            }
         }
-        for (const auto &light: config.at("lights")) {
-            auto tmp = _lightFactory.create(
-                light.at("type").get<std::string>(), light["config"]);
-            _scene->addLight(tmp);
+        if (config.contains("lights")) {
+            for (const auto &light: config.at("lights")) {
+                auto tmp = _lightFactory.create(
+                    light.at("type").get<std::string>(), light["config"]);
+                _scene->addLight(tmp);
+            }
         }
     } catch (const std::exception &e) {
         throw std::runtime_error(
