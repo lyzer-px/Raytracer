@@ -61,13 +61,13 @@ public:
     template <typename U>
     explicit Point3(const Vector3<U>& v);  // explicit: Vector -> Point
 
-    Point3  operator+(const Vector3<T>& v) const;
-    Point3  operator-(const Vector3<T>& v) const;
-    Point3& operator+=(const Vector3<T>& v);
-    Point3& operator-=(const Vector3<T>& v);
+    Point3<T>  operator+(const Vector3<T>& v) const;
+    Point3<T>  operator-(const Vector3<T>& v) const;
+    Point3<T>& operator+=(const Vector3<T>& v);
+    Point3<T>& operator-=(const Vector3<T>& v);
 
     // Point - Point = Vector (displacement between two positions)
-    Vector3<T> operator-(const Point3& other) const;
+    Vector3<T> operator-(const Point3<T>& other) const;
 
 
     Point3 operator+(const Point3 &other) const;
