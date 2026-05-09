@@ -5,19 +5,20 @@
 ** PerspectiveCamera
 */
 
-#include "Serializer.hpp"
 #include "PerspectiveCamera.hpp"
 
 #include <memory>
+
+#include "Serializer.hpp"
 
 namespace raytracer::camera {
 PerspectiveCamera::PerspectiveCamera(const nlohmann::json &config):
     PerspectiveCamera(config.at("position").get<maths::Point3d>(),
         config.at("target").get<maths::Point3d>(),
         config.at("up").get<maths::Vector3d>(),
-        CameraProjection{.fovDegrees=config.at("fov").get<double>(),
-            .aspectRatio=config.at("resolution").at(0).get<double>() /
-            config.at("resolution").at(1).get<double>()})
+        CameraProjection{.fovDegrees = config.at("fov").get<double>(),
+            .aspectRatio = config.at("resolution").at(0).get<double>() /
+                config.at("resolution").at(1).get<double>()})
 {}
 
 PerspectiveCamera::PerspectiveCamera(const maths::Point3d &position,
