@@ -11,6 +11,7 @@
 #include <cstddef>
 #include <exception>
 #include <initializer_list>
+
 #include "Vector3.hpp"
 
 namespace raytracer::maths {
@@ -49,8 +50,8 @@ public:
     }
 };
 
-using Matrix2x2 = Matrix<2, 2>;
-using Matrix3x3 = Matrix<3, 3>;
+template <typename T = double> using Matrix2x2 = Matrix<2, 2, T>;
+template <typename T = double> using Matrix3x3 = Matrix<3, 3, T>;
 
 } // namespace raytracer::maths
 

@@ -12,12 +12,12 @@
 
 namespace raytracer::maths {
 
-const Matrix4x4 IDENTITY_MATRIX4X4{
+const Matrix4x4<double> IDENTITY_MATRIX4X4{
     {{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}}};
 
-Matrix4x4 Transpose(const Matrix4x4 &other)
+template <typename T> Matrix4x4<T> Transpose(const Matrix4x4<T> &other)
 {
-    Matrix4x4 result;
+    Matrix4x4<T> result;
     for (size_t i = 0; i < other.getNbRows(); ++i) {
         for (size_t j = 0; j < other.getNbCols(); ++j) {
             result[j][i] = other[i][j];
@@ -26,7 +26,7 @@ Matrix4x4 Transpose(const Matrix4x4 &other)
     return result;
 }
 
-Matrix4x4 inverse(const Matrix4x4 &mat)
+template <typename T> Matrix4x4<T> inverse(const Matrix4x4<T> &mat)
 {
     std::array<double, 16> invOut{};
     const double *m = mat[0].data();
@@ -75,7 +75,7 @@ Matrix4x4 inverse(const Matrix4x4 &mat)
     for (int i = 0; i < 16; ++i)
         invOut[i] *= det;
 
-    return Matrix4x4({{invOut[0], invOut[1], invOut[2], invOut[3]},
+    return Matrix4x4<T>({{invOut[0], invOut[1], invOut[2], invOut[3]},
         {invOut[4], invOut[5], invOut[6], invOut[7]},
         {invOut[8], invOut[9], invOut[10], invOut[11]},
         {invOut[12], invOut[13], invOut[14], invOut[15]}});

@@ -5,7 +5,7 @@
 ** Bounds3.tpp
 */
 
-#pragma  once
+#pragma once
 
 #include "Bounds3.hpp"
 #include "Point.hpp"
@@ -17,6 +17,29 @@ Bounds3<T>::Bounds3(const Point3<T> &p1, const Point3<T> &p2):
     pMin(p1), pMax(p2)
 {}
 
+template <typename T> Bounds3<T>::Bounds3(const Point3<T> &p): pMin(p), pMax(p)
+{}
+
+template <typename T>
+Bounds3<T> Bounds3<T>::boundsUnion(const Point3<T> &other) const
+{
+    return Bounds3<T>(
+        Point3<T>(std::min(pMin.x(), other.x()), std::min(pMin.y(), other.y()),
+            std::min(pMin.z(), other.z())),
+        Point3<T>(std::max(pMax.x(), other.x()), std::max(pMax.y(), other.y()),
+            std::max(pMax.z(), other.z())));
+}
+
+template <typename T>
+Bounds3<T> Bounds3<T>::boundsUnion(const Bounds3<T> &other) const
+{
+    return Bounds3<T>(Point3<T>(std::min(pMin.x(), other.pMin.x()),
+                          std::min(pMin.y(), other.pMin.y()),
+                          std::min(pMin.z(), other.pMin.z())),
+        Point3<T>(std::max(pMax.x(), other.pMax.x()),
+            std::max(pMax.y(), other.pMax.y()),
+            std::max(pMax.z(), other.pMax.z())));
+}
 template <typename T> const Point3<T> &Bounds3<T>::operator[](int i) const
 {
     return (i == 0) ? pMin : pMax;
@@ -52,12 +75,12 @@ template <typename T> T Bounds3<T>::volume() const
 template <typename T> int Bounds3<T>::maxDimension() const
 {
     Vector3<T> d = diagonal();
+
     if (d.x > d.y && d.x > d.z)
         return 0;
-    else if (d.y > d.z)
+    if (d.y > d.z)
         return 1;
-    else
-        return 2;
+    return 2;
 }
 
 template <typename T> Point3<T> Bounds3<T>::centroid() const

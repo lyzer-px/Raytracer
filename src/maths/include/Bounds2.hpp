@@ -14,11 +14,12 @@
 #include "Vector.hpp"
 
 namespace raytracer::maths {
-template <typename T> class Bounds2 {
+template <typename T = double> class Bounds2 {
 public:
     // Constructors
     Bounds2();
     explicit Bounds2(const Point2<T> &p1, const Point2<T> &p2);
+    explicit Bounds2(const Point2<T> &p);
 
     const Point2<T> &operator[](int i) const;
     Point2<T> &operator[](int i);
