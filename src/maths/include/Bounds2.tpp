@@ -5,18 +5,21 @@
 ** Bounds2.tpp
 */
 
+#pragma once
 
-#pragma  once
+#include <algorithm>
 
 #include "Bounds2.hpp"
 #include "Point.hpp"
-#include <algorithm>
 
 namespace raytracer::maths {
 
 template <typename T>
 Bounds2<T>::Bounds2(const Point2<T> &p1, const Point2<T> &p2):
     pMin(p1), pMax(p2)
+{}
+
+template <typename T> Bounds2<T>::Bounds2(const Point2<T> &p): pMin(p), pMax(p)
 {}
 
 template <typename T> const Point2<T> &Bounds2<T>::operator[](int i) const

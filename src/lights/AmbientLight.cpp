@@ -21,7 +21,7 @@ AmbientLight::AmbientLight(const nlohmann::json &config):
 AmbientLight::AmbientLight(const maths::Color &radiance): _radiance{radiance}
 {}
 
-LightSample AmbientLight::sample(const maths::Point3d &) const
+LightSample AmbientLight::sample(const Point3d &) const
 {
     return LightSample{
         .wi = maths::Vector3d{}, .radiance = _radiance, .distance = 0.0};

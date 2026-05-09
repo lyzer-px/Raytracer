@@ -14,11 +14,15 @@
 
 namespace raytracer::maths {
 
-template <typename T> class Bounds3 {
+template <typename T = double> class Bounds3 {
 public:
     // Constructors
     Bounds3();
     explicit Bounds3(const Point3<T> &p1, const Point3<T> &p2);
+    explicit Bounds3(const Point3<T> &p);
+
+    Bounds3<T> boundsUnion(const Point3<T> &other) const;  // union of two boxes
+    Bounds3<T> boundsUnion(const Bounds3<T> &other) const; // union of two boxes
 
     const Point3<T> &operator[](int i) const;
     Point3<T> &operator[](int i);
@@ -53,7 +57,7 @@ public:
 };
 } // namespace raytracer::maths
 // Common aliases
-using Bounds3f = raytracer::maths::Bounds3<double>;
+using Bounds3d = raytracer::maths::Bounds3<double>;
 using Bounds3i = raytracer::maths::Bounds3<int>;
 
 #include "Bounds3.tpp"

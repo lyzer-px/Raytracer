@@ -33,7 +33,7 @@ maths::Color SimpleIntegrator::Li(
             continue;
         }
 
-        maths::Point3d shadowOrigin =
+        Point3d shadowOrigin =
             si->hitPoint + (maths::Vector3d(si->normal) * 0.0001);
         maths::Ray shadowRay(shadowOrigin, -ls.wi, ls.distance);
 

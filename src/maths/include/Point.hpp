@@ -73,13 +73,6 @@ public:
     T calculateAngle(const Point3 &other) const = delete;
 };
 
-using Point2f = Point2<float>;
-using Point2i = Point2<int>;
-using Point3f = Point3<float>;
-
-using Point2d = Point2<double>;
-using Point3d = Point3<double>;
-
 template <typename T>
 float distance(const Point3<T> &a, const Point3<T> &b); // Length(b - a)
 template <typename T>
@@ -98,5 +91,12 @@ template <typename T>
 Point3<T> permute(const Point3<T> &p, int x, int y, int z);
 
 } // namespace raytracer::maths
+
+using Point2f = raytracer::maths::Point2<float>;
+using Point2i = raytracer::maths::Point2<int>;
+using Point3f = raytracer::maths::Point3<float>;
+
+using Point2d = raytracer::maths::Point2<double>;
+using Point3d = raytracer::maths::Point3<double>;
 
 #include "Point.tpp"
