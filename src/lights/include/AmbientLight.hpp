@@ -27,4 +27,4 @@ private:
     maths::Color _radiance;
 };
 
-} // light
+} // namespace raytracer::light

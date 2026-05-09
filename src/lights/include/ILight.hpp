@@ -27,5 +27,4 @@ public:
     [[nodiscard]] virtual bool isDelta() const = 0;
 };
 
-} // raytracer::light
-
+} // namespace raytracer::light

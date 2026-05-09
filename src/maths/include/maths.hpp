@@ -7,32 +7,33 @@
 
 #pragma once
 
+#include "Color.hpp"
 #include "maths_types.hpp"
 #include "Matrix.hpp"
-#include "Point.hpp"
-#include "Vector.hpp"
 #include "Normal.hpp"
-#include "Color.hpp"
+#include "Point.hpp"
 #include "Ray.hpp"
 #include "Transform.hpp"
+#include "Vector.hpp"
 
 namespace raytracer::maths {
 
 // Build an orthonormal basis (v2, v3) from a single unit vector v1.
-// Used by PerspectiveCamera to derive right and up vectors from the forward direction.
-void coordinateSystem(const Vector3d& v1, Vector3d &v2, Vector3d &v3);
+// Used by PerspectiveCamera to derive right and up vectors from the forward
+// direction.
+void coordinateSystem(const Vector3d &v1, Vector3d &v2, Vector3d &v3);
 
 // Spherical direction from polar angles theta and phi, in world space.
 Vector3d sphericalDirection(double sinTheta, double cosTheta, double phi);
 
 // Spherical direction in a given local basis (x, y, z).
 Vector3d sphericalDirection(double sinTheta, double cosTheta, double phi,
-                             const Vector3d& x, const Vector3d& y, const Vector3d& z);
+    const Vector3d &x, const Vector3d &y, const Vector3d &z);
 
 // Polar angle theta of a direction vector (angle from the z-axis).
-double sphericalTheta(const Vector3d& v);
+double sphericalTheta(const Vector3d &v);
 
 // Azimuthal angle phi of a direction vector (angle in the xy-plane).
-double sphericalPhi(const Vector3d& v);
+double sphericalPhi(const Vector3d &v);
 
 } // namespace raytracer::maths
