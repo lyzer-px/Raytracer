@@ -17,11 +17,14 @@ namespace raytracer::maths {
 template <template <typename> class Derived, std::size_t N, typename T>
 class Vector;
 
-template <typename T> class Vector3;
+template <typename T>
+class Vector3;
 
-template <typename T> class Vector2;
+template <typename T>
+class Vector2;
 
-template <typename T = double> class Point2: public Vector<Point2, 2, T> {
+template <typename T = double>
+class Point2: public Vector<Point2, 2, T> {
 public:
     Point2();
     Point2(T x, T y);
