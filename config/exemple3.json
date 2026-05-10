@@ -1,5 +1,5 @@
 {
-  "background_color": [18, 18, 30],
+  "background_color": [103, 205, 236],
   "camera": {
     "resolution": [1920, 1080],
     "position":   [0.0, -120.0, 50.0],
@@ -126,8 +126,8 @@
       "shape": {
         "type": "sphere",
         "config": {
-          "position": [-10.0, -40.0, 8.0],
-          "radius":   16.0
+          "position": [0.0, 10.0, 0.0],
+          "radius":   40.0
         }
       }
     }
