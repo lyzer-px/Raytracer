@@ -83,7 +83,7 @@ T Vector<Derived, N, T>::length() const
 
     for (std::size_t i = 0; i < N; ++i) {
         T value = _data[i];
-        norm += value * value;
+        norm    += value * value;
     }
     return static_cast<T>(std::sqrt(norm));
 }
@@ -207,6 +207,17 @@ bool Vector<Derived, N, T>::operator>=(const Derived<T> &other) const
     T normB = other.length();
 
     return normA > normB || normA == normB;
+}
+
+template <template <typename> class Derived, std::size_t N, typename T>
+bool Vector<Derived, N, T>::isNearZero() const noexcept
+{
+    static constexpr T eps = static_cast<T>(1e-8);
+
+    for (std::size_t i = 0; i < N; ++i)
+        if (std::abs(_data[i]) >= eps)
+            return false;
+    return true;
 }
 
 template <template <typename> class Derived, std::size_t N, typename T>

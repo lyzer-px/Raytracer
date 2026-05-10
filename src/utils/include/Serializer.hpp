@@ -37,9 +37,9 @@ struct adl_serializer<raytracer::maths::Normal3d> {
 };
 
 template <>
-struct adl_serializer<Point3d> {
-    static void to_json(json &j, const Point3d &c);
-    static void from_json(const json &j, Point3d &c);
+struct adl_serializer<raytracer::maths::Point3d> {
+    static void to_json(json &j, const raytracer::maths::Point3d &c);
+    static void from_json(const json &j, raytracer::maths::Point3d &c);
 };
 template <>
 struct adl_serializer<raytracer::camera::PerspectiveCamera> {

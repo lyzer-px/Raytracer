@@ -22,9 +22,10 @@ class ILight {
 public:
     virtual ~ILight() = default;
 
-    [[nodiscard]] virtual LightSample sample(const Point3d &p) const = 0;
+    [[nodiscard]] virtual LightSample sample(const maths::Point3d &p) const = 0;
 
     [[nodiscard]] virtual bool isDelta() const = 0;
 };
 
-} // namespace raytracer::light
+} // raytracer::light
+

@@ -7,9 +7,9 @@
 
 #pragma once
 
-#include "Normal.hpp"
-#include "Point.hpp"
 #include "Vector.hpp"
+#include "Point.hpp"
+#include "Normal.hpp"
 
 namespace raytracer::maths {
 
@@ -29,3 +29,4 @@ using Point3i = Point3<int>;
 using Normal3f = Normal3<float>;
 
 } // namespace raytracer::maths
+

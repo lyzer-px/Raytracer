@@ -7,16 +7,15 @@
 
 #pragma once
 
-#include <array>
 #include <cstddef>
 #include <exception>
+#include <array>
 #include <initializer_list>
-
-#include "Vector3.hpp"
 
 namespace raytracer::maths {
 
-template <size_t rows, size_t cols, typename T = double> class Matrix {
+template <size_t rows, size_t cols, typename T = double>
+class Matrix {
 public:
     Matrix() = default;
     Matrix(std::array<std::array<T, cols>, rows> values);
@@ -25,8 +24,8 @@ public:
     [[nodiscard]] constexpr size_t getNbRows() const noexcept;
     [[nodiscard]] constexpr size_t getNbCols() const noexcept;
 
-    std::array<T, cols> &operator[](const size_t &index);
-    const std::array<T, cols> &operator[](const size_t &index) const;
+    std::array<T, cols>& operator[](const size_t &index);
+    const std::array<T, cols>& operator[](const size_t &index) const;
 
     Matrix operator*(const Matrix &other) const;
     Matrix operator/(const Matrix &other) const;
@@ -42,16 +41,15 @@ private:
     std::array<std::array<T, cols>, rows> _values;
 };
 
-class MatrixOperationException: public std::exception {
-public:
-    [[nodiscard]] const char *what() const noexcept override
-    {
-        return "invalid operation";
-    }
-};
+class MatrixOperationException : public std::exception {
+    public:
+        [[nodiscard]] const char* what() const noexcept override {
+            return "invalid operation";
+        }
+    };
 
-template <typename T = double> using Matrix2x2 = Matrix<2, 2, T>;
-template <typename T = double> using Matrix3x3 = Matrix<3, 3, T>;
+using Matrix2x2 = Matrix<2, 2>;
+using Matrix3x3 = Matrix<3, 3>;
 
 } // namespace raytracer::maths
 
