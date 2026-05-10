@@ -74,12 +74,12 @@ Point3<T>::Point3(const Vector3<U> &v):
 
 template <typename T> Point3<T> Point3<T>::operator+(const Vector3<T> &v) const
 {
-    return Point3(this->x() + v.x(), this->y() + v.y(), this->z() + v.z());
+    return Point3<T>(this->x() + v.x(), this->y() + v.y(), this->z() + v.z());
 }
 
 template <typename T> Point3<T> Point3<T>::operator-(const Vector3<T> &v) const
 {
-    return Point3(this->x() - v.x(), this->y() - v.y(), this->z() - v.z());
+    return Point3<T>(this->x() - v.x(), this->y() - v.y(), this->z() - v.z());
 }
 
 template <typename T> Point3<T> &Point3<T>::operator+=(const Vector3<T> &v)
@@ -112,9 +112,7 @@ Vector3<T> Point3<T>::operator-(const Point3<T> &other) const
 template <typename T> Point3<T> Point3<T>::operator+(const Point3 &other) const
 {
     return Point3{
-        this->x() + other.x(),
-        this->y() + other.y(),
-        this->z() + other.z()};
+        this->x() + other.x(), this->y() + other.y(), this->z() + other.z()};
 }
 
 // Utility functions

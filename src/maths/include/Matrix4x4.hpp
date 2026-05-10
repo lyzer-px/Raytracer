@@ -7,12 +7,17 @@
 
 #pragma once
 #include "Matrix.hpp"
+#include "Vector3.hpp"
 
 namespace raytracer::maths {
 
-using Matrix4x4 = Matrix<4, 4>;
+template <typename T> using Matrix4x4 = Matrix<4, 4, T>;
 
-Matrix4x4 Transpose(const Matrix4x4 &other); // NOLINT
+template <typename T>
+Matrix4x4<T> Transpose(const Matrix4x4<T> &other); // NOLINT
 
-Matrix4x4 Inverse(const Matrix4x4 &other); // NOLINT
+template <typename T>
+Matrix4x4<T> operator*(const Matrix4x4<T> &m, const Vector3<T> &v); // NOLINT
+
+template <typename T> Matrix4x4<T> inverse(const Matrix4x4<T> &other); // NOLINT
 } // namespace raytracer::maths

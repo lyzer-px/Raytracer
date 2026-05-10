@@ -11,7 +11,6 @@ namespace raytracer::maths {
 
 constexpr auto MAX_RGB_VALUE = 255.0;
 
-
 struct Color {
     double r, g, b;
 
@@ -19,8 +18,8 @@ struct Color {
 
     explicit Color(double r, double g, double b);
 
-    Color operator+(const Color& other) const;
-    Color operator*(const Color& other) const;
+    Color operator+(const Color &other) const;
+    Color operator*(const Color &other) const;
     Color operator*(double scalar) const;
     Color operator/(double scalar) const;
 
@@ -30,4 +29,3 @@ struct Color {
 };
 
 } // namespace raytracer::maths
-
