@@ -20,7 +20,7 @@ struct CameraProjection {
 class PerspectiveCamera: public ICamera {
 public:
     explicit PerspectiveCamera(const nlohmann::json &config);
-    explicit PerspectiveCamera(const maths::Point3d &position, const maths::Point3d &target,
+    explicit PerspectiveCamera(const Point3d &position, const Point3d &target,
         const maths::Vector3d &up, const CameraProjection &projection);
 
     [[nodiscard]] maths::Ray generateRay(
@@ -30,8 +30,8 @@ public:
         const nlohmann::json &config);
 
 private:
-    maths::Point3d _origin;
-    maths::Point3d _lowerLeft;
+    Point3d _origin;
+    Point3d _lowerLeft;
     maths::Vector3d _horizontal;
     maths::Vector3d _vertical;
 };

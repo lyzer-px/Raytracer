@@ -83,8 +83,6 @@ public:
 
     const std::array<T, N> &data() const;
 
-    bool isNearZero() const noexcept;
-
 protected:
     std::array<T, N> _data;
 };

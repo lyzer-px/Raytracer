@@ -7,8 +7,11 @@
 
 #pragma once
 
+#include <cmath>
 #include <limits>
+#include <stdexcept>
 
+#include "Point.hpp"
 #include "Vector.hpp"
 #include "Vector3.hpp"
 
