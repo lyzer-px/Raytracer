@@ -1,6 +1,8 @@
 add_library(integrators STATIC IIntegrator.cpp
-        include/SimpleIntegrator.cpp
-        include/SimpleIntegrator.hpp)
+        SimpleIntegrator.cpp
+        include/SimpleIntegrator.hpp
+        RecursiveIntegrator.cpp
+        include/RecursiveIntegrator.hpp)
 
 target_include_directories(integrators PUBLIC include)
 

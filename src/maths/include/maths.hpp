@@ -7,20 +7,21 @@
 
 #pragma once
 
-#include "Color.hpp"
+#include <optional>
+
 #include "maths_types.hpp"
 #include "Matrix.hpp"
-#include "Normal.hpp"
 #include "Point.hpp"
+#include "Vector.hpp"
+#include "Normal.hpp"
+#include "Color.hpp"
 #include "Ray.hpp"
 #include "Transform.hpp"
-#include "Vector.hpp"
 
 namespace raytracer::maths {
 
 // Build an orthonormal basis (v2, v3) from a single unit vector v1.
-// Used by PerspectiveCamera to derive right and up vectors from the forward
-// direction.
+// Used by PerspectiveCamera to derive right and up vectors from the forward direction.
 void coordinateSystem(const Vector3d &v1, Vector3d &v2, Vector3d &v3);
 
 // Spherical direction from polar angles theta and phi, in world space.
@@ -35,5 +36,20 @@ double sphericalTheta(const Vector3d &v);
 
 // Azimuthal angle phi of a direction vector (angle in the xy-plane).
 double sphericalPhi(const Vector3d &v);
+
+template <typename T>
+double randomNumber()
+{
+    static std::uniform_real_distribution<T> distribution(0.0, 1.0);
+    static std::mt19937 generator(std::random_device{}());
+
+    return distribution(generator);
+}
+
+template <typename T>
+T randomNumber(const T &low, const T &high)
+{
+    return low + (high - low) * randomNumber<T>();
+}
 
 } // namespace raytracer::maths

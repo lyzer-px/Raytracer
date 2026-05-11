@@ -13,10 +13,9 @@ namespace raytracer::light {
 class DirectionalLight: public ILight {
 public:
     DirectionalLight(const nlohmann::json &config);
-    DirectionalLight(
-        const maths::Vector3d &direction, const maths::Color &radiance);
+    DirectionalLight(const maths::Vector3d &direction, const maths::Color &radiance);
 
-    [[nodiscard]] LightSample sample(const Point3d &p) const override;
+    [[nodiscard]] LightSample sample(const maths::Point3d &p) const override;
 
     [[nodiscard]] bool isDelta() const override;
 
@@ -26,4 +25,5 @@ private:
     maths::Vector3d _direction;
     maths::Color _radiance;
 };
-} // namespace raytracer::light
+} // raytracer::light
+

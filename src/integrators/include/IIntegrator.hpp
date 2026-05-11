@@ -18,7 +18,7 @@ class IIntegrator {
 public:
     virtual ~IIntegrator() = default;
 
-    virtual maths::Color Li(
+    virtual maths::Color accumulatedRadiance(
         const maths::Ray &ray, const scene::Scene &scene, int depth) const = 0;
 
     virtual void render(const scene::Scene &scene,

@@ -17,7 +17,7 @@ public:
     explicit AmbientLight(const nlohmann::json &config);
     explicit AmbientLight(const maths::Color &radiance);
 
-    [[nodiscard]] LightSample sample(const Point3d &p) const override;
+    [[nodiscard]] LightSample sample(const maths::Point3d &p) const override;
 
     [[nodiscard]] bool isDelta() const override;
 
@@ -27,4 +27,4 @@ private:
     maths::Color _radiance;
 };
 
-} // namespace raytracer::light
+} // light
