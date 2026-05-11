@@ -40,6 +40,7 @@ public:
     // Point - Point = Vector (displacement between two positions)
     Vector2<T> operator-(const Point2<T> &other) const;
 
+
     Point2 operator+(const Point2 &other) const = delete;
     Point2 operator*(T scalar) const            = delete;
     Point2 operator/(T scalar) const            = delete;
@@ -48,9 +49,11 @@ public:
     Point2 normalize() const                    = delete;
     T length() const                            = delete;
     T calculateAngle(const Point2 &other) const = delete;
+
 };
 
-template <typename T = double> class Point3: public Vector<Point3, 3, T> {
+template <typename T = double>
+class Point3 : public Vector<Point3, 3, T> {
 public:
     Point3();
     Point3(T x, T y, T z);
@@ -65,6 +68,7 @@ public:
 
     // Point - Point = Vector (displacement between two positions)
     Vector3<T> operator-(const Point3<T> &other) const;
+
 
     Point3 operator+(const Point3 &other) const;
     Point3 operator*(T scalar) const            = delete;
@@ -93,13 +97,11 @@ template <typename T> Point3<T> ceil(const Point3<T> &p);
 template <typename T>
 Point3<T> permute(const Point3<T> &p, int x, int y, int z);
 
+using Point2d = Point2<>;
+
+using Point3d = Point3<>;
+
 } // namespace raytracer::maths
 
-using Point2f = raytracer::maths::Point2<float>;
-using Point2i = raytracer::maths::Point2<int>;
-using Point3f = raytracer::maths::Point3<float>;
-
-using Point2d = raytracer::maths::Point2<double>;
-using Point3d = raytracer::maths::Point3<double>;
-
 #include "Point.tpp"
+

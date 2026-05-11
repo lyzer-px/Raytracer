@@ -15,9 +15,9 @@
 // ============================================================================
 
 namespace {
-    Point3d makeOrigin(double x, double y, double z)
+    raytracer::maths::Point3d makeOrigin(double x, double y, double z)
     {
-        return Point3d(x, y, z);
+        return raytracer::maths::Point3d(x, y, z);
     }
 
     raytracer::maths::Vector3d makeDirection(double x, double y, double z)
@@ -32,7 +32,7 @@ namespace {
 
 TEST(RayTest, ConstructorBasic)
 {
-    const Point3d origin = makeOrigin(0.0, 0.0, 0.0);
+    const raytracer::maths::Point3d origin = makeOrigin(0.0, 0.0, 0.0);
     const raytracer::maths::Vector3d direction = makeDirection(1.0, 0.0, 0.0);
 
     const raytracer::maths::Ray ray(origin, direction);
@@ -47,7 +47,7 @@ TEST(RayTest, ConstructorBasic)
 
 TEST(RayTest, ConstructorWithNonZeroOrigin)
 {
-    const Point3d origin = makeOrigin(1.0, 2.0, 3.0);
+    const raytracer::maths::Point3d origin = makeOrigin(1.0, 2.0, 3.0);
     const raytracer::maths::Vector3d direction = makeDirection(0.0, 1.0, 0.0);
 
     const raytracer::maths::Ray ray(origin, direction);
@@ -59,7 +59,7 @@ TEST(RayTest, ConstructorWithNonZeroOrigin)
 
 TEST(RayTest, ConstructorNormalizesDirection)
 {
-    const Point3d origin = makeOrigin(0.0, 0.0, 0.0);
+    const raytracer::maths::Point3d origin = makeOrigin(0.0, 0.0, 0.0);
     const raytracer::maths::Vector3d direction = makeDirection(1.0, 1.0, 1.0);
 
     const raytracer::maths::Ray ray(origin, direction);
@@ -72,7 +72,7 @@ TEST(RayTest, ConstructorNormalizesDirection)
 
 TEST(RayTest, ConstructorNormalizesNonUnitDirection)
 {
-    const Point3d origin = makeOrigin(0.0, 0.0, 0.0);
+    const raytracer::maths::Point3d origin = makeOrigin(0.0, 0.0, 0.0);
     const raytracer::maths::Vector3d direction = makeDirection(3.0, 4.0, 0.0);
 
     const raytracer::maths::Ray ray(origin, direction);
@@ -89,11 +89,11 @@ TEST(RayTest, ConstructorNormalizesNonUnitDirection)
 
 TEST(RayTest, OriginAccess)
 {
-    const Point3d origin = makeOrigin(5.0, -3.0, 7.0);
+    const raytracer::maths::Point3d origin = makeOrigin(5.0, -3.0, 7.0);
     const raytracer::maths::Vector3d direction = makeDirection(1.0, 0.0, 0.0);
 
     const raytracer::maths::Ray ray(origin, direction);
-    const Point3d& retrievedOrigin = ray.origin;
+    const raytracer::maths::Point3d& retrievedOrigin = ray.origin;
 
     EXPECT_DOUBLE_EQ(retrievedOrigin.x(), 5.0);
     EXPECT_DOUBLE_EQ(retrievedOrigin.y(), -3.0);
@@ -102,12 +102,12 @@ TEST(RayTest, OriginAccess)
 
 TEST(RayTest, OriginIsReference)
 {
-    const Point3d origin = makeOrigin(1.0, 2.0, 3.0);
+    const raytracer::maths::Point3d origin = makeOrigin(1.0, 2.0, 3.0);
     const raytracer::maths::Vector3d direction = makeDirection(1.0, 0.0, 0.0);
 
     const raytracer::maths::Ray ray(origin, direction);
-    const Point3d& ref1 = ray.origin;
-    const Point3d& ref2 = ray.origin;
+    const raytracer::maths::Point3d& ref1 = ray.origin;
+    const raytracer::maths::Point3d& ref2 = ray.origin;
 
     // Both references should point to the same object
     EXPECT_EQ(&ref1, &ref2);
@@ -119,7 +119,7 @@ TEST(RayTest, OriginIsReference)
 
 TEST(RayTest, DirectionAccess)
 {
-    const Point3d origin = makeOrigin(0.0, 0.0, 0.0);
+    const raytracer::maths::Point3d origin = makeOrigin(0.0, 0.0, 0.0);
     const raytracer::maths::Vector3d direction = makeDirection(0.0, 0.0, 1.0);
 
     const raytracer::maths::Ray ray(origin, direction);
@@ -132,7 +132,7 @@ TEST(RayTest, DirectionAccess)
 
 TEST(RayTest, DirectionIsReference)
 {
-    const Point3d origin = makeOrigin(0.0, 0.0, 0.0);
+    const raytracer::maths::Point3d origin = makeOrigin(0.0, 0.0, 0.0);
     const raytracer::maths::Vector3d direction = makeDirection(1.0, 0.0, 0.0);
 
     const raytracer::maths::Ray ray(origin, direction);
@@ -145,7 +145,7 @@ TEST(RayTest, DirectionIsReference)
 
 TEST(RayTest, DirectionIsNormalized)
 {
-    const Point3d origin = makeOrigin(0.0, 0.0, 0.0);
+    const raytracer::maths::Point3d origin = makeOrigin(0.0, 0.0, 0.0);
     const raytracer::maths::Vector3d direction = makeDirection(5.0, 0.0, 0.0);
 
     const raytracer::maths::Ray ray(origin, direction);
@@ -162,11 +162,11 @@ TEST(RayTest, DirectionIsNormalized)
 
 TEST(RayTest, ParametricZeroReturnsOrigin)
 {
-    const Point3d origin = makeOrigin(1.0, 2.0, 3.0);
+    const raytracer::maths::Point3d origin = makeOrigin(1.0, 2.0, 3.0);
     const raytracer::maths::Vector3d direction = makeDirection(1.0, 0.0, 0.0);
 
     const raytracer::maths::Ray ray(origin, direction);
-    Point3d point = ray(0.0);
+    raytracer::maths::Point3d point = ray(0.0);
 
     EXPECT_DOUBLE_EQ(point.x(), 1.0);
     EXPECT_DOUBLE_EQ(point.y(), 2.0);
@@ -175,11 +175,11 @@ TEST(RayTest, ParametricZeroReturnsOrigin)
 
 TEST(RayTest, ParametricPositiveT)
 {
-    const Point3d origin = makeOrigin(0.0, 0.0, 0.0);
+    const raytracer::maths::Point3d origin = makeOrigin(0.0, 0.0, 0.0);
     const raytracer::maths::Vector3d direction = makeDirection(1.0, 0.0, 0.0);
 
     const raytracer::maths::Ray ray(origin, direction);
-    Point3d point = ray(5.0);
+    raytracer::maths::Point3d point = ray(5.0);
 
     EXPECT_DOUBLE_EQ(point.x(), 5.0);
     EXPECT_DOUBLE_EQ(point.y(), 0.0);
@@ -188,11 +188,11 @@ TEST(RayTest, ParametricPositiveT)
 
 TEST(RayTest, ParametricNegativeT)
 {
-    const Point3d origin = makeOrigin(0.0, 0.0, 0.0);
+    const raytracer::maths::Point3d origin = makeOrigin(0.0, 0.0, 0.0);
     const raytracer::maths::Vector3d direction = makeDirection(1.0, 0.0, 0.0);
 
     const raytracer::maths::Ray ray(origin, direction);
-    Point3d point = ray(-3.0);
+    raytracer::maths::Point3d point = ray(-3.0);
 
     // Negative t goes in opposite direction
     EXPECT_DOUBLE_EQ(point.x(), -3.0);
@@ -202,11 +202,11 @@ TEST(RayTest, ParametricNegativeT)
 
 TEST(RayTest, ParametricWithNonZeroOrigin)
 {
-    const Point3d origin = makeOrigin(1.0, 2.0, 3.0);
+    const raytracer::maths::Point3d origin = makeOrigin(1.0, 2.0, 3.0);
     const raytracer::maths::Vector3d direction = makeDirection(1.0, 0.0, 0.0);
 
     const raytracer::maths::Ray ray(origin, direction);
-    Point3d point = ray(2.0);
+    raytracer::maths::Point3d point = ray(2.0);
 
     // origin + 2 * direction = (1, 2, 3) + 2 * (1, 0, 0) = (3, 2, 3)
     EXPECT_DOUBLE_EQ(point.x(), 3.0);
@@ -216,11 +216,11 @@ TEST(RayTest, ParametricWithNonZeroOrigin)
 
 TEST(RayTest, ParametricWithDiagonalDirection)
 {
-    const Point3d origin = makeOrigin(0.0, 0.0, 0.0);
+    const raytracer::maths::Point3d origin = makeOrigin(0.0, 0.0, 0.0);
     const raytracer::maths::Vector3d direction = makeDirection(1.0, 1.0, 1.0);
 
     const raytracer::maths::Ray ray(origin, direction);
-    Point3d point = ray(2.0);
+    raytracer::maths::Point3d point = ray(2.0);
 
     // Direction is normalized: (1/sqrt(3), 1/sqrt(3), 1/sqrt(3))
     // origin + 2 * normalized_direction
@@ -232,11 +232,11 @@ TEST(RayTest, ParametricWithDiagonalDirection)
 
 TEST(RayTest, ParametricWithFractionalT)
 {
-    const Point3d origin = makeOrigin(0.0, 0.0, 0.0);
+    const raytracer::maths::Point3d origin = makeOrigin(0.0, 0.0, 0.0);
     const raytracer::maths::Vector3d direction = makeDirection(2.0, 4.0, 6.0);
 
     const raytracer::maths::Ray ray(origin, direction);
-    Point3d point = ray(0.5);
+    raytracer::maths::Point3d point = ray(0.5);
 
     // Direction is normalized: (2, 4, 6) / sqrt(4+16+36) = (2, 4, 6) / sqrt(56)
     const double norm = std::sqrt(56.0);
@@ -247,11 +247,11 @@ TEST(RayTest, ParametricWithFractionalT)
 
 TEST(RayTest, ParametricWithNegativeDirection)
 {
-    const Point3d origin = makeOrigin(5.0, 5.0, 5.0);
+    const raytracer::maths::Point3d origin = makeOrigin(5.0, 5.0, 5.0);
     const raytracer::maths::Vector3d direction = makeDirection(-1.0, -1.0, -1.0);
 
     const raytracer::maths::Ray ray(origin, direction);
-    Point3d point = ray(3.0);
+    raytracer::maths::Point3d point = ray(3.0);
 
     // Direction normalized: (-1/sqrt(3), -1/sqrt(3), -1/sqrt(3))
     // origin + 3 * normalized_direction
@@ -263,11 +263,11 @@ TEST(RayTest, ParametricWithNegativeDirection)
 
 TEST(RayTest, ParametricWithNonZeroOriginAndDiagonalDirection)
 {
-    const Point3d origin = makeOrigin(1.0, 2.0, 3.0);
+    const raytracer::maths::Point3d origin = makeOrigin(1.0, 2.0, 3.0);
     const raytracer::maths::Vector3d direction = makeDirection(1.0, 1.0, 1.0);
 
     const raytracer::maths::Ray ray(origin, direction);
-    Point3d point = ray(std::sqrt(3.0));
+    raytracer::maths::Point3d point = ray(std::sqrt(3.0));
 
     // t = sqrt(3) means we move 1 unit along each axis (since direction is normalized)
     // origin + sqrt(3) * (1/sqrt(3), 1/sqrt(3), 1/sqrt(3)) = (1, 2, 3) + (1, 1, 1) = (2, 3, 4)
@@ -282,14 +282,14 @@ TEST(RayTest, ParametricWithNonZeroOriginAndDiagonalDirection)
 
 TEST(RayTest, RayAlongXAxis)
 {
-    const Point3d origin = makeOrigin(0.0, 0.0, 0.0);
+    const raytracer::maths::Point3d origin = makeOrigin(0.0, 0.0, 0.0);
     const raytracer::maths::Vector3d direction = makeDirection(1.0, 0.0, 0.0);
 
     const raytracer::maths::Ray ray(origin, direction);
 
     // Check multiple points along the ray
     for (auto t = 0.0; t <= 10.0; t += 1.0) {
-        Point3d point = ray(t);
+        raytracer::maths::Point3d point = ray(t);
         EXPECT_DOUBLE_EQ(point.x(), t);
         EXPECT_DOUBLE_EQ(point.y(), 0.0);
         EXPECT_DOUBLE_EQ(point.z(), 0.0);
@@ -298,12 +298,12 @@ TEST(RayTest, RayAlongXAxis)
 
 TEST(RayTest, RayAlongYAxis)
 {
-    const Point3d origin = makeOrigin(0.0, 0.0, 0.0);
+    const raytracer::maths::Point3d origin = makeOrigin(0.0, 0.0, 0.0);
     const raytracer::maths::Vector3d direction = makeDirection(0.0, 1.0, 0.0);
 
     const raytracer::maths::Ray ray(origin, direction);
 
-    Point3d point = ray(7.5);
+    raytracer::maths::Point3d point = ray(7.5);
     EXPECT_DOUBLE_EQ(point.x(), 0.0);
     EXPECT_DOUBLE_EQ(point.y(), 7.5);
     EXPECT_DOUBLE_EQ(point.z(), 0.0);
@@ -311,12 +311,12 @@ TEST(RayTest, RayAlongYAxis)
 
 TEST(RayTest, RayAlongZAxis)
 {
-    const Point3d origin = makeOrigin(0.0, 0.0, 0.0);
+    const raytracer::maths::Point3d origin = makeOrigin(0.0, 0.0, 0.0);
     const raytracer::maths::Vector3d direction = makeDirection(0.0, 0.0, 1.0);
 
     const raytracer::maths::Ray ray(origin, direction);
 
-    Point3d point = ray(4.2);
+    raytracer::maths::Point3d point = ray(4.2);
     EXPECT_DOUBLE_EQ(point.x(), 0.0);
     EXPECT_DOUBLE_EQ(point.y(), 0.0);
     EXPECT_DOUBLE_EQ(point.z(), 4.2);
@@ -325,7 +325,7 @@ TEST(RayTest, RayAlongZAxis)
 TEST(RayTest, RayFromCameraScenario)
 {
     // Simulating a ray from camera origin through a pixel
-    const Point3d cameraOrigin = makeOrigin(0.0, 0.0, 0.0);
+    const raytracer::maths::Point3d cameraOrigin = makeOrigin(0.0, 0.0, 0.0);
     const raytracer::maths::Vector3d pixelDirection = makeDirection(0.5, 0.5, -1.0);
 
     const raytracer::maths::Ray ray(cameraOrigin, pixelDirection);
@@ -336,12 +336,12 @@ TEST(RayTest, RayFromCameraScenario)
     const double dirY = 0.5 / norm;
     const double dirZ = -1.0 / norm;
 
-    Point3d nearPoint = ray(1.0);
+    raytracer::maths::Point3d nearPoint = ray(1.0);
     EXPECT_DOUBLE_EQ(nearPoint.x(), dirX);
     EXPECT_DOUBLE_EQ(nearPoint.y(), dirY);
     EXPECT_DOUBLE_EQ(nearPoint.z(), dirZ);
 
-    Point3d farPoint = ray(100.0);
+    raytracer::maths::Point3d farPoint = ray(100.0);
     EXPECT_DOUBLE_EQ(farPoint.x(), 100.0 * dirX);
     EXPECT_DOUBLE_EQ(farPoint.y(), 100.0 * dirY);
     EXPECT_DOUBLE_EQ(farPoint.z(), 100.0 * dirZ);
@@ -353,11 +353,11 @@ TEST(RayTest, RayFromCameraScenario)
 
 TEST(RayTest, ParametricWithVeryLargeT)
 {
-    const Point3d origin = makeOrigin(0.0, 0.0, 0.0);
+    const raytracer::maths::Point3d origin = makeOrigin(0.0, 0.0, 0.0);
     const raytracer::maths::Vector3d direction = makeDirection(1.0, 0.0, 0.0);
 
     const raytracer::maths::Ray ray(origin, direction);
-    Point3d point = ray(1e10);
+    raytracer::maths::Point3d point = ray(1e10);
 
     EXPECT_DOUBLE_EQ(point.x(), 1e10);
     EXPECT_DOUBLE_EQ(point.y(), 0.0);
@@ -366,11 +366,11 @@ TEST(RayTest, ParametricWithVeryLargeT)
 
 TEST(RayTest, ParametricWithVerySmallT)
 {
-    const Point3d origin = makeOrigin(0.0, 0.0, 0.0);
+    const raytracer::maths::Point3d origin = makeOrigin(0.0, 0.0, 0.0);
     const raytracer::maths::Vector3d direction = makeDirection(1.0, 0.0, 0.0);
 
     const raytracer::maths::Ray ray(origin, direction);
-    Point3d point = ray(1e-10);
+    raytracer::maths::Point3d point = ray(1e-10);
 
     EXPECT_NEAR(point.x(), 1e-10, 1e-20);
     EXPECT_DOUBLE_EQ(point.y(), 0.0);
@@ -379,11 +379,11 @@ TEST(RayTest, ParametricWithVerySmallT)
 
 TEST(RayTest, RayWithLargeOriginCoordinates)
 {
-    const Point3d origin = makeOrigin(1e6, 1e6, 1e6);
+    const raytracer::maths::Point3d origin = makeOrigin(1e6, 1e6, 1e6);
     const raytracer::maths::Vector3d direction = makeDirection(1.0, 0.0, 0.0);
 
     const raytracer::maths::Ray ray(origin, direction);
-    Point3d point = ray(100.0);
+    raytracer::maths::Point3d point = ray(100.0);
 
     EXPECT_DOUBLE_EQ(point.x(), 1e6 + 100.0);
     EXPECT_DOUBLE_EQ(point.y(), 1e6);
@@ -392,7 +392,7 @@ TEST(RayTest, RayWithLargeOriginCoordinates)
 
 TEST(RayTest, DirectionRemainsNormalizedAfterConstruction)
 {
-    const Point3d origin = makeOrigin(0.0, 0.0, 0.0);
+    const raytracer::maths::Point3d origin = makeOrigin(0.0, 0.0, 0.0);
     const raytracer::maths::Vector3d direction = makeDirection(100.0, 0.0, 0.0);
 
     const raytracer::maths::Ray ray(origin, direction);

@@ -18,10 +18,10 @@ class IPrimitive;
 class IShape;
 
 struct SurfaceInteraction {
-    Point3d hitPoint;
+    maths::Point3d hitPoint;
     maths::Normal3d normal;
     maths::Vector3d wo;
-    Point2d uv;
+    maths::Point2d uv;
     const IPrimitive *primitive = nullptr;
 };
 

@@ -14,11 +14,11 @@
 
 namespace raytracer::shape {
 Sphere::Sphere(const nlohmann::json &config):
-    _center{config.at("position").get<Point3d>()},
+    _center{config.at("position").get<maths::Point3d>()},
     _radius{config.at("radius").get<double>()}
 {}
 
-Sphere::Sphere(const Point3d &center, const double &radius):
+Sphere::Sphere(const maths::Point3d &center, const double &radius):
     _center{center}, _radius{radius}
 {}
 
@@ -28,17 +28,17 @@ std::optional<SurfaceInteraction> Sphere::intersect(const maths::Ray &ray) const
     if (!t)
         return std::nullopt;
 
-    const Point3d hitPoint     = ray(*t);
-    const maths::Vector3d temp = hitPoint - _center;
-    const auto outwardNormal   = maths::Normal3d{temp.normalize()};
-    const maths::Vector3d wo   = -ray.direction.normalize();
+    const maths::Point3d hitPoint = ray(*t);
+    const maths::Vector3d temp    = hitPoint - _center;
+    const auto outwardNormal      = maths::Normal3d{temp.normalize()};
+    const maths::Vector3d wo      = -ray.direction.normalize();
 
     ray.tMax = *t;
 
     return SurfaceInteraction{.hitPoint = hitPoint,
         .normal                         = outwardNormal,
         .wo                             = wo,
-        .uv                             = Point2d{
+        .uv                             = maths::Point2d{
             sphericalTheta(temp) / (2.0 * M_PI), sphericalPhi(temp) / M_PI}};
 }
 
