@@ -83,7 +83,7 @@ T Vector<Derived, N, T>::length() const
 
     for (std::size_t i = 0; i < N; ++i) {
         T value = _data[i];
-        norm    += value * value;
+        norm += value * value;
     }
     return static_cast<T>(std::sqrt(norm));
 }
