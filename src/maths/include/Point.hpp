@@ -97,6 +97,10 @@ template <typename T> Point3<T> ceil(const Point3<T> &p);
 template <typename T>
 Point3<T> permute(const Point3<T> &p, int x, int y, int z);
 
+using Point2d = Point2<>;
+
+using Point3d = Point3<>;
+
 } // namespace raytracer::maths
 
 #include "Point.tpp"

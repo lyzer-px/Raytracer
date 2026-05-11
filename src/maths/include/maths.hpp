@@ -7,14 +7,7 @@
 
 #pragma once
 
-#include "maths_types.hpp"
-#include "Matrix.hpp"
-#include "Point.hpp"
-#include "Vector.hpp"
-#include "Normal.hpp"
-#include "Color.hpp"
 #include "Ray.hpp"
-#include "Transform.hpp"
 
 namespace raytracer::maths {
 
