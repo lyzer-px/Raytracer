@@ -9,6 +9,7 @@
 #include <iostream>
 #include <memory>
 
+#include "RecursiveIntegrator.hpp"
 #include "Scene.hpp"
 #include "SceneBuilder.hpp"
 #include "SimpleIntegrator.hpp"
@@ -20,7 +21,7 @@ void start(const std::string configPath)
     raytracer::camera::Film film(width, height);
 
     raytracer::scene::SceneBuilder builder;
-    raytracer::integrator::SimpleIntegrator integrator;
+    raytracer::integrator::RecursiveIntegrator integrator;
 
     std::ifstream ifs(configPath);
     if (!ifs)
@@ -31,13 +32,13 @@ void start(const std::string configPath)
     builder.buildScene(config);
     integrator.render(*builder.scene(), *builder.camera(), film);
 
-    const std::string outputPath = "output.ppm";
+    const std::string outputPath = "output7.ppm";
     raytracer::camera::Film::write(film, outputPath);
 
     std::cout << "Rendered: " << outputPath << "\n";
 }
 
-int main(int ac, char **av)
+int main(const int ac, char **av)
 {
     try {
         if (ac != 2) {

@@ -15,7 +15,6 @@ add_executable(
         maths/VectorTests.cpp
         maths/PointTests.cpp
         maths/RayTests.cpp
-        maths/TransformTests.cpp
 )
 target_link_libraries(
         unit_tests

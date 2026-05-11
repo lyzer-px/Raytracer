@@ -1,0 +1,150 @@
+{
+  "background_color": [103, 205, 236],
+  "camera": {
+    "resolution": [1920, 1080],
+    "position":   [0.0, -120.0, 50.0],
+    "target":     [0.0,   0.0,   0.0],
+    "up":         [0.0,   0.0,   1.0],
+    "fov":        60.0
+  },
+  "materials": [
+    {
+      "id":   "white_lambertian",
+      "type": "lambertian",
+      "config": {
+        "albedo": [220, 220, 220]
+      }
+    },
+    {
+      "id":   "red_lambertian",
+      "type": "lambertian",
+      "config": {
+        "albedo": [200, 60, 40]
+      }
+    },
+    {
+      "id":   "gold_mirror",
+      "type": "metal",
+      "config": {
+        "eta":  [0.17, 0.35, 1.5],
+        "k":    [3.1,  2.7,  1.9],
+        "fuzz": 0.0
+      }
+    },
+    {
+      "id":   "gold_soft",
+      "type": "metal",
+      "config": {
+        "eta":  [0.17, 0.35, 1.5],
+        "k":    [3.1,  2.7,  1.9],
+        "fuzz": 0.1
+      }
+    },
+    {
+      "id":   "gold_rough",
+      "type": "metal",
+      "config": {
+        "eta":  [0.17, 0.35, 1.5],
+        "k":    [3.1,  2.7,  1.9],
+        "fuzz": 0.35
+      }
+    },
+    {
+      "id":   "glass",
+      "type": "dielectric",
+      "config": {
+        "ior": 1.5
+      }
+    },
+    {
+      "id":   "diamond",
+      "type": "dielectric",
+      "config": {
+        "ior": 2.4
+      }
+    }
+  ],
+  "primitives": [
+    {
+      "type":        "geometric_primitive",
+      "material_id": "gold_mirror",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [0.0, 10.0, 0.0],
+          "radius":   30.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "gold_soft",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [-65.0, 20.0, -5.0],
+          "radius":   22.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "gold_rough",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [65.0, 15.0, -5.0],
+          "radius":   22.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "white_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [-30.0, -20.0, -12.0],
+          "radius":   14.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "red_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [32.0, -25.0, -10.0],
+          "radius":   14.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "glass",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [0.0, 10.0, 0.0],
+          "radius":   40.0
+        }
+      }
+    }
+  ],
+  "lights": [
+    {
+      "type": "ambient",
+      "config": {
+        "radiance": [40, 40, 50]
+      }
+    },
+    {
+      "type": "directional",
+      "config": {
+        "direction": [-1.0, -0.5, -1.0],
+        "radiance":  [255, 240, 200]
+      }
+    }
+  ]
+}
