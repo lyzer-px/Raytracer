@@ -9,6 +9,7 @@
 
 #include <gtest/gtest.h>
 
+#include "maths_types.hpp"
 #include "Vector3.hpp"
 
 // ============================================================================
@@ -17,13 +18,13 @@
 
 TEST(PointTest, DefaultConstructor)
 {
-    [[maybe_unused]] Point3d point;
+    [[maybe_unused]] raytracer::maths::Point3d point;
     SUCCEED();
 }
 
 TEST(PointTest, ArrayConstructor)
 {
-    Point3d point(1.0, 2.0, 3.0);
+    raytracer::maths::Point3d point(1.0, 2.0, 3.0);
 
     EXPECT_DOUBLE_EQ(point.x(), 1.0);
     EXPECT_DOUBLE_EQ(point.y(), 2.0);
@@ -40,7 +41,7 @@ TEST(PointTest, ArrayConstructorWithFloat)
 
 TEST(PointTest, ArrayConstructor2D)
 {
-    Point2d point(5.0, 10.0);
+    raytracer::maths::Point2d point(5.0, 10.0);
 
     EXPECT_DOUBLE_EQ(point.x(), 5.0);
     EXPECT_DOUBLE_EQ(point.y(), 10.0);
@@ -52,7 +53,7 @@ TEST(PointTest, ArrayConstructor2D)
 
 TEST(PointTest, IndexOperatorRead)
 {
-    Point3d point(1.0, 2.0, 3.0);
+    raytracer::maths::Point3d point(1.0, 2.0, 3.0);
 
     EXPECT_DOUBLE_EQ(point.x(), 1.0);
     EXPECT_DOUBLE_EQ(point.y(), 2.0);
@@ -61,7 +62,7 @@ TEST(PointTest, IndexOperatorRead)
 
 TEST(PointTest, IndexOperatorWrite)
 {
-    Point3d point(1.0, 2.0, 3.0);
+    raytracer::maths::Point3d point(1.0, 2.0, 3.0);
 
     point.x() = 10.0;
     point.y() = 20.0;
@@ -74,7 +75,7 @@ TEST(PointTest, IndexOperatorWrite)
 
 TEST(PointTest, ConstIndexOperator)
 {
-    const Point3d point(1.0, 2.0, 3.0);
+    const raytracer::maths::Point3d point(1.0, 2.0, 3.0);
 
     EXPECT_DOUBLE_EQ(point.x(), 1.0);
     EXPECT_DOUBLE_EQ(point.y(), 2.0);
@@ -87,32 +88,32 @@ TEST(PointTest, ConstIndexOperator)
 
 TEST(PointTest, EqualityOperatorTrue)
 {
-    const Point3d pointA(1.0, 2.0, 3.0);
-    const Point3d pointB(1.0, 2.0, 3.0);
+    const raytracer::maths::Point3d pointA(1.0, 2.0, 3.0);
+    const raytracer::maths::Point3d pointB(1.0, 2.0, 3.0);
 
     EXPECT_TRUE(pointA == pointB);
 }
 
 TEST(PointTest, EqualityOperatorFalse)
 {
-    const Point3d pointA(1.0, 2.0, 3.0);
-    const Point3d pointB(1.0, 2.0, 4.0);
+    const raytracer::maths::Point3d pointA(1.0, 2.0, 3.0);
+    const raytracer::maths::Point3d pointB(1.0, 2.0, 4.0);
 
     EXPECT_FALSE(pointA == pointB);
 }
 
 TEST(PointTest, InequalityOperatorTrue)
 {
-    const Point3d pointA(1.0, 2.0, 3.0);
-    const Point3d pointB(4.0, 5.0, 6.0);
+    const raytracer::maths::Point3d pointA(1.0, 2.0, 3.0);
+    const raytracer::maths::Point3d pointB(4.0, 5.0, 6.0);
 
     EXPECT_TRUE(pointA != pointB);
 }
 
 TEST(PointTest, InequalityOperatorFalse)
 {
-    const Point3d pointA(1.0, 2.0, 3.0);
-    const Point3d pointB(1.0, 2.0, 3.0);
+    const raytracer::maths::Point3d pointA(1.0, 2.0, 3.0);
+    const raytracer::maths::Point3d pointB(1.0, 2.0, 3.0);
 
     EXPECT_FALSE(pointA != pointB);
 }
@@ -123,10 +124,10 @@ TEST(PointTest, InequalityOperatorFalse)
 
 TEST(PointTest, PointPlusVector)
 {
-    const Point3d point(1.0, 2.0, 3.0);
+    const raytracer::maths::Point3d point(1.0, 2.0, 3.0);
     const raytracer::maths::Vector3d vec(1.0, 1.0, 1.0);
 
-    const Point3d result = point + vec;
+    const raytracer::maths::Point3d result = point + vec;
 
     EXPECT_DOUBLE_EQ(result.x(), 2.0);
     EXPECT_DOUBLE_EQ(result.y(), 3.0);
@@ -135,10 +136,10 @@ TEST(PointTest, PointPlusVector)
 
 TEST(PointTest, PointMinusVector)
 {
-    const Point3d point(5.0, 6.0, 7.0);
+    const raytracer::maths::Point3d point(5.0, 6.0, 7.0);
     const raytracer::maths::Vector3d vec(1.0, 2.0, 3.0);
 
-    const Point3d result = point - vec;
+    const raytracer::maths::Point3d result = point - vec;
 
     EXPECT_DOUBLE_EQ(result.x(), 4.0);
     EXPECT_DOUBLE_EQ(result.y(), 4.0);
@@ -147,8 +148,8 @@ TEST(PointTest, PointMinusVector)
 
 TEST(PointTest, PointMinusPoint)
 {
-    const Point3d pointA(5.0, 6.0, 7.0);
-    const Point3d pointB(1.0, 2.0, 3.0);
+    const raytracer::maths::Point3d pointA(5.0, 6.0, 7.0);
+    const raytracer::maths::Point3d pointB(1.0, 2.0, 3.0);
 
     const raytracer::maths::Vector3d vec = pointA - pointB;
 
@@ -159,7 +160,7 @@ TEST(PointTest, PointMinusPoint)
 
 TEST(PointTest, PointPlusEqualsVector)
 {
-    Point3d point(1.0, 2.0, 3.0);
+    raytracer::maths::Point3d point(1.0, 2.0, 3.0);
     const raytracer::maths::Vector3d vec(1.0, 1.0, 1.0);
 
     point += vec;
@@ -171,7 +172,7 @@ TEST(PointTest, PointPlusEqualsVector)
 
 TEST(PointTest, PointMinusEqualsVector)
 {
-    Point3d point(5.0, 6.0, 7.0);
+    raytracer::maths::Point3d point(5.0, 6.0, 7.0);
     const raytracer::maths::Vector3d vec(1.0, 2.0, 3.0);
 
     point -= vec;
@@ -187,7 +188,7 @@ TEST(PointTest, PointMinusEqualsVector)
 
 TEST(PointTest, Point2fAlias)
 {
-    Point2f point(1.0F, 2.0F);
+    raytracer::maths::Point2f point(1.0F, 2.0F);
 
     EXPECT_FLOAT_EQ(point.x(), 1.0F);
     EXPECT_FLOAT_EQ(point.y(), 2.0F);
@@ -195,7 +196,7 @@ TEST(PointTest, Point2fAlias)
 
 TEST(PointTest, Point3fAlias)
 {
-    Point3f point(1.0F, 2.0F, 3.0F);
+    raytracer::maths::Point3f point(1.0F, 2.0F, 3.0F);
 
     EXPECT_FLOAT_EQ(point.x(), 1.0F);
     EXPECT_FLOAT_EQ(point.y(), 2.0F);
@@ -208,7 +209,7 @@ TEST(PointTest, Point3fAlias)
 
 TEST(PointTest, NegativeValues)
 {
-    Point3d point(-1.0, -2.0, -3.0);
+    raytracer::maths::Point3d point(-1.0, -2.0, -3.0);
 
     EXPECT_DOUBLE_EQ(point.x(), -1.0);
     EXPECT_DOUBLE_EQ(point.y(), -2.0);
@@ -217,7 +218,7 @@ TEST(PointTest, NegativeValues)
 
 TEST(PointTest, LargeValues)
 {
-    Point3d point(1e10, 2e10, 3e10);
+    raytracer::maths::Point3d point(1e10, 2e10, 3e10);
 
     EXPECT_DOUBLE_EQ(point.x(), 1e10);
     EXPECT_DOUBLE_EQ(point.y(), 2e10);
@@ -226,7 +227,7 @@ TEST(PointTest, LargeValues)
 
 TEST(PointTest, SmallValues)
 {
-    Point3d point(1e-10, 2e-10, 3e-10);
+    raytracer::maths::Point3d point(1e-10, 2e-10, 3e-10);
 
     EXPECT_DOUBLE_EQ(point.x(), 1e-10);
     EXPECT_DOUBLE_EQ(point.y(), 2e-10);
