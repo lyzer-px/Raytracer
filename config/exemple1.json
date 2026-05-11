@@ -1,0 +1,65 @@
+{
+  "background_color": [24, 184, 224],
+  "camera": {
+    "resolution": [1920, 1080],
+    "position":   [0.0, -100.0, 60.0],
+    "target":     [0.0,   0.0,   0.0],
+    "up":         [0.0,   0.0,   1.0],
+    "fov":        60.0
+  },
+  "materials": [
+    {
+      "id":   "red_lambertian",
+      "type": "lambertian",
+      "config": {
+        "albedo": [255, 0, 0]
+      }
+    },
+    {
+      "id":   "green_lambertian",
+      "type": "lambertian",
+      "config": {
+        "albedo": [0, 255, 0]
+      }
+    }
+  ],
+  "primitives": [
+    {
+      "type":        "geometric_primitive",
+      "material_id": "red_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [-50.0, -50.0, 0.0],
+          "radius":   25.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "green_lambertian",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [70.0, 30.0, 30.0],
+          "radius":   25.0
+        }
+      }
+    }
+  ],
+  "lights": [
+    {
+      "type": "ambient",
+      "config": {
+        "radiance": [80, 80, 80]
+      }
+    },
+    {
+      "type": "directional",
+      "config": {
+        "direction": [-1.0,  -1.0, -1.0],
+        "radiance":  [255,  255, 255]
+      }
+    }
+  ]
+}

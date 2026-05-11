@@ -5,8 +5,7 @@
 ** IMaterial
 */
 
-#ifndef RAYTRACER_IMATERIAL_HPP
-#define RAYTRACER_IMATERIAL_HPP
+#pragma once
 
 #include "Color.hpp"
 #include "IShape.hpp"
@@ -32,8 +31,5 @@ public:
     [[nodiscard]] virtual maths::Color emitted(
         const shape::SurfaceInteraction &si) const;
 };
-
-} // material
-} // raytracer
-
-#endif //RAYTRACER_IMATERIAL_HPP
+}
+} // namespace raytracer::material

@@ -7,7 +7,10 @@ add_library(maths STATIC Color.cpp
         TransformationMatrices.cpp
         Vector.cpp
         maths.cpp
-        include/Vector3.hpp)
+        Matrix4x4.cpp
+        include/Vector3.hpp
+        Bounds2.cpp
+        Bounds3.cpp)
 
 target_include_directories(maths PUBLIC include)
 

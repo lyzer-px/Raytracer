@@ -14,8 +14,7 @@
 
 namespace raytracer::maths {
 
-template <typename T>
-class Vector3: public Vector<Vector3, 3, T> {
+template <typename T> class Vector3: public Vector<Vector3, 3, T> {
 public:
     Vector3();
 
@@ -39,4 +38,3 @@ using Vector3d = Vector3<double>;
 } // namespace raytracer::maths
 
 #include "Vector3.tpp"
-
