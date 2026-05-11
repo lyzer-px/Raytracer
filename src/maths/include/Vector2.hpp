@@ -11,8 +11,7 @@
 
 namespace raytracer::maths {
 
-template <typename T>
-class Vector2: public Vector<Vector2, 2, T> {
+template <typename T> class Vector2: public Vector<Vector2, 2, T> {
 public:
     Vector2();
 

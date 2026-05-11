@@ -37,7 +37,7 @@
 *.out
 *.app
 raytracer
-ppm_check
+myteams_cli
 unit_tests
 
 # debug information files
