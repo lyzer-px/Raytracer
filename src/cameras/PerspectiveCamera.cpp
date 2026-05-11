@@ -5,23 +5,24 @@
 ** PerspectiveCamera
 */
 
-#include "Serializer.hpp"
 #include "PerspectiveCamera.hpp"
 
 #include <memory>
 
+#include "Serializer.hpp"
+
 namespace raytracer::camera {
 PerspectiveCamera::PerspectiveCamera(const nlohmann::json &config):
-    PerspectiveCamera(config.at("position").get<maths::Point3d>(),
-        config.at("target").get<maths::Point3d>(),
+    PerspectiveCamera(config.at("position").get<Point3d>(),
+        config.at("target").get<Point3d>(),
         config.at("up").get<maths::Vector3d>(),
-        CameraProjection{.fovDegrees=config.at("fov").get<double>(),
-            .aspectRatio=config.at("resolution").at(0).get<double>() /
-            config.at("resolution").at(1).get<double>()})
+        CameraProjection{.fovDegrees = config.at("fov").get<double>(),
+            .aspectRatio = config.at("resolution").at(0).get<double>() /
+                config.at("resolution").at(1).get<double>()})
 {}
 
-PerspectiveCamera::PerspectiveCamera(const maths::Point3d &position,
-    const maths::Point3d &target, const maths::Vector3d &up,
+PerspectiveCamera::PerspectiveCamera(const Point3d &position,
+    const Point3d &target, const maths::Vector3d &up,
     const CameraProjection &projection):
     _origin{position}
 {
@@ -43,7 +44,7 @@ PerspectiveCamera::PerspectiveCamera(const maths::Point3d &position,
 
 maths::Ray PerspectiveCamera::generateRay(const float &u, const float &v) const
 {
-    const maths::Point3d target = _lowerLeft + _horizontal * u + _vertical * v;
+    const Point3d target = _lowerLeft + _horizontal * u + _vertical * v;
     const maths::Vector3d direction = (target - _origin).normalize();
 
     return maths::Ray{_origin, direction};

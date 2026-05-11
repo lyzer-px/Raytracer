@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2025
 ** Raytracer
 ** File description:
-** Transform.cpp
+** Bounds2.cpp
 */
 
-#include "Transform.hpp"
+#include "Bounds2.hpp"
