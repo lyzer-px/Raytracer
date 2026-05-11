@@ -16,7 +16,7 @@ public:
     DirectionalLight(
         const maths::Vector3d &direction, const maths::Color &radiance);
 
-    [[nodiscard]] LightSample sample(const Point3d &p) const override;
+    [[nodiscard]] LightSample sample(const maths::Point3d &p) const override;
 
     [[nodiscard]] bool isDelta() const override;
 

@@ -21,29 +21,25 @@ Color::Color(double r, double g, double b): r(r), g(g), b(b)
 Color Color::operator+(const Color &other) const
 {
     Color c = Color(r + other.r, g + other.g, b + other.b);
-    c.clamp();
-    return c;
+    return c.clamp();
 }
 
 Color Color::operator*(const Color &other) const
 {
     Color c = Color(r * other.r, g * other.g, b * other.b);
-    c.clamp();
-    return c;
+    return c.clamp();
 }
 
 Color Color::operator*(double scalar) const
 {
     Color c = Color(r * scalar, g * scalar, b * scalar);
-    c.clamp();
-    return c;
+    return c.clamp();
 }
 
 Color Color::operator/(double scalar) const
 {
     Color c = Color(r / scalar, g / scalar, b / scalar);
-    c.clamp();
-    return c;
+    return c.clamp();
 }
 
 Color Color::clamp() const

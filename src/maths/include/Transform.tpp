@@ -7,7 +7,6 @@
 
 #pragma once
 
-#include "Matrix4x4.hpp"
 #include "Transform.hpp"
 #include "Vector3.hpp"
 
@@ -53,10 +52,6 @@ Point3<T> operator*(const Matrix3x3<T> &matrix, const Point3<T> &point)
 }
 
 // Transform class implementation
-
-template <typename T> Transform<T>::Transform() :
-_m(Matrix4x4<T>({{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}})),
-_mInv(inverse(_m)) {}
 
 template <typename T>
 Transform<T>::Transform(const Matrix4x4<T> &m): _m(m), _mInv(inverse(m))
@@ -193,13 +188,13 @@ Bounds3<T> Transform<T>::operator()(const Bounds3<T> &b) const
 {
     const Transform &m = *this;
     Bounds3<T> ret(m(Point3<T>(b.pMin.x(), b.pMin.y(), b.pMin.z())));
-    ret = ret.boundsUnion(m(Point3<T>(b.pMax.x(), b.pMin.y(), b.pMin.z())));
-    ret = ret.boundsUnion(m(Point3<T>(b.pMin.x(), b.pMax.y(), b.pMin.z())));
-    ret = ret.boundsUnion(m(Point3<T>(b.pMin.x(), b.pMin.y(), b.pMax.z())));
-    ret = ret.boundsUnion(m(Point3<T>(b.pMax.x(), b.pMax.y(), b.pMin.z())));
-    ret = ret.boundsUnion(m(Point3<T>(b.pMax.x(), b.pMin.y(), b.pMax.z())));
-    ret = ret.boundsUnion(m(Point3<T>(b.pMin.x(), b.pMax.y(), b.pMax.z())));
-    ret = ret.boundsUnion(m(Point3<T>(b.pMax.x(), b.pMax.y(), b.pMax.z())));
+    ret = b.boundsUnion(ret, m(Point3<T>(b.pMax.x(), b.pMin.y(), b.pMin.z())));
+    ret = b.boundsUnion(ret, m(Point3<T>(b.pMin.x(), b.pMax.y(), b.pMin.z())));
+    ret = b.boundsUnion(ret, m(Point3<T>(b.pMin.x(), b.pMin.y(), b.pMax.z())));
+    ret = b.boundsUnion(ret, m(Point3<T>(b.pMax.x(), b.pMax.y(), b.pMin.z())));
+    ret = b.boundsUnion(ret, m(Point3<T>(b.pMax.x(), b.pMin.y(), b.pMax.z())));
+    ret = b.boundsUnion(ret, m(Point3<T>(b.pMin.x(), b.pMax.y(), b.pMax.z())));
+    ret = b.boundsUnion(ret, m(Point3<T>(b.pMax.x(), b.pMax.y(), b.pMax.z())));
     return ret;
 }
 

@@ -55,14 +55,16 @@ void adl_serializer<raytracer::maths::Normal3d>::from_json(
         j.at(0).get<double>(), j.at(1).get<double>(), j.at(2).get<double>());
 }
 
-void adl_serializer<Point3d>::to_json(json &, const Point3d &)
+void adl_serializer<raytracer::maths::Point3d>::to_json(
+    json &, const raytracer::maths::Point3d &)
 {
     throw std::runtime_error("Unimplemented");
 }
 
-void adl_serializer<Point3d>::from_json(const json &j, Point3d &c)
+void adl_serializer<raytracer::maths::Point3d>::from_json(
+    const json &j, raytracer::maths::Point3d &c)
 {
-    c = Point3d(
+    c = raytracer::maths::Point3d(
         j.at(0).get<double>(), j.at(1).get<double>(), j.at(2).get<double>());
 }
 

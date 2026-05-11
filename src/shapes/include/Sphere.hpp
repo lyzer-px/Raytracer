@@ -14,7 +14,7 @@ namespace raytracer::shape {
 class Sphere: public IShape {
 public:
     Sphere(const nlohmann::json &config);
-    Sphere(const Point3d &center, const double &radius);
+    Sphere(const maths::Point3d &center, const double &radius);
 
     [[nodiscard]] std::optional<SurfaceInteraction> intersect(
         const maths::Ray &ray) const override;
@@ -27,7 +27,7 @@ private:
     [[nodiscard]] std::optional<double> solveQuadratic(
         const maths::Ray &ray) const;
 
-    Point3d _center;
+    maths::Point3d _center;
     double _radius;
 };
 
