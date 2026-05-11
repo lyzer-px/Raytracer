@@ -29,8 +29,8 @@ std::optional<SurfaceInteraction> Sphere::intersect(const maths::Ray &ray) const
         return std::nullopt;
 
     const maths::Point3d hitPoint = ray(*t);
-    const maths::Vector3d temp    = (hitPoint - _center).normalize();
-    const auto outwardNormal      = maths::Normal3d{temp};
+    const maths::Vector3d temp    = hitPoint - _center;
+    const auto outwardNormal      = maths::Normal3d{temp.normalize()};
     const maths::Vector3d wo      = -ray.direction.normalize();
 
     ray.tMax = *t;

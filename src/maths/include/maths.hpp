@@ -7,8 +7,6 @@
 
 #pragma once
 
-#include <optional>
-
 #include "maths_types.hpp"
 #include "Matrix.hpp"
 #include "Point.hpp"
@@ -22,7 +20,7 @@ namespace raytracer::maths {
 
 // Build an orthonormal basis (v2, v3) from a single unit vector v1.
 // Used by PerspectiveCamera to derive right and up vectors from the forward direction.
-void coordinateSystem(const Vector3d &v1, Vector3d &v2, Vector3d &v3);
+void coordinateSystem(const Vector3d& v1, Vector3d &v2, Vector3d &v3);
 
 // Spherical direction from polar angles theta and phi, in world space.
 Vector3d sphericalDirection(double sinTheta, double cosTheta, double phi);

@@ -22,7 +22,7 @@ DirectionalLight::DirectionalLight(
     _direction{direction.normalize()}, _radiance{radiance}
 {}
 
-LightSample DirectionalLight::sample(const maths::Point3d &) const
+LightSample DirectionalLight::sample(const Point3d &) const
 {
     return LightSample{.wi = -_direction,
         .radiance          = _radiance,
