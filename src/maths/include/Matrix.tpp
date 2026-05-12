@@ -15,6 +15,15 @@
 namespace raytracer::maths {
 
 template <size_t rows, size_t cols, typename T>
+Matrix<rows, cols, T>::Matrix(): _values{}
+{
+    if constexpr (rows == cols) {
+        for (size_t i = 0; i < rows; ++i)
+            _values[i][i] = static_cast<T>(1);
+    }
+}
+
+template <size_t rows, size_t cols, typename T>
 Matrix<rows, cols, T>::Matrix(std::array<std::array<T, cols>, rows> values):
     _values(values)
 {}
