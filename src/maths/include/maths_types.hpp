@@ -7,9 +7,11 @@
 
 #pragma once
 
-#include "Vector.hpp"
-#include "Point.hpp"
 #include "Normal.hpp"
+#include "Point.hpp"
+#include "Vector.hpp"
+
+namespace raytracer::maths {
 
 // Vectors
 using Vector2f = Vector2<float>;
@@ -25,3 +27,5 @@ using Point3i = Point3<int>;
 
 // Normals
 using Normal3f = Normal3<float>;
+
+} // namespace raytracer::maths

@@ -5,9 +5,13 @@
 ** maths.cpp
 */
 
-#include <cstdlib>
 #include "maths.hpp"
+
+#include <cstdlib>
+
 #include "Vector.hpp"
+
+namespace raytracer::maths {
 
 void coordinateSystem(const Vector3d &v1, Vector3d &v2, Vector3d &v3)
 {
@@ -20,19 +24,14 @@ void coordinateSystem(const Vector3d &v1, Vector3d &v2, Vector3d &v3)
 
 Vector3d sphericalDirection(double sinTheta, double cosTheta, double phi)
 {
-    return {
-        sinTheta * std::cos(phi),
-        sinTheta * std::sin(phi),
-        cosTheta
-    };
+    return {sinTheta * std::cos(phi), sinTheta * std::sin(phi), cosTheta};
 }
 
 Vector3d sphericalDirection(double sinTheta, double cosTheta, double phi,
-                             const Vector3d &x, const Vector3d &y, const Vector3d &z)
+    const Vector3d &x, const Vector3d &y, const Vector3d &z)
 {
-    return {
-        (x * (sinTheta * std::cos(phi))) + (y * (sinTheta * std::sin(phi))) + (z * cosTheta)
-    };
+    return {(x * (sinTheta * std::cos(phi))) +
+        (y * (sinTheta * std::sin(phi))) + (z * cosTheta)};
 }
 
 double sphericalTheta(const Vector3d &v)
@@ -43,5 +42,7 @@ double sphericalTheta(const Vector3d &v)
 double sphericalPhi(const Vector3d &v)
 {
     const double phi = std::atan2(v.y(), v.x());
-    return (phi < 0) ? (phi + 2.0 * M_PI) : phi;
+    return (phi < 0) ? (phi + (2.0 * M_PI)) : phi;
 }
+
+} // namespace raytracer::maths

@@ -9,9 +9,8 @@
 
 #include <cassert>
 
-namespace raytracer {
-namespace scene {
-Scene::Scene(): _background{Color{0.0, 0.0, 0.0}}
+namespace raytracer::scene {
+Scene::Scene(): _background{maths::Color{0.0, 0.0, 0.0}}
 {}
 
 void Scene::addPrimitive(std::unique_ptr<shape::IPrimitive> &primitive)
@@ -26,12 +25,20 @@ void Scene::addLight(std::unique_ptr<light::ILight> &light)
     _lights.push_back(std::move(light));
 }
 
-void Scene::setBackgroundColor(const Color &color)
+void Scene::addMaterial(
+    const std::string &name, std::unique_ptr<material::IMaterial> &material)
+{
+    assert(material != nullptr);
+    _materials[name] = std::move(material);
+}
+
+void Scene::setBackgroundColor(const maths::Color &color)
 {
     _background = color;
 }
 
-std::optional<shape::SurfaceInteraction> Scene::intersect(const Ray &ray) const
+std::optional<shape::SurfaceInteraction> Scene::intersect(
+    const maths::Ray &ray) const
 {
     std::optional<shape::SurfaceInteraction> hitPointData = std::nullopt;
 
@@ -44,7 +51,7 @@ std::optional<shape::SurfaceInteraction> Scene::intersect(const Ray &ray) const
     return hitPointData;
 }
 
-bool Scene::intersectAny(const Ray &ray) const
+bool Scene::intersectAny(const maths::Ray &ray) const
 {
     for (const auto &primitive: _primitives) {
         if (primitive->intersectP(ray))
@@ -54,14 +61,21 @@ bool Scene::intersectAny(const Ray &ray) const
     return false;
 }
 
-const std::vector<std::unique_ptr<light::ILight>> & Scene::lights() const
+const std::vector<std::unique_ptr<light::ILight>> &Scene::lights() const
 {
     return _lights;
 }
 
-Color Scene::backgroundColor() const
+maths::Color Scene::backgroundColor() const
 {
     return _background;
 }
-} // scene
-} // raytracer
+
+material::IMaterial *Scene::getMaterial(const std::string &name) const
+{
+    if (_materials.contains(name))
+        return _materials.at(name).get();
+    throw std::runtime_error("Material '" + name + "' not found in scene");
+}
+
+} // namespace raytracer::scene

@@ -5,25 +5,25 @@
 ** DirectionalLight
 */
 
-#ifndef RAYTRACER_DIRECTIONALLIGHT_HPP
-#define RAYTRACER_DIRECTIONALLIGHT_HPP
+#pragma once
 #include "ILight.hpp"
+#include "jsonParser.hpp"
 
-namespace raytracer {
-namespace light {
+namespace raytracer::light {
 class DirectionalLight: public ILight {
 public:
-    DirectionalLight(const Vector3d &direction, const Color &radiance);
+    DirectionalLight(const nlohmann::json &config);
+    DirectionalLight(
+        const maths::Vector3d &direction, const maths::Color &radiance);
 
-    [[nodiscard]] LightSample sample(const Point3d &p) const override;
+    [[nodiscard]] LightSample sample(const maths::Point3d &p) const override;
 
     [[nodiscard]] bool isDelta() const override;
 
-private:
-    Vector3d _direction;
-    Color _radiance;
-};
-} // light
-} // raytracer
+    static std::unique_ptr<ILight> create(const nlohmann::json &config);
 
-#endif //RAYTRACER_DIRECTIONALLIGHT_HPP
+private:
+    maths::Vector3d _direction;
+    maths::Color _radiance;
+};
+} // namespace raytracer::light

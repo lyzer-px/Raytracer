@@ -5,27 +5,22 @@
 ** IPrimitive
 */
 
-#ifndef RAYTRACER_IPRIMITIVE_HPP
-#define RAYTRACER_IPRIMITIVE_HPP
+#pragma once
 #include <optional>
 
 #include "IMaterial.hpp"
 #include "IShape.hpp"
 
-namespace raytracer {
-namespace shape {
+namespace raytracer::shape {
 class IPrimitive {
 public:
     virtual ~IPrimitive() = default;
 
     [[nodiscard]] virtual std::optional<SurfaceInteraction> intersect(
-        const Ray& ray) const = 0;
+        const maths::Ray &ray) const = 0;
 
-    [[nodiscard]] virtual bool intersectP(const Ray& ray) const = 0;
+    [[nodiscard]] virtual bool intersectP(const maths::Ray &ray) const = 0;
 
-    [[nodiscard]] virtual const material::IMaterial* material() const = 0;
+    [[nodiscard]] virtual const material::IMaterial *material() const = 0;
 };
-} // shape
-} // raytracer
-
-#endif //RAYTRACER_IPRIMITIVE_HPP
+} // namespace raytracer::shape

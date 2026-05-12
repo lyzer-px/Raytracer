@@ -262,13 +262,85 @@ jobs:
 
           exit 0
 
+  unit_test:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      contents: read
+      pull-requests: write
+      statuses: write
+    container: epitechcontent/epitest-docker
+    needs: compilation_required
+    steps:
+      - name: Install dependencies
+        run: |
+          echo `clang --version`
+          apt update
+          apt install -y python3-full
 
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
+      - name: Configure CMake
+        run: |
+          cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DWITH_COVERAGE=ON
+
+      - name: Build binaries
+        run: cmake --build build --target coverage --config Release -j$(nproc)
+
+      - name: Run tests
+        working-directory: build
+        run: |
+          ctest -V --output-junit test-results.xml || true
+
+      - name: Fix Git ownership
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Publish Test Results to GitHub Checks
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: GTest Results
+          path: '**/test-results.xml'
+          reporter: java-junit
+          fail-on-error: false
+
+      - name: Upload Coverage Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-html
+          path: build/coverage_html
+
+  deploy-coverage:
+    needs:
+      - unit_test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Coverage Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-html
+          path: .
+
+      - name: Debug coverage structure
+        run: |
+          tree 
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
 
   push_to_mirror:
     needs:
       - check_coding_style
       - static_analysis
+      - unit_test
     if: ${{ github.repository_owner == vars.USERNAME }}
     runs-on: ubuntu-latest
     steps:

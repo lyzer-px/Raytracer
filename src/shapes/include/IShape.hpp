@@ -5,8 +5,7 @@
 ** IShape
 */
 
-#ifndef RAYTRACER_ISHAPE_HPP
-#define RAYTRACER_ISHAPE_HPP
+#pragma once
 
 #include <optional>
 
@@ -14,18 +13,15 @@
 #include "Point.hpp"
 #include "Ray.hpp"
 
-class Ray;
-
-namespace raytracer {
-namespace shape {
+namespace raytracer::shape {
 class IPrimitive;
 class IShape;
 
 struct SurfaceInteraction {
-    Point3d hitPoint;
-    Normal3d normal;
-    Vector3d wo;
-    Point2d uv;
+    maths::Point3d hitPoint;
+    maths::Normal3d normal;
+    maths::Vector3d wo;
+    maths::Point2d uv;
     const IPrimitive *primitive = nullptr;
 };
 
@@ -34,12 +30,9 @@ public:
     virtual ~IShape() = default;
 
     [[nodiscard]] virtual std::optional<SurfaceInteraction> intersect(
-        const Ray &ray) const = 0;
+        const maths::Ray &ray) const = 0;
 
-    [[nodiscard]] virtual bool intersectP(const Ray &ray) const = 0;
+    [[nodiscard]] virtual bool intersectP(const maths::Ray &ray) const = 0;
 };
 
-} // shape
-} // raytracer
-
-#endif //RAYTRACER_ISHAPE_HPP
+} // namespace raytracer::shape

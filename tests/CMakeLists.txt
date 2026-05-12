@@ -50,8 +50,8 @@ execute_process(
 string(REGEX MATCH "clang version ([0-9]+)" _ ${CLANG_VERSION_OUTPUT})
 set(CLANG_MAJOR_VERSION ${CMAKE_MATCH_1})
 
-find_program(LLVM_PROFDATA NAMES llvm-profdata-${CLANG_MAJOR_VERSION})
-find_program(LLVM_COV NAMES llvm-cov-${CLANG_MAJOR_VERSION})
+set(LLVM_PROFDATA llvm-profdata-20)
+set(LLVM_COV llvm-cov-20)
 
 set(HAVE_LLVM_COVERAGE OFF)
 if(NOT LLVM_PROFDATA OR NOT LLVM_COV)
@@ -92,6 +92,7 @@ if (HAVE_LLVM_COVERAGE)
             -instr-profile=${COVERAGE_DATA_FILE}
             -compilation-dir=${CMAKE_SOURCE_DIR}
             -ignore-filename-regex='build/_deps'
+            -ignore-filename-regex='tests/'
             DEPENDS merge_coverage
     )
 
@@ -105,6 +106,7 @@ if (HAVE_LLVM_COVERAGE)
             -compilation-dir=${CMAKE_SOURCE_DIR}
             -path-equivalence=${CMAKE_SOURCE_DIR},.
             -ignore-filename-regex='build/_deps'
+            -ignore-filename-regex='tests/'
             DEPENDS merge_coverage
     )
 

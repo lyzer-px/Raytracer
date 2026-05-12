@@ -7,47 +7,49 @@
 
 #include "Sphere.hpp"
 
+#include "IShape.hpp"
 #include "maths.hpp"
 #include "Normal.hpp"
+#include "Serializer.hpp"
 
-namespace raytracer { // NOLINT
-namespace shape {
-Sphere::Sphere(const Point3d &center, const float &radius): _center{center},
-    _radius{radius}
+namespace raytracer::shape {
+Sphere::Sphere(const nlohmann::json &config):
+    _center{config.at("position").get<maths::Point3d>()},
+    _radius{config.at("radius").get<double>()}
 {}
 
-std::optional<SurfaceInteraction> Sphere::intersect(const Ray &ray) const
+Sphere::Sphere(const maths::Point3d &center, const double &radius):
+    _center{center}, _radius{radius}
+{}
+
+std::optional<SurfaceInteraction> Sphere::intersect(const maths::Ray &ray) const
 {
     const auto t = solveQuadratic(ray);
     if (!t)
         return std::nullopt;
 
-    const Point3d hitPoint   = ray(*t);
-    const Vector3d temp      = hitPoint - _center;
-    const auto outwardNormal = Normal3d{temp.normalize()};
-    const Vector3d wo        = -ray.direction.normalize();
+    const maths::Point3d hitPoint = ray(*t);
+    const maths::Vector3d temp    = hitPoint - _center;
+    const auto outwardNormal      = maths::Normal3d{temp.normalize()};
+    const maths::Vector3d wo      = -ray.direction.normalize();
 
     ray.tMax = *t;
 
-    return SurfaceInteraction{
-        .hitPoint  = hitPoint,
-        .normal  = outwardNormal,
-        .wo = wo,
-        .uv = Point2d{
-            sphericalTheta(temp) / (2.0 * M_PI),
-            sphericalPhi(temp) / M_PI
-        }
-    };
+    return SurfaceInteraction{.hitPoint = hitPoint,
+        .normal                         = outwardNormal,
+        .wo                             = wo,
+        .uv                             = maths::Point2d{
+            sphericalTheta(temp) / (2.0 * M_PI), sphericalPhi(temp) / M_PI}};
 }
 
-bool Sphere::intersectP(const Ray &ray) const
+bool Sphere::intersectP(const maths::Ray &ray) const
 {
     return solveQuadratic(ray).has_value();
 }
 
-std::optional<double> Sphere::solveQuadratic(const Ray &ray) const
+std::optional<double> Sphere::solveQuadratic(const maths::Ray &ray) const
 {
-    const Vector3d oc         = ray.origin - _center;
+    const maths::Vector3d oc  = ray.origin - _center;
     const double a            = ray.direction.dot(ray.direction);
     const double h            = oc.dot(ray.direction);
     const double c            = oc.dot(oc) - (_radius * _radius);
@@ -68,5 +70,9 @@ std::optional<double> Sphere::solveQuadratic(const Ray &ray) const
 
     return std::nullopt;
 }
-} // shape
-} // raytracer
+
+std::unique_ptr<IShape> Sphere::create(const nlohmann::json &config)
+{
+    return std::make_unique<Sphere>(nlohmann::json(config));
+}
+} // namespace raytracer::shape

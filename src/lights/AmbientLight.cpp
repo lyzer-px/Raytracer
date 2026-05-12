@@ -7,23 +7,34 @@
 
 #include "AmbientLight.hpp"
 
-namespace raytracer {
-namespace light {
-AmbientLight::AmbientLight(const Color &radiance): _radiance{radiance}
+#include <memory>
+
+#include "ILight.hpp"
+#include "Serializer.hpp"
+
+namespace raytracer::light {
+
+AmbientLight::AmbientLight(const nlohmann::json &config):
+    _radiance{config["radiance"].get<raytracer::maths::Color>()}
 {}
 
-LightSample AmbientLight::sample(const Point3d &) const
+AmbientLight::AmbientLight(const maths::Color &radiance): _radiance{radiance}
+{}
+
+LightSample AmbientLight::sample(const maths::Point3d &) const
 {
-    return LightSample {
-        .wi = Vector3d{},
-        .radiance = _radiance,
-        .distance = 0.0
-    };
+    return LightSample{
+        .wi = maths::Vector3d{}, .radiance = _radiance, .distance = 0.0};
 }
 
 bool AmbientLight::isDelta() const
 {
     return false;
 }
-} // light
-} // raytracer
+
+std::unique_ptr<ILight> AmbientLight::create(const nlohmann::json &config)
+{
+    return std::make_unique<AmbientLight>(nlohmann::json(config));
+}
+
+} // namespace raytracer::light

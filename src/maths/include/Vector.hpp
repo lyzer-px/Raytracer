@@ -7,11 +7,16 @@
 
 #pragma once
 
+#include <algorithm>
+#include <cmath>
 #include <cstddef>
+#include <stdexcept>
 
 #include "Point.hpp"
 
-template <template<typename>class Derived, std::size_t N, typename T = double>
+namespace raytracer::maths {
+
+template <template <typename> class Derived, std::size_t N, typename T = double>
 class Vector {
 public:
     Vector() = default;
@@ -29,17 +34,17 @@ public:
     T &y();
 
     const T &z() const
-        requires (N >= 3);
+        requires(N >= 3);
 
     T &z()
-        requires (N >= 3);
+        requires(N >= 3);
 
     [[nodiscard]] Derived<T> normalize() const;
 
     Derived<T> cross(const Derived<T> &other) const
-        requires (N == 3); // cross product only defined for 3D vectors
+        requires(N == 3); // cross product only defined for 3D vectors
     Derived<T> cross(Derived<T> &other) const
-        requires (N == 3);
+        requires(N == 3);
 
     [[nodiscard]] T length() const;
 
@@ -78,8 +83,12 @@ public:
 
     const std::array<T, N> &data() const;
 
+    bool isNearZero() const noexcept;
+
 protected:
     std::array<T, N> _data;
 };
+
+} // namespace raytracer::maths
 
 #include "Vector.tpp"

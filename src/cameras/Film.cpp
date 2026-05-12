@@ -12,17 +12,18 @@
 #include <fstream>
 #include <stdexcept>
 
-namespace raytracer {
-namespace camera {
-Film::Film(int width, int height): _width{width}, _height{height},
+namespace raytracer::camera {
+Film::Film(int width, int height):
+    _width{width},
+    _height{height},
     _buffer{static_cast<long unsigned int>(width * height),
-            Color{0.0, 0.0, 0.0}}
+        maths::Color{0.0, 0.0, 0.0}}
 {
     assert(width > 0);
     assert(height > 0);
 }
 
-void Film::addSample(int x, int y, const Color &color)
+void Film::addSample(int x, int y, const maths::Color &color)
 {
     assert(x >= 0 && x < _width);
     assert(y >= 0 && y < _height);
@@ -30,7 +31,7 @@ void Film::addSample(int x, int y, const Color &color)
     _buffer[y * _width + x] = color.clamp();
 }
 
-const Color &Film::getPixel(int x, int y) const
+const maths::Color &Film::getPixel(int x, int y) const
 {
     assert(x >= 0 && x < _width);
     assert(y >= 0 && y < _height);
@@ -60,7 +61,7 @@ void Film::write(const Film &film, const std::string &path)
 
     for (int y = film.height() - 1; y >= 0; --y) {
         for (int x = 0; x < film.width(); ++x) {
-            const Color &c = film.getPixel(x, y);
+            const maths::Color &c = film.getPixel(x, y);
 
             const auto r = static_cast<int>(255.0 * std::clamp(c.r, 0.0, 1.0));
             const auto g = static_cast<int>(255.0 * std::clamp(c.g, 0.0, 1.0));
@@ -70,5 +71,4 @@ void Film::write(const Film &film, const std::string &path)
         }
     }
 }
-} // camera
-} // raytracer
+} // namespace raytracer::camera

@@ -5,20 +5,17 @@
 ** SimpleIntegrator
 */
 
-#ifndef RAYTRACER_SIMPLEINTEGRATOR_HPP
-#define RAYTRACER_SIMPLEINTEGRATOR_HPP
+#pragma once
 
 #include "IIntegrator.hpp"
 
-namespace raytracer {
-namespace integrator {
+namespace raytracer::integrator {
 class SimpleIntegrator: public IIntegrator {
 public:
     explicit SimpleIntegrator(int maxDepth = 0);
 
-    Color Li(const Ray &ray,
-        const scene::Scene &scene,
-        int depth) const override;
+    [[nodiscard]] maths::Color accumulatedRadiance(const maths::Ray &ray,
+        const scene::Scene &scene, int depth) const override;
 
     void render(const scene::Scene &scene, const camera::ICamera &camera,
         camera::Film &film) const override;
@@ -26,7 +23,4 @@ public:
 private:
     int _maxDepth;
 };
-} // integrator
-} // raytracer
-
-#endif //RAYTRACER_SIMPLEINTEGRATOR_HPP
+} // namespace raytracer::integrator

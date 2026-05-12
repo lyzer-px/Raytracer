@@ -7,34 +7,53 @@
 
 #include "PerspectiveCamera.hpp"
 
-namespace raytracer {
-namespace camera {
-PerspectiveCamera::PerspectiveCamera(const Point3d &position,
-    const Point3d &target, const Vector3d &up, float fovDegrees,
-    float aspectRatio): _origin{position}
+#include <memory>
+
+#include "Serializer.hpp"
+
+namespace raytracer::camera {
+PerspectiveCamera::PerspectiveCamera(const nlohmann::json &config):
+    PerspectiveCamera(config.at("position").get<maths::Point3d>(),
+        config.at("target").get<maths::Point3d>(),
+        config.at("up").get<maths::Vector3d>(),
+        CameraProjection{.fovDegrees = config.at("fov").get<double>(),
+            .aspectRatio = config.at("resolution").at(0).get<double>() /
+                config.at("resolution").at(1).get<double>()})
+{}
+
+PerspectiveCamera::PerspectiveCamera(const maths::Point3d &position,
+    const maths::Point3d &target, const maths::Vector3d &up,
+    const CameraProjection &projection):
+    _origin{position}
 {
-    const double theta      = fovDegrees * M_PI / 180.0;
+    const double theta      = projection.fovDegrees * M_PI / 180.0;
     const double halfHeight = std::tan(theta / 2.0);
-    const double halfWidth  = aspectRatio * halfHeight;
+    const double halfWidth  = projection.aspectRatio * halfHeight;
 
-    Vector3d forward      = (target - position).normalize();
-    const Vector3d right  = forward.cross(up.normalize()).normalize();
-    const Vector3d trueUp = right.cross(forward);
+    maths::Vector3d forward      = (target - position).normalize();
+    const maths::Vector3d right  = forward.cross(up.normalize()).normalize();
+    const maths::Vector3d trueUp = right.cross(forward);
 
-    const Vector3d offsetRight = right * halfWidth;
-    const Vector3d offsetUp    = trueUp * halfHeight;
+    const maths::Vector3d offsetRight = right * halfWidth;
+    const maths::Vector3d offsetUp    = trueUp * halfHeight;
 
     _lowerLeft  = _origin + (forward - offsetRight - offsetUp);
     _horizontal = right * (2.0 * halfWidth);
     _vertical   = trueUp * (2.0 * halfHeight);
 }
 
-Ray PerspectiveCamera::generateRay(const float &u, const float &v) const
+maths::Ray PerspectiveCamera::generateRay(const float &u, const float &v) const
 {
-    const Point3d target = _lowerLeft + _horizontal * u + _vertical * v;
-    const Vector3d direction = (target - _origin).normalize();
+    const maths::Point3d target = _lowerLeft + _horizontal * u + _vertical * v;
+    const maths::Vector3d direction = (target - _origin).normalize();
 
-    return Ray{_origin, direction};
+    return maths::Ray{_origin, direction};
 }
-} // camera
-} // raytracer
+
+std::unique_ptr<PerspectiveCamera> PerspectiveCamera::create(
+    const nlohmann::json &config)
+{
+    return std::make_unique<PerspectiveCamera>(config);
+}
+
+} // namespace raytracer::camera

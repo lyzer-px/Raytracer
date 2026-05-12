@@ -5,57 +5,53 @@
 ** color struct definition
 */
 
+#include "include/Color.hpp"
+
 #include <algorithm>
 #include <cmath>
-#include "include/Color.hpp"
+
+namespace raytracer::maths {
 
 Color::Color(): r{0}, g{0}, b{0}
 {}
 
-Color::Color(double r, double g, double b) : r(r), g(g), b(b) {}
+Color::Color(double r, double g, double b): r(r), g(g), b(b)
+{}
 
-Color Color::operator+(const Color& other) const
+Color Color::operator+(const Color &other) const
 {
     Color c = Color(r + other.r, g + other.g, b + other.b);
-    c.clamp();
-    return c;
+    return c.clamp();
 }
 
-Color Color::operator*(const Color& other) const
+Color Color::operator*(const Color &other) const
 {
     Color c = Color(r * other.r, g * other.g, b * other.b);
-    c.clamp();
-    return c;
+    return c.clamp();
 }
 
 Color Color::operator*(double scalar) const
 {
     Color c = Color(r * scalar, g * scalar, b * scalar);
-    c.clamp();
-    return c;
+    return c.clamp();
 }
 
 Color Color::operator/(double scalar) const
 {
     Color c = Color(r / scalar, g / scalar, b / scalar);
-    c.clamp();
-    return c;
+    return c.clamp();
 }
 
 Color Color::clamp() const
 {
-    return Color(
-        std::max(0.0, std::min(1.0, r)),
-        std::max(0.0, std::min(1.0, g)),
-        std::max(0.0, std::min(1.0, b))
-    );
+    return Color(std::max(0.0, std::min(1.0, r)),
+        std::max(0.0, std::min(1.0, g)), std::max(0.0, std::min(1.0, b)));
 }
 
 Color Color::toRgb() const
 {
-    return Color(
-        std::round(r * MAX_RGB_VALUE),
-        std::round(g * MAX_RGB_VALUE),
-        std::round(b * MAX_RGB_VALUE)
-    );
+    return Color(std::round(r * MAX_RGB_VALUE), std::round(g * MAX_RGB_VALUE),
+        std::round(b * MAX_RGB_VALUE));
 }
+
+} // namespace raytracer::maths

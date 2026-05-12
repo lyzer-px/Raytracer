@@ -5,13 +5,13 @@
 ** Vector2
 */
 
-#ifndef RAYTRACER_VECTOR2_HPP
-#define RAYTRACER_VECTOR2_HPP
+#pragma once
 
 #include "Vector.hpp"
 
-template <typename T>
-class Vector2: public Vector<Vector2, 2, T> {
+namespace raytracer::maths {
+
+template <typename T> class Vector2: public Vector<Vector2, 2, T> {
 public:
     Vector2();
 
@@ -23,6 +23,6 @@ public:
 
 using Vector2d = Vector2<double>;
 
-#endif //RAYTRACER_VECTOR2_HPP
+} // namespace raytracer::maths
 
 #include "Vector2.tpp"
