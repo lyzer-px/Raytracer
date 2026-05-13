@@ -1,0 +1,110 @@
+{
+  "background_color": [15, 15, 15],
+  "camera": {
+    "resolution": [1920, 1080],
+    "position":   [0.0, -120.0, 40.0],
+    "target":     [0.0,    0.0,  0.0],
+    "up":         [0.0,    0.0,  1.0],
+    "fov":        50.0
+  },
+  "materials": [
+    {
+      "id":   "gold_mirror",
+      "type": "metal",
+      "config": {
+        "eta":  [0.17, 0.35, 1.5],
+        "k":    [3.1,  2.7,  1.9],
+        "fuzz": 0.0
+      }
+    },
+    {
+      "id":   "glass",
+      "type": "dielectric",
+      "config": {
+        "ior": 1.5
+      }
+    },
+    {
+      "id":   "deep_blue",
+      "type": "lambertian",
+      "config": {
+        "albedo": [20, 40, 180]
+      }
+    },
+    {
+      "id":   "dark_brown_mirror",
+      "type": "metal",
+      "config": {
+        "eta":  [0.3,  0.15, 0.08],
+        "k":    [2.8,  2.2,  1.8],
+        "fuzz": 0.0
+      }
+    }
+  ],
+  "primitives": [
+    {
+      "type":        "geometric_primitive",
+      "material_id": "gold_mirror",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [-35.0, 0.0, 0.0],
+          "radius":   20.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "glass",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [35.0, 0.0, 0.0],
+          "radius":   20.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "deep_blue",
+      "shape": {
+        "type": "sphere",
+        "config": {
+          "position": [35.0, 60.0, 0.0],
+          "radius":   30.0
+        }
+      }
+    },
+    {
+      "type":        "geometric_primitive",
+      "material_id": "dark_brown_mirror",
+      "transform":   [{ "translate": [0.0, 0.0, -22.0] }],
+      "shape": {
+        "type":   "plane",
+        "config": {}
+      }
+    }
+  ],
+  "lights": [
+    {
+      "type": "ambient",
+      "config": {
+        "radiance": [30, 30, 40]
+      }
+    },
+    {
+      "type": "directional",
+      "config": {
+        "direction": [1.0, 1.0, 1.0],
+        "radiance":  [220, 200, 160]
+      }
+    },
+    {
+      "type": "directional",
+      "config": {
+        "direction": [1.0, -0.5, -1.0],
+        "radiance":  [80, 90, 120]
+      }
+    }
+  ]
+}
