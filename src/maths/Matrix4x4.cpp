@@ -85,4 +85,3 @@ template Matrix4x4<double> transpose(const Matrix4x4<double> &);
 template Matrix4x4<double> inverse(const Matrix4x4<double> &);
 
 } // namespace raytracer::maths
-

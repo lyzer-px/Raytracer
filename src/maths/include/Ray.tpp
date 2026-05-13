@@ -15,14 +15,10 @@ inline Ray::Ray(): tMax(std::numeric_limits<double>::infinity())
 {}
 
 inline Ray::Ray(const Point3d &origin, const Vector3d &direction, double tMax):
-    origin(origin), tMax(tMax)
+    origin(origin), direction(direction), tMax(tMax)
 {
     if (direction.hasNaN())
         throw std::invalid_argument("Direction vector contains NaN");
-    if (direction.length() != 1)
-        this->direction = direction.normalize();
-    else
-        this->direction = direction;
 }
 
 inline Point3d Ray::operator()(double time) const

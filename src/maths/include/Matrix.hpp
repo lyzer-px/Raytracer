@@ -15,7 +15,7 @@ namespace raytracer::maths {
 
 template <size_t rows, size_t cols, typename T = double> class Matrix {
 public:
-    Matrix();
+    Matrix() = default;
     explicit Matrix(std::array<std::array<T, cols>, rows> values);
     explicit Matrix(std::initializer_list<std::array<T, cols>> values);
 

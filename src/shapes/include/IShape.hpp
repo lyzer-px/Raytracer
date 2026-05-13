@@ -9,6 +9,7 @@
 
 #include <optional>
 
+#include "Bounds3.hpp"
 #include "Normal.hpp"
 #include "Point.hpp"
 #include "Ray.hpp"
@@ -33,6 +34,9 @@ public:
         const maths::Ray &ray) const = 0;
 
     [[nodiscard]] virtual bool intersectP(const maths::Ray &ray) const = 0;
+
+    [[nodiscard]] virtual maths::Bounds3<> objectBound() const = 0;
+
 };
 
 } // namespace raytracer::shape
