@@ -99,11 +99,44 @@ private:
 
     int flattenBVH(BVHBuildNode *node, int *offset);
 
+    std::optional<shape::SurfaceInteraction> traverseForHit(
+        const maths::Ray &ray) const;
+
+    bool traverseForAnyHit(const maths::Ray &ray) const;
+
+    void processLeafHit(const LinearBVHNode &node, const maths::Ray &ray,
+        std::optional<shape::SurfaceInteraction> &bestHit) const;
+
+    bool anyHitInLeaf(const LinearBVHNode &node, const maths::Ray &ray) const;
+
+    static std::pair<maths::Vector3d, std::array<int, 3>> computeRaySetup(
+        const maths::Ray &ray);
+
+    static maths::Vector3d computeInvDir(const maths::Ray &ray);
+
+    static std::array<int, 3> computeDirNegMask(const maths::Vector3d &invDir);
+
+    static bool popStack(
+        std::array<int, 64> &stack, int &toVisit, int &current);
+
+    static void advanceToChild(const LinearBVHNode &node,
+        const std::array<int, 3> &dirIsNeg,
+        std::array<int, 64> &stack, int &toVisit, int &current);
+
+    static std::pair<int, int> determineSplit(
+        std::vector<BVHPrimitive> &bvhPrimitives, int start, int end,
+        const maths::Bounds3d &bounds);
+
     static maths::Bounds3d computePrimBounds(
         const std::vector<BVHPrimitive> &bvhPrimitives, int start, int end);
 
     static maths::Bounds3d computeCentroidBounds(
         const std::vector<BVHPrimitive> &bvhPrimitives, int start, int end);
+
+    static int bucketIndex(
+        const BVHPrimitive &prim, int axis, double lo, double extent);
+
+    static void updateBucket(BucketInfo &bucket, const maths::Bounds3d &bounds);
 
     static std::array<BucketInfo, N_BUCKETS> fillBuckets(
         const std::vector<BVHPrimitive> &bvhPrimitives, int start, int end,
