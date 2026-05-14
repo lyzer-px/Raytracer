@@ -4,7 +4,6 @@ add_library(maths STATIC Color.cpp
         Point.cpp
         Ray.cpp
         Transform.cpp
-        TransformationMatrices.cpp
         Vector.cpp
         maths.cpp
         Matrix4x4.cpp
