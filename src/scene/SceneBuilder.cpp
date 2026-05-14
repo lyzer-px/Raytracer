@@ -51,6 +51,7 @@ void SceneBuilder::buildScene(nlohmann::json &config)
         buildMaterials(config);
         buildPrimitives(config);
         buildLights(config);
+        _scene->buildAccelerator();
     } catch (const std::exception &e) {
         throw std::runtime_error(
             std::string("Error building scene: ") + e.what());
