@@ -7,6 +7,9 @@
 
 #include <algorithm>
 #include <array>
+#ifdef RAYTRACER_DEBUG
+#include <cstdio>
+#endif
 
 #include "BvhAggregate.hpp"
 
@@ -32,6 +35,27 @@ BvhAggregate::BvhAggregate(
     int offset         = 0;
     flattenBVH(root, &offset);
     _orderedPrims = std::move(orderedPrims);
+#ifdef RAYTRACER_DEBUG
+    printf("BVH built: %zu total nodes, %zu ordered prims\n",
+        nodePool.size(), _orderedPrims.size());
+    for (size_t ni = 0; ni < nodePool.size(); ++ni) {
+        const LinearBVHNode &n = _nodes[ni];
+        if (n.nPrimitives > 0)
+            printf("  Leaf[%zu]: primOffset=%d nPrims=%d bounds=[(%g,%g,%g)..(%g,%g,%g)]\n",
+                ni, n.primitivesOffset, n.nPrimitives,
+                n.bounds.pMin.x(), n.bounds.pMin.y(), n.bounds.pMin.z(),
+                n.bounds.pMax.x(), n.bounds.pMax.y(), n.bounds.pMax.z());
+    }
+    printf("BVH primitive bounds per original index:\n");
+    for (size_t i = 0; i < bvhPrimitives.size(); ++i)
+        printf("  prim[%zu]: centroid=(%g,%g,%g) bounds=[(%g,%g,%g)..(%g,%g,%g)]\n",
+            i, bvhPrimitives[i].centroid.x(), bvhPrimitives[i].centroid.y(),
+            bvhPrimitives[i].centroid.z(),
+            bvhPrimitives[i].bounds.pMin.x(), bvhPrimitives[i].bounds.pMin.y(),
+            bvhPrimitives[i].bounds.pMin.z(),
+            bvhPrimitives[i].bounds.pMax.x(), bvhPrimitives[i].bounds.pMax.y(),
+            bvhPrimitives[i].bounds.pMax.z());
+#endif
 }
 
 std::optional<shape::SurfaceInteraction> BvhAggregate::intersect(
@@ -150,8 +174,17 @@ std::optional<shape::SurfaceInteraction> BvhAggregate::traverseForHit(
     while (true) {
         const LinearBVHNode &node = _nodes[current];
         bool hit                  = node.bounds.intersectP(ray, inv, dirIsNeg);
+#ifdef RAYTRACER_DEBUG
+        printf("  BVH node %d: nPrim=%d hit=%d bounds=[(%f,%f,%f)..(%f,%f,%f)]\n",
+            current, node.nPrimitives, (int)hit,
+            node.bounds.pMin.x(), node.bounds.pMin.y(), node.bounds.pMin.z(),
+            node.bounds.pMax.x(), node.bounds.pMax.y(), node.bounds.pMax.z());
+#endif
         if (hit && node.nPrimitives > 0) {
             processLeafHit(node, ray, bestHit);
+#ifdef RAYTRACER_DEBUG
+            printf("  after processLeafHit: bestHit=%s\n", bestHit ? "YES" : "NO");
+#endif
             if (!popStack(stack, toVisit, current))
                 break;
         } else if (hit) {
@@ -280,7 +313,7 @@ int BvhAggregate::bucketIndex(
 {
     int b = static_cast<int>(
         N_BUCKETS * (prim.centroid.data()[axis] - lo) / extent);
-    return b == N_BUCKETS ? N_BUCKETS - 1 : b;
+    return std::clamp(b, 0, N_BUCKETS - 1);
 }
 
 void BvhAggregate::updateBucket(

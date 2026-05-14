@@ -55,11 +55,14 @@ bool Plane::intersectP(const maths::Ray &ray) const
 
 maths::Bounds3<> Plane::objectBound() const
 {
-    constexpr double inf = std::numeric_limits<double>::infinity();
-    constexpr auto eps   = 1e-4;
+    // Infinity produces NaN when multiplied by zero matrix elements during
+    // Transform application (0 * inf = NaN in IEEE 754). Use a large finite
+    // extent that covers any practical scene.
+    constexpr double large = 1e6;
+    constexpr auto eps     = 1e-4;
 
-    return maths::Bounds3d{maths::Point3d{-inf, -inf, -eps},
-                           maths::Point3d{inf, inf, eps}};
+    return maths::Bounds3d{maths::Point3d{-large, -large, -eps},
+                           maths::Point3d{large, large, eps}};
 }
 
 std::unique_ptr<IShape> Plane::create(const nlohmann::json &config)
