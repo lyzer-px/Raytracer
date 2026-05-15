@@ -10,17 +10,16 @@
 #include <memory>
 #include <optional>
 
-#include <nlohmann/json.hpp>
-
 #include "IShape.hpp"
-#include "maths.hpp"
+#include "jsonParser.hpp"
 
 namespace raytracer::shape {
 
-class Disk : public IShape {
+class Disk: public IShape {
 public:
     explicit Disk(const nlohmann::json &config);
-    Disk(double radius, double innerRadius = 0.0, bool reverseOrientation = false);
+    explicit Disk(double radius, double innerRadius = 0.0,
+        bool reverseOrientation = false);
 
     [[nodiscard]] std::optional<SurfaceInteraction> intersect(
         const maths::Ray &ray) const override;
@@ -33,8 +32,8 @@ public:
 
 private:
     double _radius;
-    double _innerRadius = 0.0;
-    bool   _reverseOrientation = false;
+    double _innerRadius      = 0.0;
+    bool _reverseOrientation = false;
 };
 
 } // namespace raytracer::shape
