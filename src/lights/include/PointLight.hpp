@@ -9,7 +9,6 @@
 
 #include "ILight.hpp"
 #include "jsonParser.hpp"
-#include "maths_types.hpp"
 
 namespace raytracer::light {
 
