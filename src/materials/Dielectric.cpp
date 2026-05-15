@@ -55,6 +55,11 @@ std::optional<ScatterRecord> Dielectric::scatter(const maths::Ray &ray,
     };
 }
 
+bool Dielectric::castsShadow() const
+{
+    return false;
+}
+
 std::unique_ptr<IMaterial> Dielectric::create(const nlohmann::json &config)
 {
     return std::make_unique<Dielectric>(config.at("ior").get<double>());

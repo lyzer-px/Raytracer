@@ -57,6 +57,26 @@ bool Scene::intersectAny(const maths::Ray &ray) const
     return _bvh->intersectP(ray);
 }
 
+bool Scene::isOccluded(
+    const maths::Point3d &origin, const maths::Vector3d &dir, double distance) const
+{
+    maths::Point3d pos = origin;
+    double remaining   = distance;
+    while (remaining > 0.001) {
+        const maths::Ray testRay{pos, dir, remaining};
+        const auto blocker = intersect(testRay);
+        if (!blocker)
+            return false;
+        if (blocker->primitive->material()->castsShadow())
+            return true;
+        const double step = (blocker->hitPoint - pos).length() + 0.0002;
+        pos       = pos + dir * step;
+        remaining -= step;
+    }
+    return false;
+}
+
+
 const std::vector<std::unique_ptr<light::ILight>> &Scene::lights() const
 {
     return _lights;
