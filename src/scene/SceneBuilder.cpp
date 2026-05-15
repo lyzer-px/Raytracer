@@ -162,7 +162,7 @@ void SceneBuilder::buildMesh(const nlohmann::json &primitive)
 
     std::vector<std::unique_ptr<shape::IPrimitive>> prims;
     for (const auto &tri : cfg.at("indices")) {
-        auto s = std::make_unique<shape::Triangle>(
+        std::unique_ptr<shape::IShape> s = std::make_unique<shape::Triangle>(
             verts[tri[0]], verts[tri[1]], verts[tri[2]]);
         prims.push_back(
             shape::GeometricPrimitive::create(worldToObject, objectToWorld, s, mat));
