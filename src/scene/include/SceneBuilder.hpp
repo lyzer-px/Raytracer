@@ -59,6 +59,8 @@ private:
 
     void buildLights(const nlohmann::json &config);
 
+    void buildMesh(const nlohmann::json &primitive);
+
     [[nodiscard]] static maths::Transform parseTransform(
         const nlohmann::json &operations);
 };

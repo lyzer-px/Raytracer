@@ -21,7 +21,9 @@
 #include "Disk.hpp"
 #include "Emissive.hpp"
 #include "AreaLight.hpp"
+#include "BvhAggregate.hpp"
 #include "PointLight.hpp"
+#include "Triangle.hpp"
 #include "Plane.hpp"
 #include "Serializer.hpp"
 #include "Sphere.hpp"
@@ -42,6 +44,7 @@ void SceneBuilder::registerCreators()
     _materialFactory.registerCreator<material::Dielectric>("dielectric");
     _materialFactory.registerCreator<material::Emissive>("emissive");
     _shapeFactory.registerCreator<shape::Sphere>("sphere");
+    _shapeFactory.registerCreator<shape::Triangle>("triangle");
     _shapeFactory.registerCreator<shape::Plane>("plane");
     _shapeFactory.registerCreator<shape::Disk>("disk");
     _shapeFactory.registerCreator<shape::Cylinder>("cylinder");
@@ -99,6 +102,10 @@ void SceneBuilder::buildPrimitives(const nlohmann::json &config)
     if (!config.contains("primitives"))
         return;
     for (const auto &primitive: config.at("primitives")) {
+        if (primitive["type"] == "mesh") {
+            buildMesh(primitive);
+            continue;
+        }
         const auto &shapeConfig = primitive["shape"]["config"];
         auto objectToWorld      = shapeConfig.contains("position")
             ? maths::Transform::translate(
@@ -136,6 +143,34 @@ const std::unique_ptr<Scene> &SceneBuilder::scene() const
 const std::unique_ptr<camera::PerspectiveCamera> &SceneBuilder::camera() const
 {
     return _camera;
+}
+
+void SceneBuilder::buildMesh(const nlohmann::json &primitive)
+{
+    const auto &cfg          = primitive["config"];
+    material::IMaterial *mat =
+        _scene->getMaterial(primitive["material_id"].get<std::string>());
+
+    std::vector<maths::Point3d> verts;
+    for (const auto &v : cfg.at("vertices"))
+        verts.push_back(v.get<maths::Point3d>());
+
+    const auto objectToWorld = primitive.contains("transform")
+        ? parseTransform(primitive["transform"])
+        : maths::Transform{};
+    const auto worldToObject = maths::Transform::inverse(objectToWorld);
+
+    std::vector<std::unique_ptr<shape::IPrimitive>> prims;
+    for (const auto &tri : cfg.at("indices")) {
+        std::unique_ptr<shape::IShape> s = std::make_unique<shape::Triangle>(
+            verts[tri[0]], verts[tri[1]], verts[tri[2]]);
+        prims.push_back(
+            shape::GeometricPrimitive::create(worldToObject, objectToWorld, s, mat));
+    }
+
+    std::unique_ptr<shape::IPrimitive> bvh =
+        std::make_unique<accelerator::BvhAggregate>(std::move(prims));
+    _scene->addPrimitive(bvh);
 }
 
 maths::Transform SceneBuilder::parseTransform(const nlohmann::json &operations)
