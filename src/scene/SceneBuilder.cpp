@@ -145,6 +145,34 @@ const std::unique_ptr<camera::PerspectiveCamera> &SceneBuilder::camera() const
     return _camera;
 }
 
+void SceneBuilder::buildMesh(const nlohmann::json &primitive)
+{
+    const auto &cfg          = primitive["config"];
+    material::IMaterial *mat =
+        _scene->getMaterial(primitive["material_id"].get<std::string>());
+
+    std::vector<maths::Point3d> verts;
+    for (const auto &v : cfg.at("vertices"))
+        verts.push_back(v.get<maths::Point3d>());
+
+    const auto objectToWorld = primitive.contains("transform")
+        ? parseTransform(primitive["transform"])
+        : maths::Transform{};
+    const auto worldToObject = maths::Transform::inverse(objectToWorld);
+
+    std::vector<std::unique_ptr<shape::IPrimitive>> prims;
+    for (const auto &tri : cfg.at("indices")) {
+        auto s = std::make_unique<shape::Triangle>(
+            verts[tri[0]], verts[tri[1]], verts[tri[2]]);
+        prims.push_back(
+            shape::GeometricPrimitive::create(worldToObject, objectToWorld, s, mat));
+    }
+
+    std::unique_ptr<shape::IPrimitive> bvh =
+        std::make_unique<accelerator::BvhAggregate>(std::move(prims));
+    _scene->addPrimitive(bvh);
+}
+
 maths::Transform SceneBuilder::parseTransform(const nlohmann::json &operations)
 {
     maths::Transform result;
