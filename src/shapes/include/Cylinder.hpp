@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include <optional>
+
 #include "IShape.hpp"
 #include "jsonParser.hpp"
 
@@ -34,16 +36,21 @@ private:
     double _zMax;
     bool _reverseOrientation = false;
 
-    enum class HitPart {
-        Lateral,
-        BottomCap,
-        TopCap
-    };
+    enum class HitPart { LATERAL, BOTTOM_CAP, TOP_CAP };
 
     struct Hit {
         double t;
         HitPart part;
     };
+
+    [[nodiscard]] std::optional<Hit> findLateralHit(
+        const maths::Ray &ray) const;
+
+    [[nodiscard]] std::optional<Hit> findCapHit(
+        const maths::Ray &ray, double zTarget, HitPart part) const;
+
+    [[nodiscard]] SurfaceInteraction buildInteraction(
+        const maths::Ray &ray, const Hit &hit) const;
 };
 
 } // namespace raytracer::shape

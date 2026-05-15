@@ -38,7 +38,7 @@ std::optional<SurfaceInteraction> Disk::intersect(const maths::Ray &ray) const
         return std::nullopt;
 
     const maths::Point3d hitPoint = ray(t);
-    const double dist2 =
+    const double dist2            =
         hitPoint.x() * hitPoint.x() + hitPoint.y() * hitPoint.y();
     if (dist2 > _radius * _radius || dist2 < _innerRadius * _innerRadius)
         return std::nullopt;
@@ -57,9 +57,9 @@ std::optional<SurfaceInteraction> Disk::intersect(const maths::Ray &ray) const
     ray.tMax = t;
 
     return SurfaceInteraction{.hitPoint = hitPoint,
-        .normal                         = maths::Normal3d{0.0, 0.0, normalZ},
-        .wo                             = -ray.direction.normalize(),
-        .uv                             = maths::Point2d{u, v}};
+                              .normal   = maths::Normal3d{0.0, 0.0, normalZ},
+                              .wo       = -ray.direction.normalize(),
+                              .uv       = maths::Point2d{u, v}};
 }
 
 bool Disk::intersectP(const maths::Ray &ray) const
@@ -72,7 +72,7 @@ bool Disk::intersectP(const maths::Ray &ray) const
         return false;
 
     const maths::Point3d hitPoint = ray(t);
-    const double dist2 =
+    const double dist2            =
         hitPoint.x() * hitPoint.x() + hitPoint.y() * hitPoint.y();
     return dist2 <= _radius * _radius && dist2 >= _innerRadius * _innerRadius;
 }
@@ -81,7 +81,7 @@ maths::Bounds3<> Disk::objectBound() const
 {
     constexpr double eps = 1e-4;
     return maths::Bounds3d{maths::Point3d{-_radius, -_radius, -eps},
-        maths::Point3d{_radius, _radius, eps}};
+                           maths::Point3d{_radius, _radius, eps}};
 }
 
 std::unique_ptr<IShape> Disk::create(const nlohmann::json &config)

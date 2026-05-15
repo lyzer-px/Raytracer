@@ -5,7 +5,10 @@ add_library(shapes STATIC IShape.cpp Sphere.cpp
         include/GeometricPrimitive.hpp
         Plane.cpp
         include/Plane.hpp
-        Disk.cpp)
+        Disk.cpp
+        include/Disk.hpp
+        Cylinder.cpp
+        include/Cylinder.hpp)
 
 target_include_directories(shapes PUBLIC include)
 
