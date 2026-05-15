@@ -21,7 +21,9 @@
 #include "Disk.hpp"
 #include "Emissive.hpp"
 #include "AreaLight.hpp"
+#include "BvhAggregate.hpp"
 #include "PointLight.hpp"
+#include "Triangle.hpp"
 #include "Plane.hpp"
 #include "Serializer.hpp"
 #include "Sphere.hpp"
@@ -42,6 +44,7 @@ void SceneBuilder::registerCreators()
     _materialFactory.registerCreator<material::Dielectric>("dielectric");
     _materialFactory.registerCreator<material::Emissive>("emissive");
     _shapeFactory.registerCreator<shape::Sphere>("sphere");
+    _shapeFactory.registerCreator<shape::Triangle>("triangle");
     _shapeFactory.registerCreator<shape::Plane>("plane");
     _shapeFactory.registerCreator<shape::Disk>("disk");
     _shapeFactory.registerCreator<shape::Cylinder>("cylinder");
@@ -99,6 +102,10 @@ void SceneBuilder::buildPrimitives(const nlohmann::json &config)
     if (!config.contains("primitives"))
         return;
     for (const auto &primitive: config.at("primitives")) {
+        if (primitive["type"] == "mesh") {
+            buildMesh(primitive);
+            continue;
+        }
         const auto &shapeConfig = primitive["shape"]["config"];
         auto objectToWorld      = shapeConfig.contains("position")
             ? maths::Transform::translate(
