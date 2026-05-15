@@ -7,24 +7,10 @@
 
 #pragma once
 
-#include <limits>
-
 #include "Bounds3.hpp"
 #include "Point.hpp"
 
 namespace raytracer::maths {
-
-template <typename T>
-Bounds3<T>::Bounds3():
-    pMin{Point3<T>(
-        std::numeric_limits<T>::max(),
-        std::numeric_limits<T>::max(),
-        std::numeric_limits<T>::max())},
-    pMax{Point3<T>(
-        std::numeric_limits<T>::lowest(),
-        std::numeric_limits<T>::lowest(),
-        std::numeric_limits<T>::lowest())}
-{}
 
 template <typename T>
 Bounds3<T>::Bounds3(const Point3<T> &p1, const Point3<T> &p2):
@@ -77,29 +63,29 @@ template <typename T> Vector3<T> Bounds3<T>::diagonal() const
 template <typename T> T Bounds3<T>::surfaceArea() const
 {
     Vector3<T> d = diagonal();
-    return 2 * ((d.x() * d.y()) + (d.x() * d.z()) + (d.y() * d.z()));
+    return 2 * ((d.x * d.y) + (d.x * d.z) + (d.y * d.z));
 }
 
 template <typename T> T Bounds3<T>::volume() const
 {
     Vector3<T> d = diagonal();
-    return d.x() * d.y() * d.z();
+    return d.x * d.y * d.z;
 }
 
 template <typename T> int Bounds3<T>::maxDimension() const
 {
     Vector3<T> d = diagonal();
 
-    if (d.x() > d.y() && d.x() > d.z())
+    if (d.x > d.y && d.x > d.z)
         return 0;
-    if (d.y() > d.z())
+    if (d.y > d.z)
         return 1;
     return 2;
 }
 
 template <typename T> Point3<T> Bounds3<T>::centroid() const
 {
-    return pMin + (pMax - pMin) / static_cast<T>(2);
+    return (pMin + pMax) / static_cast<T>(2);
 }
 
 template <typename T> bool Bounds3<T>::operator==(const Bounds3<T> &other) const

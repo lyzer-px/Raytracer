@@ -16,8 +16,6 @@ add_subdirectory(scene)
 
 add_subdirectory(integrators)
 
-add_subdirectory(accelerators)
-
 add_subdirectory(core)
 
 add_subdirectory(utils)

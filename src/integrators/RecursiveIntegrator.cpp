@@ -7,9 +7,6 @@
 
 #include "RecursiveIntegrator.hpp"
 #include "maths.hpp"
-#ifdef RAYTRACER_DEBUG
-#include <cstdio>
-#endif
 
 namespace raytracer {
 namespace integrator {
@@ -82,20 +79,9 @@ void RecursiveIntegrator::render(const scene::Scene &scene,
                     static_cast<double>(film.height());
 
                 maths::Ray ray = camera.generateRay(u, v);
-#ifdef RAYTRACER_DEBUG
-                const bool isDebugPixel = (x == 960 && y == 0 && s == 0);
-                if (isDebugPixel)
-                    printf("DEBUG pixel(960,0): ray=(%f,%f,%f)->(%f,%f,%f) tMax=%f\n",
-                        ray.origin.x(), ray.origin.y(), ray.origin.z(),
-                        ray.direction.x(), ray.direction.y(), ray.direction.z(),
-                        ray.tMax);
-#endif
-                auto radiance = accumulatedRadiance(ray, scene, _maxDepth);
-#ifdef RAYTRACER_DEBUG
-                if (isDebugPixel)
-                    printf("DEBUG result: radiance=(%f,%f,%f)\n", radiance.r, radiance.g, radiance.b);
-#endif
-                accumulated = accumulated + radiance * (1.0 / _samplesPerPixel);
+                accumulated    =
+                    accumulated + accumulatedRadiance(ray, scene, _maxDepth) * (
+                        1.0 / _samplesPerPixel);
             }
 
             film.addSample(x, y, accumulated/* * (1.0 / _samplesPerPixel)*/);

@@ -8,9 +8,7 @@
 #include <gtest/gtest.h>
 #include "Matrix4x4.hpp"
 
-using Matrix4x4 = raytracer::maths::Matrix4x4<double>;
-using raytracer::maths::transpose;
-using raytracer::maths::inverse;
+using raytracer::maths::Matrix4x4;
 
 static void expect_matrix_near(const Matrix4x4 &a, const Matrix4x4 &b, double eps = 1e-9) // NOLINT
 {
@@ -34,7 +32,7 @@ TEST(Matrix4x4Test, Transpose)
 {
     Matrix4x4 m{{{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}}};
     Matrix4x4 expected{{{1,5,9,13},{2,6,10,14},{3,7,11,15},{4,8,12,16}}};
-    expect_matrix_near(transpose(m), expected);
+    expect_matrix_near(raytracer::maths::Transpose(m), expected);
 }
 
 TEST(Matrix4x4Test, DeterminantIdentityAndZero)
@@ -60,7 +58,7 @@ TEST(Matrix4x4Test, InverseDiagonal)
     // diagonal matrix, inverse is reciprocal on diagonal
     Matrix4x4 diag{{{2,0,0,0},{0,3,0,0},{0,0,4,0},{0,0,0,5}}};
     Matrix4x4 invExpected{{{1.0/2,0,0,0},{0,1.0/3,0,0},{0,0,1.0/4,0},{0,0,0,1.0/5}}};
-    Matrix4x4 inv = inverse(diag);
+    Matrix4x4 inv = raytracer::maths::Inverse(diag);
     expect_matrix_near(inv, invExpected);
 
     // product should be identity
@@ -72,5 +70,5 @@ TEST(Matrix4x4Test, InverseDiagonal)
 TEST(Matrix4x4Test, InverseThrowsOnSingular)
 {
     Matrix4x4 singular{{{1,2,3,4},{1,2,3,4},{5,6,7,8},{9,10,11,12}}};
-    EXPECT_THROW((void)inverse(singular), std::runtime_error);
+    EXPECT_THROW((void)raytracer::maths::Inverse(singular), std::runtime_error);
 }

@@ -12,7 +12,6 @@
 #include <unordered_map>
 #include <vector>
 
-#include "BvhAggregate.hpp"
 #include "Color.hpp"
 #include "ICamera.hpp"
 #include "ILight.hpp"
@@ -25,8 +24,6 @@ public:
     Scene();
 
     void addPrimitive(std::unique_ptr<shape::IPrimitive> &primitive);
-
-    void buildAccelerator();
 
     void addLight(std::unique_ptr<light::ILight> &light);
 
@@ -49,7 +46,6 @@ public:
 
 private:
     std::vector<std::unique_ptr<shape::IPrimitive>> _primitives;
-    std::unique_ptr<accelerator::BvhAggregate> _bvh;
     std::vector<std::unique_ptr<light::ILight>> _lights;
     std::unordered_map<std::string, std::unique_ptr<material::IMaterial>>
         _materials;

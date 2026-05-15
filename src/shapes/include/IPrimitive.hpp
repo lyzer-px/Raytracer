@@ -10,7 +10,6 @@
 
 #include "IMaterial.hpp"
 #include "IShape.hpp"
-#include "Transform.hpp"
 
 namespace raytracer::shape {
 class IPrimitive {
@@ -21,8 +20,6 @@ public:
         const maths::Ray &ray) const = 0;
 
     [[nodiscard]] virtual bool intersectP(const maths::Ray &ray) const = 0;
-
-    [[nodiscard]] virtual maths::Bounds3<> worldBound() const = 0;
 
     [[nodiscard]] virtual const material::IMaterial *material() const = 0;
 };

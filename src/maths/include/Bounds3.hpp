@@ -55,9 +55,9 @@ public:
     Point3<T> pMin;
     Point3<T> pMax;
 };
-using Bounds3d = Bounds3<>;
-using Bounds3i = Bounds3<int>;
 } // namespace raytracer::maths
 // Common aliases
+using Bounds3d = raytracer::maths::Bounds3<double>;
+using Bounds3i = raytracer::maths::Bounds3<int>;
 
 #include "Bounds3.tpp"

@@ -14,53 +14,36 @@
 
 namespace raytracer::shape {
 
-GeometricPrimitive::GeometricPrimitive(maths::Transform worldToObject,
-    maths::Transform objectToWorld, std::unique_ptr<IShape> &shape,
-    material::IMaterial *material):
-    _shape{std::move(shape)},
-    _material{material},
-    _worldToObject{std::move(worldToObject)},
-    _objectToWorld{std::move(objectToWorld)}
+GeometricPrimitive::GeometricPrimitive(
+    std::unique_ptr<IShape> &shape, material::IMaterial *material):
+    _shape{std::move(shape)}, _material{material}
 {}
 
 std::optional<SurfaceInteraction> GeometricPrimitive::intersect(
     const maths::Ray &ray) const
 {
-    const maths::Ray objectRay = _worldToObject(ray);
-    auto si = _shape->intersect(objectRay);
-    if (!si)
+    auto surfaceInteraction = _shape->intersect(ray);
+    if (!surfaceInteraction)
         return std::nullopt;
 
-    ray.tMax = objectRay.tMax;
-    si->primitive = this;
-    si->hitPoint  = _objectToWorld(si->hitPoint);
-    si->normal    = _objectToWorld(si->normal);
-    si->wo        = _objectToWorld(si->wo);
+    surfaceInteraction->primitive = this;
 
-    return si;
+    return surfaceInteraction;
 }
 
 bool GeometricPrimitive::intersectP(const maths::Ray &ray) const
 {
-    const maths::Ray objectRay = _worldToObject(ray);
-    return _shape->intersectP(objectRay);
+    return _shape->intersectP(ray);
 }
 
-maths::Bounds3d GeometricPrimitive::worldBound() const
+std::unique_ptr<IPrimitive> GeometricPrimitive::create(
+    std::unique_ptr<IShape> &shape, material::IMaterial *material)
 {
-    return _objectToWorld(_shape->objectBound());
+    return std::make_unique<GeometricPrimitive>(shape, material);
 }
 
 const material::IMaterial *GeometricPrimitive::material() const
 {
     return _material;
-}
-
-std::unique_ptr<IPrimitive> GeometricPrimitive::create(
-    maths::Transform worldToObject, maths::Transform objectToWorld,
-    std::unique_ptr<IShape> &shape, material::IMaterial *material)
-{
-    return std::make_unique<GeometricPrimitive>(
-        std::move(worldToObject), std::move(objectToWorld), shape, material);
 }
 } // namespace raytracer::shape

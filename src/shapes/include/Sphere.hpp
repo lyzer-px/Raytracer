@@ -10,27 +10,25 @@
 #include "jsonParser.hpp"
 
 namespace raytracer::shape {
+
 class Sphere: public IShape {
 public:
-    explicit Sphere(const nlohmann::json &config);
-
-    explicit Sphere(double radius, bool reverseOrientation = false);
+    Sphere(const nlohmann::json &config);
+    Sphere(const maths::Point3d &center, const double &radius);
 
     [[nodiscard]] std::optional<SurfaceInteraction> intersect(
         const maths::Ray &ray) const override;
 
     [[nodiscard]] bool intersectP(const maths::Ray &ray) const override;
 
-    [[nodiscard]] maths::Bounds3<> objectBound() const override;
-
     static std::unique_ptr<IShape> create(const nlohmann::json &config);
 
 private:
-    double _radius;
-    bool _reverseOrientation = false;
-
     [[nodiscard]] std::optional<double> solveQuadratic(
         const maths::Ray &ray) const;
+
+    maths::Point3d _center;
+    double _radius;
 };
 
 } // namespace raytracer::shape

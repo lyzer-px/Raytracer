@@ -19,11 +19,6 @@ void Scene::addPrimitive(std::unique_ptr<shape::IPrimitive> &primitive)
     _primitives.push_back(std::move(primitive));
 }
 
-void Scene::buildAccelerator()
-{
-    _bvh = std::make_unique<accelerator::BvhAggregate>(std::move(_primitives));
-}
-
 void Scene::addLight(std::unique_ptr<light::ILight> &light)
 {
     assert(light != nullptr);
@@ -45,16 +40,25 @@ void Scene::setBackgroundColor(const maths::Color &color)
 std::optional<shape::SurfaceInteraction> Scene::intersect(
     const maths::Ray &ray) const
 {
-    if (!_bvh)
-        return std::nullopt;
-    return _bvh->intersect(ray);
+    std::optional<shape::SurfaceInteraction> hitPointData = std::nullopt;
+
+    for (const auto &primitive: _primitives) {
+        const auto si = primitive->intersect(ray);
+        if (si)
+            hitPointData = si;
+    }
+
+    return hitPointData;
 }
 
 bool Scene::intersectAny(const maths::Ray &ray) const
 {
-    if (!_bvh)
-        return false;
-    return _bvh->intersectP(ray);
+    for (const auto &primitive: _primitives) {
+        if (primitive->intersectP(ray))
+            return true;
+    }
+
+    return false;
 }
 
 const std::vector<std::unique_ptr<light::ILight>> &Scene::lights() const

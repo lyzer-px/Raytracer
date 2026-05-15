@@ -47,4 +47,3 @@ unit_tests
 build/
 .idea/
 *.ppm
-.cache

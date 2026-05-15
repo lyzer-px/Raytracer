@@ -8,16 +8,19 @@
 #pragma once
 
 #include <array>
+#include <cstddef>
 #include <exception>
 #include <initializer_list>
+
+#include "Vector3.hpp"
 
 namespace raytracer::maths {
 
 template <size_t rows, size_t cols, typename T = double> class Matrix {
 public:
     Matrix() = default;
-    explicit Matrix(std::array<std::array<T, cols>, rows> values);
-    explicit Matrix(std::initializer_list<std::array<T, cols>> values);
+    Matrix(std::array<std::array<T, cols>, rows> values);
+    Matrix(std::initializer_list<std::array<T, cols>> values);
 
     [[nodiscard]] constexpr size_t getNbRows() const noexcept;
     [[nodiscard]] constexpr size_t getNbCols() const noexcept;
