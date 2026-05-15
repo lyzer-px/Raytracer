@@ -20,9 +20,10 @@ maths::Color SimpleIntegrator::accumulatedRadiance(
         return scene.backgroundColor();
 
     const material::IMaterial *mat = si->primitive->material();
-    const auto scatter       = mat->scatter(ray, *si);
+    const maths::Color emitted     = mat->emitted(*si);
+    const auto scatter             = mat->scatter(ray, *si);
     if (!scatter)
-        return scene.backgroundColor();
+        return emitted;
     const maths::Color surfaceColor = scatter->attenuation;
 
     maths::Color accumulatedRadiance(0.0, 0.0, 0.0);
@@ -37,11 +38,10 @@ maths::Color SimpleIntegrator::accumulatedRadiance(
                 continue;
             }
 
-            maths::Point3d shadowOrigin =
+            const maths::Point3d shadowOrigin =
                 si->hitPoint + (maths::Vector3d(si->normal) * 0.0001);
-            maths::Ray shadowRay(shadowOrigin, -ls.wi, ls.distance);
 
-            if (scene.intersectAny(shadowRay))
+            if (scene.isOccluded(shadowOrigin, -ls.wi, ls.distance))
                 continue;
 
             const double cosTheta =

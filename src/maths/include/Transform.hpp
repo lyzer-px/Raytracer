@@ -35,7 +35,8 @@ public:
     static Transform rotateY(double angle);
     static Transform rotateZ(double angle);
     static Transform rotate(double angle, const Vector3<double> &axis);
-
+    static Transform lookAt(const Point3<double> &pos, const Point3<double> &look,
+        const Vector3<double> &up);
 
     static Transform inverse(const Transform &t);
     static Transform transpose(const Transform &t);

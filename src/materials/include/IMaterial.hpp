@@ -27,6 +27,8 @@ public:
 
     [[nodiscard]] virtual maths::Color emitted(
         const shape::SurfaceInteraction &si) const;
+
+    [[nodiscard]] virtual bool castsShadow() const;
 };
 
 } // namespace raytracer::material

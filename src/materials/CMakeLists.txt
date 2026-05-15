@@ -4,7 +4,9 @@ add_library(materials STATIC IMaterial.cpp
         Metal.cpp
         include/Metal.hpp
         Dielectric.cpp
-        include/Dielectric.hpp)
+        include/Dielectric.hpp
+        Emissive.cpp
+        include/Emissive.hpp)
 
 target_include_directories(materials PUBLIC include)
 
