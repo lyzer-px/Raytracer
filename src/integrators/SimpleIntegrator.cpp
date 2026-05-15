@@ -38,11 +38,10 @@ maths::Color SimpleIntegrator::accumulatedRadiance(
                 continue;
             }
 
-            maths::Point3d shadowOrigin =
+            const maths::Point3d shadowOrigin =
                 si->hitPoint + (maths::Vector3d(si->normal) * 0.0001);
-            maths::Ray shadowRay(shadowOrigin, -ls.wi, ls.distance);
 
-            if (scene.intersectAny(shadowRay))
+            if (scene.isOccluded(shadowOrigin, -ls.wi, ls.distance))
                 continue;
 
             const double cosTheta =

@@ -96,7 +96,7 @@
       "shape": {
         "type": "cylinder",
         "config": {
-          "position": [5.0, 5.0, -20.0],
+          "position": [5.0, 5.0, -18.5],
           "radius":   8.0,
           "z_min":    0.0,
           "z_max":    22.0

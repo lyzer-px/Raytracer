@@ -40,6 +40,9 @@ public:
 
     [[nodiscard]] bool intersectAny(const maths::Ray &ray) const;
 
+    [[nodiscard]] bool isOccluded(const maths::Point3d &origin,
+        const maths::Vector3d &dir, double distance) const;
+
     [[nodiscard]] const std::vector<std::unique_ptr<light::ILight>> &
         lights() const;
 
