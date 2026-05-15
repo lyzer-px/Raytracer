@@ -20,9 +20,10 @@ maths::Color SimpleIntegrator::accumulatedRadiance(
         return scene.backgroundColor();
 
     const material::IMaterial *mat = si->primitive->material();
-    const auto scatter       = mat->scatter(ray, *si);
+    const maths::Color emitted     = mat->emitted(*si);
+    const auto scatter             = mat->scatter(ray, *si);
     if (!scatter)
-        return scene.backgroundColor();
+        return emitted;
     const maths::Color surfaceColor = scatter->attenuation;
 
     maths::Color accumulatedRadiance(0.0, 0.0, 0.0);
