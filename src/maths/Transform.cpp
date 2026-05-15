@@ -140,31 +140,6 @@ Transform Transform::rotate(double angle, const Vector3<double> &axis)
     return {m, mInv};
 }
 
-Transform Transform::lookAt(const Point3<double> &pos, const Point3<double> &look,
-    const Vector3<double> &up)
-{
-    const Vector3<double> forward = (look - pos).normalize();
-    const Vector3<double> right   = forward.cross(up.normalize()).normalize();
-    const Vector3<double> trueUp  = right.cross(forward);
-
-    auto m = Matrix4x4<double>{
-        {right.x(),   trueUp.x(),   forward.x(),   pos.x()},
-        {right.y(),   trueUp.y(),   forward.y(),   pos.y()},
-        {right.z(),   trueUp.z(),   forward.z(),   pos.z()},
-        {0.0,         0.0,          0.0,           1.0    }
-    };
-    auto mInv = Matrix4x4<double>{
-        {right.x(),   right.y(),   right.z(),
-            -(right.x()*pos.x() + right.y()*pos.y() + right.z()*pos.z())  },
-        {trueUp.x(),  trueUp.y(),  trueUp.z(),
-            -(trueUp.x()*pos.x() + trueUp.y()*pos.y() + trueUp.z()*pos.z())},
-        {forward.x(), forward.y(), forward.z(),
-            -(forward.x()*pos.x() + forward.y()*pos.y() + forward.z()*pos.z())},
-        {0.0,         0.0,         0.0,          1.0}
-    };
-    return {m, mInv};
-}
-
 Transform Transform::inverse(const Transform &t)
 {
     return {t.getInverseMatrix(), t.getMatrix()};
