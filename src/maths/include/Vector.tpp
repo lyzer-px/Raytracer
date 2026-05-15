@@ -210,6 +210,12 @@ bool Vector<Derived, N, T>::operator>=(const Derived<T> &other) const
 }
 
 template <template <typename> class Derived, std::size_t N, typename T>
+const std::array<T, N> &Vector<Derived, N, T>::data() const
+{
+    return _data;
+}
+
+template <template <typename> class Derived, std::size_t N, typename T>
 bool Vector<Derived, N, T>::isNearZero() const noexcept
 {
     static constexpr T eps = static_cast<T>(1e-8);
