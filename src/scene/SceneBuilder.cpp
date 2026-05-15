@@ -16,6 +16,7 @@
 #include "Lambertian.hpp"
 #include "Metal.hpp"
 #include "PerspectiveCamera.hpp"
+#include "Cone.hpp"
 #include "Cylinder.hpp"
 #include "Disk.hpp"
 #include "Plane.hpp"
@@ -40,6 +41,7 @@ void SceneBuilder::registerCreators()
     _shapeFactory.registerCreator<shape::Plane>("plane");
     _shapeFactory.registerCreator<shape::Disk>("disk");
     _shapeFactory.registerCreator<shape::Cylinder>("cylinder");
+    _shapeFactory.registerCreator<shape::Cone>("cone");
     _primitiveFactory.registerCreator<shape::GeometricPrimitive>(
         "geometric_primitive");
     _lightFactory.registerCreator<light::AmbientLight>("ambient");
