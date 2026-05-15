@@ -16,6 +16,12 @@
 #include "Lambertian.hpp"
 #include "Metal.hpp"
 #include "PerspectiveCamera.hpp"
+#include "Cone.hpp"
+#include "Cylinder.hpp"
+#include "Disk.hpp"
+#include "Emissive.hpp"
+#include "AreaLight.hpp"
+#include "PointLight.hpp"
 #include "Plane.hpp"
 #include "Serializer.hpp"
 #include "Sphere.hpp"
@@ -34,12 +40,18 @@ void SceneBuilder::registerCreators()
     _materialFactory.registerCreator<material::Lambertian>("lambertian");
     _materialFactory.registerCreator<material::Metal>("metal");
     _materialFactory.registerCreator<material::Dielectric>("dielectric");
+    _materialFactory.registerCreator<material::Emissive>("emissive");
     _shapeFactory.registerCreator<shape::Sphere>("sphere");
     _shapeFactory.registerCreator<shape::Plane>("plane");
+    _shapeFactory.registerCreator<shape::Disk>("disk");
+    _shapeFactory.registerCreator<shape::Cylinder>("cylinder");
+    _shapeFactory.registerCreator<shape::Cone>("cone");
     _primitiveFactory.registerCreator<shape::GeometricPrimitive>(
         "geometric_primitive");
     _lightFactory.registerCreator<light::AmbientLight>("ambient");
     _lightFactory.registerCreator<light::DirectionalLight>("directional");
+    _lightFactory.registerCreator<light::PointLight>("point");
+    _lightFactory.registerCreator<light::AreaLight>("area");
 }
 
 void SceneBuilder::buildScene(nlohmann::json &config)
