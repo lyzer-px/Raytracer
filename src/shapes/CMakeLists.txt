@@ -10,7 +10,9 @@ add_library(shapes STATIC IShape.cpp Sphere.cpp
         Cylinder.cpp
         include/Cylinder.hpp
         Cone.cpp
-        include/Cone.hpp)
+        include/Cone.hpp
+        Triangle.cpp
+        include/Triangle.hpp)
 
 target_include_directories(shapes PUBLIC include)
 
