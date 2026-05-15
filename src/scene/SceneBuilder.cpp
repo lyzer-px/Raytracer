@@ -20,6 +20,7 @@
 #include "Cylinder.hpp"
 #include "Disk.hpp"
 #include "Emissive.hpp"
+#include "AreaLight.hpp"
 #include "PointLight.hpp"
 #include "Plane.hpp"
 #include "Serializer.hpp"
@@ -50,6 +51,7 @@ void SceneBuilder::registerCreators()
     _lightFactory.registerCreator<light::AmbientLight>("ambient");
     _lightFactory.registerCreator<light::DirectionalLight>("directional");
     _lightFactory.registerCreator<light::PointLight>("point");
+    _lightFactory.registerCreator<light::AreaLight>("area");
 }
 
 void SceneBuilder::buildScene(nlohmann::json &config)
