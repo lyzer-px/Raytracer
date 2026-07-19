@@ -74,6 +74,3 @@ TEST(Matrix4x4Test, InverseThrowsOnSingular)
     Matrix4x4 singular{{{1,2,3,4},{1,2,3,4},{5,6,7,8},{9,10,11,12}}};
     EXPECT_THROW((void)inverse(singular), std::runtime_error);
 }
-
-
-

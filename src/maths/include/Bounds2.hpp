@@ -50,8 +50,6 @@ public:
         const std::array<int, 2> &dirIsNeg) const;
     Point2<T> pMin;
     Point2<T> pMax;
-
-    // hello world
 };
 } // namespace raytracer::maths
 using Bounds2f = raytracer::maths::Bounds2<double>;

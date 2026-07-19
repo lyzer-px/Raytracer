@@ -25,7 +25,7 @@ public:
 
 private:
     int _maxDepth        = 5;
-    int _samplesPerPixel = 6;
+    int _samplesPerPixel = 32;
 };
 
 } // integrator

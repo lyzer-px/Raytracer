@@ -2,7 +2,7 @@
   "background_color": [10, 12, 22],
 
   "camera": {
-    "resolution": [1920, 1080],
+    "resolution": [2560, 1440],
     "position":   [70.0, -90.0, 20.0],
     "target":     [0.0,  10.0,  -6.0],
     "up":         [0.0,   0.0,   1.0],
