@@ -7,3 +7,12 @@
 
 #include "FactoryTemplate.hpp"
 hi
+hi
+hi
+hi
+hi
+hi
+hi
+hi
+hi
+hi
