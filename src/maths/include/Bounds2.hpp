@@ -51,7 +51,7 @@ public:
     Point2<T> pMin;
     Point2<T> pMax;
 
-    // hello
+    // hello 
 };
 } // namespace raytracer::maths
 using Bounds2f = raytracer::maths::Bounds2<double>;
